@@ -1,0 +1,865 @@
+﻿[
+  {
+    "station_id": "R1G-01",
+    "route_id": "",
+    "station_order": "",
+    "station_name": "สวนสัตว์เชียงใหม่",
+    "station_name_en": "",
+    "station_name_cn": "",
+    "station_lat": "18.80975",
+    "station_lng": "98.94774",
+    "point_lat": "18.80974",
+    "point_lng": "98.94776"
+  },
+  {
+    "lat": "18.80983",
+    "lng": "98.94781"
+  },
+  {
+    "lat": "18.81023",
+    "lng": "98.94794"
+  },
+    {
+    "lat": "18.81038",
+    "lng": "98.94795"
+  },  {
+    "lat": "18.81039",
+    "lng": "98.94788"
+  },  {
+    "lat": "18.81047",
+    "lng": "98.94784"
+  },  {
+    "lat": "18.81054",
+    "lng": "98.94782"
+  },  {
+    "lat": "18.8107",
+    "lng": "98.94783"
+  },  {
+    "lat": "18.8107",
+    "lng": "98.9488"
+  },
+  {
+    "lat": "18.81063",
+    "lng": "98.94912"
+  },
+  {
+    "station_id": "R1G-02",
+    "route_id": "",
+    "station_order": "",
+    "station_name": "สวนรุกขชาติห้วยแก้ว",
+    "station_name_en": "",
+    "station_name_cn": "",
+    "station_lat": "18.81064",
+    "station_lng": "98.94912",
+    "point_lat": "18.81063",
+    "point_lng": "98.94912"
+  },
+  {
+    "lat": "18.81028",
+    "lng": "98.95035"
+  },
+  {
+    "lat": "18.81028",
+    "lng": "98.95046"
+  },
+  {
+    "lat": "18.81011",
+    "lng": "98.95095"
+  },
+  {
+    "station_id": "R1G-03",
+    "route_id": "",
+    "station_order": "",
+    "station_name": "สภ.ภูพิงค์",
+    "station_name_en": "",
+    "station_name_cn": "",
+    "station_lat": "18.81013",
+    "station_lng": "98.95095",
+    "point_lat": "18.81011",
+    "point_lng": "98.95095"
+  },
+  {
+    "lat": "18.80984",
+    "lng": "98.95187"
+  },
+  {
+    "lat": "18.80926",
+    "lng": "98.95302"
+  },
+  {
+    "station_id": "R1G-04",
+    "route_id": "",
+    "station_order": "",
+    "station_name": "มทร.ล้านนา",
+    "station_name_en": "",
+    "station_name_cn": "",
+    "station_lat": "18.80931",
+    "station_lng": "98.95303",
+    "point_lat": "18.80926",
+    "point_lng": "98.95302"
+  },
+  {
+    "lat": "18.8075",
+    "lng": "98.95654"
+  },
+  {
+    "station_id": "R1G-05",
+    "route_id": "",
+    "station_order": "",
+    "station_name": "มช. 2",
+    "station_name_en": "",
+    "station_name_cn": "",
+    "station_lat": "18.80754",
+    "station_lng": "98.95655",
+    "point_lat": "18.8075",
+    "point_lng": "98.95654"
+  },
+  {
+    "lat": "18.80674",
+    "lng": "98.958"
+  },
+  {
+    "station_id": "R1G-06",
+    "route_id": "",
+    "station_order": "",
+    "station_name": "ปันนาเรสซิเดนท์",
+    "station_name_en": "",
+    "station_name_cn": "",
+    "station_lat": "18.80679",
+    "station_lng": "98.95806",
+    "point_lat": "18.80674",
+    "point_lng": "98.958"
+  },
+  {
+    "lat": "18.80612",
+    "lng": "98.95914"
+  },
+  {
+    "station_id": "R1G-07",
+    "route_id": "",
+    "station_order": "",
+    "station_name": "ล้านนา 3 คอนโด",
+    "station_name_en": "",
+    "station_name_cn": "",
+    "station_lat": "18.80614",
+    "station_lng": "98.95916",
+    "point_lat": "18.80612",
+    "point_lng": "98.95914"
+  },
+  {
+    "lat": "18.80442",
+    "lng": "98.96217"
+  },
+  {
+    "station_id": "R1G-08",
+    "route_id": "",
+    "station_order": "",
+    "station_name": "The Trio",
+    "station_name_en": "",
+    "station_name_cn": "",
+    "station_lat": "18.80448",
+    "station_lng": "98.96219",
+    "point_lat": "18.80442",
+    "point_lng": "98.96217"
+  },
+  {
+    "lat": "18.8027",
+    "lng": "98.96534"
+  },
+  {
+    "station_id": "R1G-09",
+    "route_id": "",
+    "station_order": "",
+    "station_name": "วิทยาลัยสารพัดช่าง 1",
+    "station_name_en": "",
+    "station_name_cn": "",
+    "station_lat": "18.80279",
+    "station_lng": "98.9654",
+    "point_lat": "18.8027",
+    "point_lng": "98.96534"
+  },
+  {
+    "lat": "18.80196",
+    "lng": "98.96679"
+  },
+  {
+    "station_id": "R1G-10",
+    "route_id": "",
+    "station_order": "",
+    "station_name": "เมญ่า",
+    "station_name_en": "",
+    "station_name_cn": "",
+    "station_lat": "18.80204",
+    "station_lng": "98.96684",
+    "point_lat": "18.80196",
+    "point_lng": "98.96679"
+  },
+  {
+    "lat": "18.80036",
+    "lng": "98.96971"
+  },
+  {
+    "station_id": "R1G-11",
+    "route_id": "",
+    "station_order": "",
+    "station_name": "Hillside plaza 1 (จุดจอดรถ One Nimman)",
+    "station_name_en": "",
+    "station_name_cn": "",
+    "station_lat": "18.80041",
+    "station_lng": "98.96976",
+    "point_lat": "18.80036",
+    "point_lng": "98.96971"
+  },
+  {
+    "lat": "18.79855",
+    "lng": "98.97316"
+  },
+  {
+    "station_id": "R1G-12",
+    "route_id": "",
+    "station_order": "",
+    "station_name": "วิทยาลัยศรีธนาฯ (ฝั่งตรงข้าม)",
+    "station_name_en": "",
+    "station_name_cn": "",
+    "station_lat": "18.79861",
+    "station_lng": "98.97317",
+    "point_lat": "18.79855",
+    "point_lng": "98.97316"
+  },
+  {
+    "lat": "18.79715",
+    "lng": "98.97578"
+  },
+  {
+    "station_id": "R1G-13",
+    "route_id": "",
+    "station_order": "",
+    "station_name": "กาดสวนแก้ว 2 (เซเว่น 12 ห้วยแก้ว)",
+    "station_name_en": "",
+    "station_name_cn": "",
+    "station_lat": "18.79719",
+    "station_lng": "98.97586",
+    "point_lat": "18.79715",
+    "point_lng": "98.97578"
+  },
+  {
+    "lat": "18.79638",
+    "lng": "98.9773"
+  },
+  {
+    "lat": "18.79602",
+    "lng": "98.97848"
+  },
+  {
+    "lat": "18.79588",
+    "lng": "98.98155"
+  },
+  {
+    "station_id": "R1G-14",
+    "route_id": "",
+    "station_order": "",
+    "station_name": "Icon aquare 1 (หน้า KFC Icon aquare)",
+    "station_name_en": "",
+    "station_name_cn": "",
+    "station_lat": "18.79592",
+    "station_lng": "98.98155",
+    "point_lat": "18.79588",
+    "point_lng": "98.98155"
+  },
+  {
+    "lat": "18.79574",
+    "lng": "98.98524"
+  },
+  {
+    "station_id": "R1G-15",
+    "route_id": "",
+    "station_order": "",
+    "station_name": "ประตูช้างเผือก 1 (หน้าโชว์รูม ฟอร์ด)",
+    "station_name_en": "",
+    "station_name_cn": "",
+    "station_lat": "18.79581",
+    "station_lng": "98.98524",
+    "point_lat": "18.79574",
+    "point_lng": "98.98524"
+  },
+  {
+    "lat": "18.79576",
+    "lng": "98.98629"
+  },
+  {
+    "lat": "18.79597",
+    "lng": "98.98641"
+  },
+  {
+    "lat": "18.79763",
+    "lng": "98.9863"
+  },
+  {
+    "station_id": "R1G-16",
+    "route_id": "",
+    "station_order": "",
+    "station_name": "รร.โกวิทธำรง",
+    "station_name_en": "",
+    "station_name_cn": "",
+    "station_lat": "18.79764",
+    "station_lng": "98.98624",
+    "point_lat": "18.79763",
+    "point_lng": "98.9863"
+  },
+  {
+    "lat": "18.80028",
+    "lng": "98.98601"
+  },
+  {
+    "lat": "18.80036",
+    "lng": "98.98623"
+  },
+  {
+    "lat": "18.80044",
+    "lng": "98.98629"
+  },
+  {
+    "station_id": "R1G-17",
+    "route_id": "",
+    "station_order": "",
+    "station_name": "ขนส่งช้างเผือก",
+    "station_name_en": "",
+    "station_name_cn": "",
+    "station_lat": "18.80046",
+    "station_lng": "98.98628",
+    "point_lat": "18.80044",
+    "point_lng": "98.98629"
+  },
+  {
+    "lat": "18.80061",
+    "lng": "98.98652"
+  },
+  {
+    "lat": "18.80039",
+    "lng": "98.98754"
+  },
+  {
+    "lat": "18.79948",
+    "lng": "98.98859"
+  },
+  {
+    "lat": "18.7994",
+    "lng": "98.98882"
+  },
+  {
+    "lat": "18.7994",
+    "lng": "98.98933"
+  },
+  {
+    "station_id": "R1G-18",
+    "route_id": "",
+    "station_order": "",
+    "station_name": "สนามกีฬาเทศบาล",
+    "station_name_en": "",
+    "station_name_cn": "",
+    "station_lat": "18.79945",
+    "station_lng": "98.98932",
+    "point_lat": "18.7994",
+    "point_lng": "98.98933"
+  },
+  {
+    "lat": "18.79941",
+    "lng": "98.98985"
+  },
+  {
+    "lat": "18.79942",
+    "lng": "98.98997"
+  },
+  {
+    "lat": "18.79937",
+    "lng": "98.99005"
+  },
+  {
+    "lat": "18.79924",
+    "lng": "98.99001"
+  },
+  {
+    "lat": "18.79887",
+    "lng": "98.99001"
+  },
+ {
+    "lat": "18.79847",
+    "lng": "98.99012"
+  },
+  {
+    "lat": "18.79819",
+    "lng": "98.99011"
+  },
+  {
+    "lat": "18.79745",
+    "lng": "98.98993"
+  },
+  {
+    "station_id": "R1G-19",
+    "route_id": "",
+    "station_order": "",
+    "station_name": "รร.วัดเชียงยืน",
+    "station_name_en": "",
+    "station_name_cn": "",
+    "station_lat": "18.79743",
+    "station_lng": "98.99001",
+    "point_lat": "18.79745",
+    "point_lng": "98.98993"
+  },
+  {
+    "lat": "18.79686",
+    "lng": "98.9898"
+  },
+  {
+    "lat": "18.79678",
+    "lng": "98.98977"
+  },
+  {
+    "lat": "18.79583",
+    "lng": "98.9898"
+  },
+  {
+    "lat": "18.79573",
+    "lng": "98.98983"
+  },
+  {
+    "lat": "18.79569",
+    "lng": "98.9899"
+  },
+  {
+    "lat": "18.79563",
+    "lng": "98.99016"
+  },
+  {
+    "lat": "18.79544",
+    "lng": "98.9939"
+  },
+  {
+    "lat": "18.79459",
+    "lng": "98.99387"
+  },
+  {
+    "station_id": "R1G-20",
+    "route_id": "",
+    "station_order": "",
+    "station_name": "วัดชัยศรีภูมิ",
+    "station_name_en": "",
+    "station_name_cn": "",
+    "station_lat": "18.79461",
+    "station_lng": "98.99396",
+    "point_lat": "18.79459",
+    "point_lng": "98.99387"
+  },
+  {
+    "lat": "18.7916",
+    "lng": "98.99371"
+  },
+  {
+    "station_id": "R1G-21",
+    "route_id": "",
+    "station_order": "",
+    "station_name": "ตลาดสมเพชร 2",
+    "station_name_en": "",
+    "station_name_cn": "",
+    "station_lat": "18.7916",
+    "station_lng": "98.9938",
+    "point_lat": "18.7916",
+    "point_lng": "98.99371"
+  },
+  {
+    "lat": "18.79078",
+    "lng": "98.99369"
+  },
+  {
+    "station_id": "R1G-22",
+    "route_id": "",
+    "station_order": "",
+    "station_name": "โรงแรมนิทราลานนา",
+    "station_name_en": "",
+    "station_name_cn": "",
+    "station_lat": "18.79079",
+    "station_lng": "98.99373",
+    "point_lat": "18.79078",
+    "point_lng": "98.99369"
+  },
+  {
+    "lat": "18.79044",
+    "lng": "98.99368"
+  },
+  {
+    "lat": "18.79021",
+    "lng": "98.99481"
+  },
+  {
+    "lat": "18.78987",
+    "lng": "98.99594"
+  },
+  {
+    "station_id": "R1G-23",
+    "route_id": "",
+    "station_order": "",
+    "station_name": "ช้างม่อย (เซ็นทรัลอะไหล่)",
+    "station_name_en": "",
+    "station_name_cn": "",
+    "station_lat": "18.7899",
+    "station_lng": "98.99596",
+    "point_lat": "18.78987",
+    "point_lng": "98.99594"
+  },
+  {
+    "lat": "18.78972",
+    "lng": "98.99651"
+  },
+  {
+    "lat": "18.79059",
+    "lng": "98.99876"
+  },
+  {
+    "lat": "18.79066",
+    "lng": "98.99919"
+  },
+  {
+    "station_id": "R1G-24",
+    "route_id": "",
+    "station_order": "",
+    "station_name": "ตลาดวโรรส 1 (ธ.กรุงเทพ)",
+    "station_name_en": "",
+    "station_name_cn": "",
+    "station_lat": "18.79071",
+    "station_lng": "98.99917",
+    "point_lat": "18.79066",
+    "point_lng": "98.99919"
+  },
+  {
+    "lat": "18.791",
+    "lng": "99.00079"
+  },
+  {
+    "lat": "18.79128",
+    "lng": "99.00113"
+  },
+  {
+    "lat": "18.79081",
+    "lng": "99.00174"
+  },
+  {
+    "lat": "18.79048",
+    "lng": "99.00205"
+  },
+  {
+    "station_id": "R1G-25",
+    "route_id": "",
+    "station_order": "",
+    "station_name": "ตลาดต้นลำไย (ตลาดดอกไม้)",
+    "station_name_en": "",
+    "station_name_cn": "",
+    "station_lat": "18.79049",
+    "station_lng": "99.00207",
+    "point_lat": "18.79048",
+    "point_lng": "99.00205"
+  },
+  {
+    "lat": "18.79019",
+    "lng": "99.00221"
+  },
+  {
+    "lat": "18.78987",
+    "lng": "99.0023"
+  },
+  {
+    "lat": "18.78922",
+    "lng": "99.00236"
+  },
+  {
+    "lat": "18.78837",
+    "lng": "99.00252"
+  },
+  {
+    "station_id": "R1G-26",
+    "route_id": "",
+    "station_order": "",
+    "station_name": "ไปรษณีย์แม่ปิง",
+    "station_name_en": "",
+    "station_name_cn": "",
+    "station_lat": "18.78839",
+    "station_lng": "99.00258",
+    "point_lat": "18.78837",
+    "point_lng": "99.00252"
+  },
+  {
+    "lat": "18.78775",
+    "lng": "99.00254"
+  },
+  {
+    "lat": "18.78754",
+    "lng": "99.00264"
+  },
+  {
+    "lat": "18.78766",
+    "lng": "99.00492"
+  },
+  {
+    "lat": "18.78778",
+    "lng": "99.00512"
+  },
+  {
+    "lat": "18.78794",
+    "lng": "99.00522"
+  },
+  {
+    "lat": "18.78852",
+    "lng": "99.0049"
+  },
+  {
+    "station_id": "R1G-27",
+    "route_id": "",
+    "station_order": "",
+    "station_name": "คริสต์จักรที่ 1",
+    "station_name_en": "",
+    "station_name_cn": "",
+    "station_lat": "18.78847",
+    "station_lng": "99.00482",
+    "point_lat": "18.78852",
+    "point_lng": "99.0049"
+  },
+  {
+    "lat": "18.79038",
+    "lng": "99.00382"
+  },
+  {
+    "station_id": "R1G-28",
+    "route_id": "",
+    "station_order": "",
+    "station_name": "The Good view",
+    "station_name_en": "",
+    "station_name_cn": "",
+    "station_lat": "18.79035",
+    "station_lng": "99.00376",
+    "point_lat": "18.79038",
+    "point_lng": "99.00382"
+  },
+  {
+    "lat": "18.79124",
+    "lng": "99.0032"
+  },
+  {
+    "lat": "18.79128",
+    "lng": "99.00311"
+  },
+ {
+    "lat": "18.79209",
+    "lng": "99.00237"
+  },
+  {
+    "lat": "18.79247",
+    "lng": "99.00221"
+  },
+  {
+    "lat": "18.79337",
+    "lng": "99.00145"
+  },
+  {
+    "lat": "18.79404",
+    "lng": "99.0011"
+  },
+  {
+    "lat": "18.79517",
+    "lng": "99.00372"
+  },
+  {
+    "station_id": "R1G-29",
+    "route_id": "",
+    "station_order": "",
+    "station_name": "รร.เชตุพนศึกษา",
+    "station_name_en": "",
+    "station_name_cn": "",
+    "station_lat": "18.79527",
+    "station_lng": "99.00362",
+    "point_lat": "18.79517",
+    "point_lng": "99.00372"
+  },
+  {
+    "lat": "18.79598",
+    "lng": "99.00554"
+  },
+  {
+    "station_id": "R1G-30",
+    "route_id": "",
+    "station_order": "",
+    "station_name": "รร.ปรินท์ ประตู 1",
+    "station_name_en": "",
+    "station_name_cn": "",
+    "station_lat": "18.79604",
+    "station_lng": "99.00546",
+    "point_lat": "18.79598",
+    "point_lng": "99.00554"
+  },
+  {
+    "lat": "18.7966",
+    "lng": "99.00675"
+  },
+  {
+    "station_id": "R1G-31",
+    "route_id": "",
+    "station_order": "",
+    "station_name": "รร.ปรินท์ ประตู 3",
+    "station_name_en": "",
+    "station_name_cn": "",
+    "station_lat": "18.79669",
+    "station_lng": "99.00667",
+    "point_lat": "18.7966",
+    "point_lng": "99.00675"
+  },
+  {
+    "lat": "18.79851",
+    "lng": "99.0102"
+  },
+  {
+    "station_id": "R1G-32",
+    "route_id": "",
+    "station_order": "",
+    "station_name": "คณะพยาบาล ม.พายัพ",
+    "station_name_en": "",
+    "station_name_cn": "",
+    "station_lat": "18.79856",
+    "station_lng": "99.01007",
+    "point_lat": "18.79851",
+    "point_lng": "99.0102"
+  },
+  {
+    "lat": "18.79925",
+    "lng": "99.01155"
+  },
+  {
+    "station_id": "R1G-33",
+    "route_id": "",
+    "station_order": "",
+    "station_name": "รร.ดาราวิทยาลัย 2",
+    "station_name_en": "",
+    "station_name_cn": "",
+    "station_lat": "18.79934",
+    "station_lng": "99.01143",
+    "point_lat": "18.79925",
+    "point_lng": "99.01155"
+  },
+  {
+    "lat": "18.80172",
+    "lng": "99.01527"
+  },
+  {
+    "lat": "18.79967",
+    "lng": "99.01686"
+  },
+  {
+    "lat": "18.80019",
+    "lng": "99.01753"
+  },
+  {
+    "station_id": "R1G-34",
+    "route_id": "",
+    "station_order": "",
+    "station_name": "ขนส่งอาเขต 2",
+    "station_name_en": "",
+    "station_name_cn": "",
+    "station_lat": "18.80022",
+    "station_lng": "99.01751",
+    "point_lat": "18.80019",
+    "point_lng": "99.01753"
+  },
+  {
+    "lat": "18.80032",
+    "lng": "99.01772"
+  },
+  {
+    "lat": "18.80087",
+    "lng": "99.01925"
+  },
+  {
+    "lat": "18.80377",
+    "lng": "99.01803"
+  },
+  {
+    "lat": "18.80584",
+    "lng": "99.01678"
+  },
+  {
+    "lat": "18.80724",
+    "lng": "99.01545"
+  },
+  {
+    "lat": "18.80765",
+    "lng": "99.01489"
+  },
+  {
+    "station_id": "R1G-35",
+    "route_id": "",
+    "station_order": "",
+    "station_name": "วนัสนันท์",
+    "station_name_en": "",
+    "station_name_cn": "",
+    "station_lat": "18.80762",
+    "station_lng": "99.01487",
+    "point_lat": "18.80765",
+    "point_lng": "99.01489"
+  },
+{
+    "lat": "18.8088",
+    "lng": "99.01275"
+  },
+  {
+    "lat": "18.80926",
+    "lng": "99.01116"
+  },
+  {
+    "lat": "18.80948",
+    "lng": "99.01113"
+  },
+  {
+    "lat": "18.80967",
+    "lng": "99.01127"
+  },
+  {
+    "lat": "18.80925",
+    "lng": "99.01281"
+  },
+  {
+    "station_id": "R1G-36",
+    "route_id": "",
+    "station_order": "",
+    "station_name": "เจี่ยท้งเฮง",
+    "station_name_en": "",
+    "station_name_cn": "",
+    "station_lat": "18.80929",
+    "station_lng": "99.01284",
+    "point_lat": "18.80925",
+    "point_lng": "99.01281"
+  },
+  {
+    "lat": "18.80873",
+    "lng": "99.01404"
+  },
+  {
+    "lat": "18.80816",
+    "lng": "99.01504"
+  },
+  {
+    "lat": "18.80734",
+    "lng": "99.01604"
+  },
+  {
+    "lat": "18.80632",
+    "lng": "99.01694"
+  },
+  {
+    "station_id": "R1G-37",
+    "route_id": "",
+    "station_order": "",
+    "station_name": "เซ็นทรัลเฟสติวัล",
+    "station_name_en": "",
+    "station_name_cn": "",
+    "station_lat": "18.80642",
+    "station_lng": "99.01708",
+    "point_lat": "18.80632",
+    "point_lng": "99.01694"
+  }
+]
