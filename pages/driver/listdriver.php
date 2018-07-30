@@ -56,7 +56,7 @@
 
                 <?php include '../connect-mysql.php';
 
-                $sql = "select * from driver_info WHERE firstname LIKE '%".$strKeyword."%' ";
+                $sql = "select * from driver_info";
                 $query = mysqli_query($objCon, $sql);
                 ?>
 
@@ -89,9 +89,9 @@
                                         <td><?php echo $result['car_id']; ?></td>
                                         <td><?php echo $result['nationnal_id']; ?></td>
                                         <td><?php echo $result['licence_id']; ?></td>
-                                        <td><?php echo $result['type']; ?></td>
+                                        <td>กลุ่ม-<?php echo $result['type']; ?></td>
                                         <td>
-                                            <img src="img/<?php echo $result['id']; ?>.jpg" alt="" style="width:100px;">
+                                            <img src="../../img/<?php echo $result['id']; ?>.jpg" alt="" style="width:100px;">
                                         </td>
                                         <td>
                                             <a href="../driver/edit_driver_info.php?ID=<?php echo $result['id']; ?>">Edit</a>

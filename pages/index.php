@@ -242,6 +242,7 @@
             addAll_Path();
         });
         $('#stationClear').click(function() {
+            setMapOnCar(null);
             clearMarkers();
             removeLine();
             markers = [];
