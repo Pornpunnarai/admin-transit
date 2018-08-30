@@ -229,34 +229,34 @@
                     //var array = car_detail.split(',');
                     //if(array[0]=="R3"){
                     if(carB1.Type == "bus"){
-                    var markBusB1 = new google.maps.Marker({
-                        position: new google.maps.LatLng(carB1.LaGoogle, carB1.LongGoogle),
-                        map: map,
-                        title: carB1.Registerid,
-                        icon: {
-                            path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
-                            scale: 5,
-                            strokeColor: 'white',
-                            strokeWeight: .01,
-                            fillOpacity: 1,
-                            fillColor: color,
-                            // offset: '5%',
-                            rotation: parseFloat(carB1.Direction)
+                        var markBusB1 = new google.maps.Marker({
+                            position: new google.maps.LatLng(carB1.LaGoogle, carB1.LongGoogle),
+                            map: map,
+                            title: carB1.Registerid,
+                            icon: {
+                                path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
+                                scale: 5,
+                                strokeColor: 'white',
+                                strokeWeight: .01,
+                                fillOpacity: 1,
+                                fillColor: color,
+                                // offset: '5%',
+                                rotation: parseFloat(carB1.Direction)
 
-                            // anchor: new google.maps.Point(10, 25)
-                        }
-                    });
+                                // anchor: new google.maps.Point(10, 25)
+                            }
+                        });
 
 
-                    carMark.push(markBusB1);
-                    info = new google.maps.InfoWindow();
+                        carMark.push(markBusB1);
+                        info = new google.maps.InfoWindow();
 
-                    google.maps.event.addListener(markBusB1, 'click', (function(markBusB1, i) {
-                        return function() {
-                            getInfo(carB1);
-                            info.open(map, markBusB1);
-                        }
-                    })(markBusB1, i));
+                        google.maps.event.addListener(markBusB1, 'click', (function(markBusB1, i) {
+                            return function() {
+                                getInfo(carB1);
+                                info.open(map, markBusB1);
+                            }
+                        })(markBusB1, i));
                     }
 
                 });
@@ -629,7 +629,7 @@
             var count = 0;
             console.log(line);
             if(line!=null){
-            console.log("right");
+                console.log("right");
                 line.remove();
             }
 
@@ -655,12 +655,12 @@
                             station1.station_name=="ตลาดวโรรส 1 (ธ.กรุงเทพ)"||
                             station1.station_name=="กาดสวนแก้ว 2 (เซเว่น 12 ห้วยแก้ว)"||
                             station1.station_name=="ตลาดต้นลำไย (ตลาดดอกไม้)"){
-                        var marker1 = new google.maps.Marker({
-                            position: new google.maps.LatLng(station1.station_lat, station1.station_lng),
-                            map: map,
-                            title: station1.station_name,
-                            icon: Red_Green
-                        });
+                            var marker1 = new google.maps.Marker({
+                                position: new google.maps.LatLng(station1.station_lat, station1.station_lng),
+                                map: map,
+                                title: station1.station_name,
+                                icon: Red_Green
+                            });
                         }
                         else if(station1.station_name=="ถนนศรีภูมิ"){
                             var marker1 = new google.maps.Marker({
@@ -1058,9 +1058,9 @@
         }
 
         function removeLine() {
-             if(flightPath!=null) {
+            if(flightPath!=null) {
                 flightPath.setMap(null);
-             }
+            }
             if(flightPath1!=null) {
                 flightPath1.setMap(null);
             }

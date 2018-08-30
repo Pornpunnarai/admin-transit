@@ -36,7 +36,7 @@
 
     <div id="wrapper">
 
-    <?php include 'navbar.html'?>
+    <?php include 'navbar.php' ?>
         <!-- Page Content -->
         <div id="page-wrapper">
             <div class="container-fluid">

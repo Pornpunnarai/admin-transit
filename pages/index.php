@@ -40,7 +40,7 @@
 
     <div id="wrapper">
 
-        <?php include 'navbar.html'?>
+        <?php include 'navbar.php' ?>
 
         <div id="page-wrapper">
 
@@ -90,13 +90,9 @@
     </script>
 
     <script>
-        var car;
         var map;
+        var flightAllPath = [];
         var flightPath;
-        var flightPath1;
-        var flightPath2;
-        var flightPath3;
-        var flightPath4;
         var info;
         var line = null;
         var markers = [];
@@ -105,7 +101,7 @@
         var sB2 = 'image/icon_station/b2_beenhere.png';
         var changeStation = document.getElementById("btnStaion");
         var changeCar = document.getElementById("btnCar");
-        var car = "M17.402,0H5.643C2.526,0,0,3.467,0,6.584v34.804c0,3.116,2.526,5.644,5.643,5.644h11.759c3.116,0," +
+        var car_symbol = "M17.402,0H5.643C2.526,0,0,3.467,0,6.584v34.804c0,3.116,2.526,5.644,5.643,5.644h11.759c3.116,0," +
             "5.644-2.527,5.644-5.644 V6.584C23.044,3.467,20.518,0,17.402,0z M22.057,14.188v11.665l-2.729," +
             "0.351v-4.806L22.057,14.188z M20.625,10.773 c-1.016,3.9-2.219,8.51-2.219,8.51H4.638l-2.222-8.51C2.417," +
             "10.773,11.3,7.755,20.625,10.773z M3.748,21.713v4.492l-2.73-0.349 V14.502L3.748,21.713z M1.018," +
@@ -154,14 +150,16 @@
                     //var car_detail =carB1.Detail;
                     //var array = car_detail.split(',');
                     //if(array[0]=="R3"){
-                    if(carB1.Type == "bus"){
+                    if(carB1.Type == "bus"||carB1.Type=="minibus"||carB1.Type=="kwvan"){
                         var markBusB1 = new google.maps.Marker({
                             position: new google.maps.LatLng(carB1.LaGoogle, carB1.LongGoogle),
                             map: map,
                             title: carB1.Registerid,
                             icon: {
-                                path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
-                                scale: 5,
+                               // path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
+		path: car_symbol,
+                                //scale: 5,
+		scale: .7,
                                 strokeColor: 'white',
                                 strokeWeight: .01,
                                 fillOpacity: 1,
@@ -195,46 +193,203 @@
 
         }
 
-        $('#stationR1G').click(function() {
+        var json = (function () {
+            var json = null;
+            $.ajax({
+                'async': false,
+                'global': false,
+                'url': "/admin-transit/API/JSON/station/",
+                'dataType': "json",
+                'success': function (data) {
+                    json = data;
+                }
+            });
+            return json;
+        })();
 
-            removeLine();
-            clearMarkers();
-            markers = [];
-            addR1_Go();
-            setMapOnCar(null);
-            car = "เขียว";
-            getCarlocation();
-        });
-        $('#stationR1P').click(function() {
+        var json_route = (function () {
+            var json_route = null;
+            $.ajax({
+                'async': false,
+                'global': false,
+                'url': "/admin-transit/API/JSON/route_name/",
+                'dataType': "json",
+                'success': function (data) {
+                    json_route = data;
+                }
+            });
+            return json_route;
+        })();
+        function check_obj(station_name) {
+            var array = [];
+            var type;
 
-            removeLine();
-            clearMarkers();
-            markers = [];
-            addR1_Back();
-            setMapOnCar(null);
-            car = "น้ำเงิน";
-            getCarlocation();
-        });
-        $('#stationR3Y').click(function() {
+            for (var i = 0; i <= json.length-1; i++) {
 
-            removeLine();
-            clearMarkers();
-            markers = [];
-            addR3_Left();
-            setMapOnCar(null);
-            car = "เหลือง";
-            getCarlocation();
-        });
-        $('#stationR3R').click(function() {
+                if(json[i].station_name == station_name){
 
-            removeLine();
-            clearMarkers();
-            markers = [];
-            addR3_Right();
-            setMapOnCar(null);
-            car = "แดง";
-            getCarlocation();
-        });
+                    array.push(json[i].type);
+                }
+            }
+            type = array.join("-");
+            return type;
+        }
+
+      function route(route){
+                removeLine();
+                clearMarkers();
+                markers = [];
+                addR1_Back(route);
+          setMapOnCar(null);
+          car = route;
+          getCarlocation();
+        }
+
+        function addR1_Back(route) {
+
+            var myTrip=new Array();
+            var lat = new Array();
+            var long = new Array();
+            var check = null;
+            var count = 0;
+            console.log(line);
+            if(line!=null){
+                console.log("right");
+                line.remove();
+            }
+
+
+
+            //line color
+            var route_color;
+            for (var i = 0; i <= json_route.length-1; i++) {
+
+                if (route==json_route[i].route_code) {
+                    route_color = json_route[i].routh_color;
+                }
+            }
+
+
+            station(route);
+
+            // $.getJSON("/admin-transit/API/JSON/station/", function(jsonCM1) {
+            //
+            //     $.each(jsonCM1, function(i, station1) {
+            //         if(station1.type==route){
+            //             console.log((check_obj(station1.station_name)),station1.station_name);
+            //             if(check_obj(station1.station_name)=="R1P-R3Y"){
+            //                 var icon = Purple_Yellow;
+            //
+            //             }
+            //             else if(check_obj(station1.station_name)=="R1P-R3R"){
+            //                 var icon = Red_Purple;
+            //             }
+            //             else if(check_obj(station1.station_name)=="R1P-R3R-R3Y"){
+            //                 var icon =  Red_Purple_Yellow;
+            //             }
+            //             else if(check_obj(station1.station_name)=="R1P"){
+            //                 var icon = BS_R1P;
+            //             }
+            //             else if(check_obj(station1.station_name)=="R1G-R3R"){
+            //                 var icon = Red_Green;
+            //             }
+            //             else if(check_obj(station1.station_name)=="R1G"){
+            //                 var icon = BS_R1G;
+            //             }
+            //             else if(check_obj(station1.station_name)=="R1P-R3Y"){
+            //                 var icon = Purple_Yellow;
+            //             }
+            //             else if(check_obj(station1.station_name)=="R3Y"){
+            //                 var icon = BS_R3Y;
+            //             }else if(check_obj(station1.station_name)=="R3R"){
+            //                 var icon = BS_R3R;
+            //             }
+            //             else if(check_obj(station1.station_name)=="R2P"){
+            //                 var icon = BS_R2P;
+            //             }
+            //             else if(check_obj(station1.station_name)=="R2B"){
+            //                 var icon = BS_R2B;
+            //             }
+            //             else if(check_obj(station1.station_name)=="R3R-R3Y"){
+            //                 var icon = Yellow_Red;
+            //             }
+            //             else if(check_obj(station1.station_name)=="B1G"){
+            //                 var icon = BS_B1G;
+            //             }
+            //             else if(check_obj(station1.station_name)=="B1B"){
+            //                 var icon = BS_B1B;
+            //             }
+            //             else if(check_obj(station1.station_name)=="B2G"){
+            //                 var icon = BS_B2G;
+            //             }
+            //             else if(check_obj(station1.station_name)=="B2B"){
+            //                 var icon = BS_B2B;
+            //             }
+            //             else if(check_obj(station1.station_name)=="B3G"){
+            //                 var icon = BS_B3G;
+            //             }
+            //             else if(check_obj(station1.station_name)=="B3B"){
+            //                 var icon = BS_B3B;
+            //             }
+            //             else if(check_obj(station1.station_name)=="KWG"){
+            //                 var icon = BS_KWG;
+            //             }else {
+            //                 var icon = BS_special;
+            //             }
+            //
+            //
+            //
+            //
+            //             var marker1 = new google.maps.Marker({
+            //                 position: new google.maps.LatLng(station1.station_lat, station1.station_lng),
+            //                 map: map,
+            //                 title: station1.station_name,
+            //                 icon: icon
+            //             });
+            //
+            //             markers.push(marker1);
+            //             info = new google.maps.InfoWindow();
+            //             google.maps.event.addListener(marker1, 'click', (function(marker1, i) {
+            //                 return function() {
+            //                     info.setContent(station1.station_name);
+            //                     info.open(map, marker1);
+            //                 }
+            //             })(marker1, i));
+            //         }
+            //     });
+            // });
+
+            $.getJSON("/admin-transit/API/JSON/route/", function(jsonCM1) {
+                $.each(jsonCM1, function(i, station1) {
+                    if(station1.type==route){
+                        lat[count] = station1.lat;
+                        long[count] = station1.lng;
+
+                        if(lat[count]!=null){
+                            myTrip.push(new google.maps.LatLng(parseFloat(lat[count]),parseFloat(long[count])));
+                            count++;
+
+                        }
+
+                    }
+
+                });
+
+
+                flightPath = new google.maps.Polyline({
+                    path: myTrip,
+                    strokeColor: route_color,
+                    strokeOpacity: 1.0,
+                    strokeWeight: strokeWeight
+                });
+
+                addLine();
+
+
+            });
+        }
+
+
         $('#stationALL').click(function() {
             removeLine();
             clearMarkers();
@@ -250,768 +405,342 @@
 
 
 
-        //line color
-        var R3L_color = '#ffff07';
-        var R3R_color = '#fe0404';
-        var R1G_color = '#1ca1ae';
-        var R1B_color = '#683db7';
+
+
 
         var BS_R1G = '/admin-transit/image/icon_station/R1G_busstop.png';
         var BS_R1P = '/admin-transit/image/icon_station/R1P_busstop.png';
-        var BS_R3L = '/admin-transit/image/icon_station/R3L_busstop.png';
+        var BS_R2P = '/admin-transit/image/icon_station/R2P_busstop.png';
+        var BS_R2B = '/admin-transit/image/icon_station/R2B_busstop.png';
+        var BS_R3Y = '/admin-transit/image/icon_station/R3Y_busstop.png';
         var BS_R3R = '/admin-transit/image/icon_station/R3R_busstop.png';
-        var Red_Green = '/admin-transit/image/icon_station/red-green.png';
+        var Pink_Brown = '/admin-transit/image/icon_station/red-green.png';
         var Purple_Yellow = '/admin-transit/image/icon_station/purple-yellow.png';
+        var Yellow_Red = '/admin-transit/image/icon_station/yellow-red.png';
+        var Red_Green = '/admin-transit/image/icon_station/red-green.png';
         var Red_Purple = '/admin-transit/image/icon_station/red-purple.png';
         var Red_Purple_Yellow = '/admin-transit/image/icon_station/red-purple-yellow.png';
+        var BS_B1G = '/admin-transit/image/icon_station/B1G_busstop.png';
+        var BS_B1B = '/admin-transit/image/icon_station/B1B_busstop.png';
+        var BS_B2G = '/admin-transit/image/icon_station/B2G_busstop.png';
+        var BS_B2B = '/admin-transit/image/icon_station/B2B_busstop.png';
+        var BS_B3G = '/admin-transit/image/icon_station/B3G_busstop.png';
+        var BS_B3B = '/admin-transit/image/icon_station/B3G_busstop.png';
+        var BS_KWG = '/admin-transit/image/icon_station/KWG_busstop.png';
+        var BS_special = '/admin-transit/image/icon_station/BS_special.png';
 
         //strokeWeight
         var strokeWeight = 4.0;
+        var icon = null;
 
-        function addR1_Go() {
-            var myTrip=new Array();
-            var lat = new Array();
-            var long = new Array();
-            var check = null;
-            var count = 0;
-            console.log(line);
-            if(line!=null){
-                console.log("right");
-                line.remove();
+
+        function station(route) {
+            var check = false;
+            if(route==null){
+                check = true;
             }
+            $.getJSON("/admin-transit/API/JSON/station/", function(jsonCM1) {
 
-
-            $.getJSON("/admin-transit/json_station/cm_stations_r1_g.json", function(jsonCM1) {
                 $.each(jsonCM1, function(i, station1) {
-
-                    if(station1.station_id==null) {
-                        lat[count] = station1.lat;
-                        long[count] = station1.lng;
-
+                    if(station1.type==route||check==true){
+                    // if(check_obj(station1.station_name)=="R1P-R3Y"){
+                    //     var icon = Purple_Yellow;
+                    // }
+                    // else if(check_obj(station1.station_name)=="R1P-R3R"){
+                    //     var icon = Red_Purple;
+                    // }
+                    // else if(check_obj(station1.station_name)=="R1P-R3R-R3Y"){
+                    //     var icon =  Red_Purple_Yellow;
+                    // }
+                    if(check_obj(station1.station_name)=="R1P"){
+                        var icon = BS_R1P;
                     }
-                    if(station1.station_id!=null){
-                        if(station1.station_name=="Hillside plaza 1 (จุดจอดรถ One Nimman)"||
-                            station1.station_name=="วิทยาลัยศรีธนาฯ (ฝั่งตรงข้าม)"||
-                            station1.station_name=="Icon aquare 1 (หน้า KFC Icon aquare)"||
-                            station1.station_name=="ประตูช้างเผือก 1 (หน้าโชว์รูม ฟอร์ด)"||
-                            station1.station_name=="ช้างม่อย (เซ็นทรัลอะไหล่)"||
-                            station1.station_name=="ตลาดวโรรส 1 (ธ.กรุงเทพ)"||
-                            station1.station_name=="กาดสวนแก้ว 2 (เซเว่น 12 ห้วยแก้ว)"||
-                            station1.station_name=="ตลาดต้นลำไย (ตลาดดอกไม้)"){
-                            var marker1 = new google.maps.Marker({
-                                position: new google.maps.LatLng(station1.station_lat, station1.station_lng),
-                                map: map,
-                                title: station1.station_name,
-                                icon: Red_Green
-                            });
-                        }else {
-                            var marker1 = new google.maps.Marker({
-                                position: new google.maps.LatLng(station1.station_lat, station1.station_lng),
-                                map: map,
-                                title: station1.station_name,
-                                icon: BS_R1G
-                            });
+                    // else if(check_obj(station1.station_name)=="R1G-R3R"){
+                    //     var icon = Red_Green;
+                    // }
+                    else if(check_obj(station1.station_name)=="R1G"){
+                        var icon = BS_R1G;
+                    }
+                    // else if(check_obj(station1.station_name)=="R1P-R3Y"){
+                    //     var icon = Purple_Yellow;
+                    // }
+                    else if(check_obj(station1.station_name)=="R3Y"){
+                        var icon = BS_R3Y;
+                    }else if(check_obj(station1.station_name)=="R3R"){
+                        var icon = BS_R3R;
+                    }
+                    else if(check_obj(station1.station_name)=="R2P"){
+                        var icon = BS_R2P;
+                    }
+                    else if(check_obj(station1.station_name)=="R2B"){
+                        var icon = BS_R2B;
+                    }
+                    // else if(check_obj(station1.station_name)=="R2P-R2B"){
+                    //     var icon = Pink_Brown;
+                    // }
+                    // else if(check_obj(station1.station_name)=="R3R-R3Y"){
+                    //     var icon = Yellow_Red;
+                    // }
+                    else if(check_obj(station1.station_name)=="B1G"){
+                        var icon = BS_B1G;
+                    }
+                    else if(check_obj(station1.station_name)=="B1B"){
+                        var icon = BS_B1B;
+                    }
+                    else if(check_obj(station1.station_name)=="B2G"){
+                        var icon = BS_B2G;
+                    }
+                    else if(check_obj(station1.station_name)=="B2B"){
+                        var icon = BS_B2B;
+                    }
+                    else if(check_obj(station1.station_name)=="B3G"){
+                        var icon = BS_B3G;
+                    }
+                    else if(check_obj(station1.station_name)=="B3B"){
+                        var icon = BS_B3B;
+                    }
+                    else if(check_obj(station1.station_name)=="KWG"){
+                        var icon = BS_KWG;
+                    }else {
+                        var icon = BS_special;
+                    }
+
+
+
+                    var marker1 = new google.maps.Marker({
+                        position: new google.maps.LatLng(station1.station_lat, station1.station_lng),
+                        map: map,
+                        title: station1.station_name,
+                        icon: icon
+                    });
+
+                    var str = check_obj(station1.station_name);
+                    var content = '';
+                    var res = str.split("-");
+                    console.log(res[1]);
+                    if(res[1]!=null){
+                        for (var i = 0; i <= res.length-1; i++) {
+                            content += "<br> สาย "+res[i];
                         }
-
-
-                        markers.push(marker1);
-                        info = new google.maps.InfoWindow();
-                        google.maps.event.addListener(marker1, 'click', (function(marker1, i) {
-                            return function() {
-                                info.setContent(station1.station_name);
-                                info.open(map, marker1);
-                            }
-                        })(marker1, i));
+                    }else{
+                        content = "<br> สาย "+str;
                     }
 
+                    markers.push(marker1);
+                    info = new google.maps.InfoWindow();
+                    google.maps.event.addListener(marker1, 'click', (function(marker1, i) {
+                        return function() {
+                            info.setContent(station1.station_name +content);
 
-                    if(station1.station_id==null){
-
-                        if(lat[count]!=null){
-                            myTrip.push(new google.maps.LatLng(parseFloat(lat[count]),parseFloat(long[count])));
-                            count++;
-
+                            info.open(map, marker1);
                         }
-
+                    })(marker1, i));
                     }
-
                 });
 
-                flightPath = new google.maps.Polyline({
-                    path: myTrip,
-                    strokeColor: R1G_color,
-                    strokeOpacity: 1.0,
-                    strokeWeight: strokeWeight
                 });
-
-                addLine();
-
-            });
-
-
-        }
-
-        function addR1_Back() {
-            var myTrip=new Array();
-            var lat = new Array();
-            var long = new Array();
-            var check = null;
-            var count = 0;
-            console.log(line);
-            if(line!=null){
-                console.log("right");
-                line.remove();
-            }
-
-
-            $.getJSON("/admin-transit/json_station/cm_stations_r1_p.json", function(jsonCM1) {
-                $.each(jsonCM1, function(i, station1) {
-
-                    if(station1.station_id==null) {
-                        lat[count] = station1.lat;
-                        long[count] = station1.lng;
-                        // var marker2 = new google.maps.Marker({
-                        //     position: new google.maps.LatLng(station1.lat, station1.lng),
-                        //     map: map,
-                        //     title: station1.station_name,
-                        // });
-                    }
-                    if(station1.station_id!=null){
-                        if(station1.station_name=="Hillside plaza 2 (ธนาคาร UOB)"||
-                            station1.station_name=="วิทยาลัยศรีธนา 1"||
-                            station1.station_name=="กาดสวนแก้ว 1 (จุดจอดรถ)"||
-                            station1.station_name=="โรงพยาบาลเชียงใหม่ราม"||
-                            station1.station_name=="Icon aquare 2 (วัดราชมณเฑียน)"||
-                            station1.station_name=="ประตูช้างเผือก 2 (วัดหม้อคำตวง)"||
-                            station1.station_name=="วัดบุพพาราม"||
-                            station1.station_name=="ถนนท่าแพ"){
-                            var marker1 = new google.maps.Marker({
-                                position: new google.maps.LatLng(station1.station_lat, station1.station_lng),
-                                map: map,
-                                title: station1.station_name,
-                                icon: Purple_Yellow
-                            });
-                        }
-                        else if(station1.station_name=="ถนนศรีภูมิ"){
-                            var marker1 = new google.maps.Marker({
-                                position: new google.maps.LatLng(station1.station_lat, station1.station_lng),
-                                map: map,
-                                title: station1.station_name,
-                                icon: Red_Purple
-                            });
-                        }
-                        else if(station1.station_name=="ประตูท่าแพ 1 (cool muang coffee)"){
-                            var marker1 = new google.maps.Marker({
-                                position: new google.maps.LatLng(station1.station_lat, station1.station_lng),
-                                map: map,
-                                title: station1.station_name,
-                                icon: Red_Purple_Yellow
-                            });
-                        }
-                        else {
-                            var marker1 = new google.maps.Marker({
-                                position: new google.maps.LatLng(station1.station_lat, station1.station_lng),
-                                map: map,
-                                title: station1.station_name,
-                                icon: BS_R1P
-                            });
-                        }
-                        // var marker2 = new google.maps.Marker({
-                        //     position: new google.maps.LatLng(station1.point_lat, station1.point_lng),
-                        //     map: map,
-                        //     title: station1.station_name,
-                        // });
-
-                        markers.push(marker1);
-                        info = new google.maps.InfoWindow();
-                        google.maps.event.addListener(marker1, 'click', (function(marker1, i) {
-                            return function() {
-                                info.setContent(station1.station_name);
-                                info.open(map, marker1);
-                            }
-                        })(marker1, i));
-                    }
-
-
-                    if(station1.station_id==null){
-
-                        if(lat[count]!=null){
-                            myTrip.push(new google.maps.LatLng(parseFloat(lat[count]),parseFloat(long[count])));
-                            count++;
-
-                        }
-
-                    }
-
-                });
-
-                flightPath = new google.maps.Polyline({
-                    path: myTrip,
-                    strokeColor: R1B_color,
-                    strokeOpacity: 1.0,
-                    strokeWeight: strokeWeight
-                });
-
-                addLine();
-
-            });
-
-
-        }
-
-        function addR3_Left() {
-            var myTrip=new Array();
-            var lat = new Array();
-            var long = new Array();
-            var check = null;
-            var count = 0;
-            console.log(line);
-            if(line!=null){
-                console.log("left");
-                line.remove();
-            }
-
-
-            $.getJSON("/admin-transit/json_station/cm_stations_r3_left.json", function(jsonCM1) {
-                $.each(jsonCM1, function(i, station1) {
-
-                    if(station1.station_id==null) {
-                        lat[count] = station1.lat;
-                        long[count] = station1.lng;
-
-                    }
-                    if(station1.station_id!=null){
-                        if(station1.station_name=="Hillside plaza 2 (ธนาคาร UOB)"||
-                            station1.station_name=="วิทยาลัยศรีธนา 1"||
-                            station1.station_name=="กาดสวนแก้ว 1 (จุดจอดรถ)"||
-                            station1.station_name=="โรงพยาบาลเชียงใหม่ราม"||
-                            station1.station_name=="Icon aquare 2 (วัดราชมณเฑียน)"||
-                            station1.station_name=="ประตูช้างเผือก 2 (วัดหม้อคำตวง)"||
-                            station1.station_name=="วัดบุพพาราม"||
-                            station1.station_name=="ถนนท่าแพ"){
-                            var marker1 = new google.maps.Marker({
-                                position: new google.maps.LatLng(station1.station_lat, station1.station_lng),
-                                map: map,
-                                title: station1.station_name,
-                                icon: Purple_Yellow
-                            });
-                        }
-                        else if(station1.station_name=="ประตูท่าแพ 1 (cool muang coffee)"){
-                            var marker1 = new google.maps.Marker({
-                                position: new google.maps.LatLng(station1.station_lat, station1.station_lng),
-                                map: map,
-                                title: station1.station_name,
-                                icon: Red_Purple_Yellow
-                            });
-                        }
-                        else {
-                            var marker1 = new google.maps.Marker({
-                                position: new google.maps.LatLng(station1.station_lat, station1.station_lng),
-                                map: map,
-                                title: station1.station_name,
-                                icon: BS_R1P
-                            });
-                        }
-
-
-
-
-                        markers.push(marker1);
-                        info = new google.maps.InfoWindow();
-                        google.maps.event.addListener(marker1, 'click', (function(marker1, i) {
-                            return function() {
-                                info.setContent(station1.station_name);
-                                info.open(map, marker1);
-                            }
-                        })(marker1, i));
-                    }
-
-                    if(station1.station_id==null){
-
-                        if(lat[count]!=null){
-                            myTrip.push(new google.maps.LatLng(parseFloat(lat[count]),parseFloat(long[count])));
-                            count++;
-
-                        }
-
-                    }
-
-                });
-
-                flightPath = new google.maps.Polyline({
-                    path: myTrip,
-                    strokeColor: R3L_color,
-                    strokeOpacity: 1.0,
-                    strokeWeight: strokeWeight
-                });
-
-                addLine();
-
-            });
-
-            // myTrip.push(new google.maps.LatLng(18.77117,98.96846));
-            // myTrip.push(new google.maps.LatLng(28.360124,77.031429));
-
-            // console.log(lat.length)
-
-
-        }
-
-
-
-
-        function addR3_Right() {
-            var myTrip=new Array();
-            var lat = new Array();
-            var long = new Array();
-            var check = null;
-            var count = 0;
-            console.log(line);
-            if(line!=null){
-                console.log("right");
-                line.remove();
-            }
-
-
-            $.getJSON("/admin-transit/json_station/cm_stations_r3_right.json", function(jsonCM1) {
-                $.each(jsonCM1, function(i, station1) {
-
-                    if(station1.station_id==null) {
-                        lat[count] = station1.lat;
-                        long[count] = station1.lng;
-                        // var marker2 = new google.maps.Marker({
-                        //     position: new google.maps.LatLng(station1.lat, station1.lng),
-                        //     map: map,
-                        //     title: station1.station_name,
-                        // });
-                    }
-                    if(station1.station_id!=null){
-                        if(station1.station_name=="Hillside plaza 1 (จุดจอดรถ One Nimman)"||
-                            station1.station_name=="วิทยาลัยศรีธนาฯ (ฝั่งตรงข้าม)"||
-                            station1.station_name=="Icon aquare 1 (หน้า KFC Icon aquare)"||
-                            station1.station_name=="ประตูช้างเผือก 1 (หน้าโชว์รูม ฟอร์ด)"||
-                            station1.station_name=="ช้างม่อย (เซ็นทรัลอะไหล่)"||
-                            station1.station_name=="ตลาดวโรรส 1 (ธ.กรุงเทพ)"||
-                            station1.station_name=="กาดสวนแก้ว 2 (เซเว่น 12 ห้วยแก้ว)"||
-                            station1.station_name=="ตลาดต้นลำไย (ตลาดดอกไม้)"){
-                            var marker1 = new google.maps.Marker({
-                                position: new google.maps.LatLng(station1.station_lat, station1.station_lng),
-                                map: map,
-                                title: station1.station_name,
-                                icon: Red_Green
-                            });
-                        }
-                        else if(station1.station_name=="ถนนศรีภูมิ"){
-                            var marker1 = new google.maps.Marker({
-                                position: new google.maps.LatLng(station1.station_lat, station1.station_lng),
-                                map: map,
-                                title: station1.station_name,
-                                icon: Red_Purple
-                            });
-                        }
-                        else if(station1.station_name=="ประตูท่าแพ 1 (cool muang coffee)"){
-                            var marker1 = new google.maps.Marker({
-                                position: new google.maps.LatLng(station1.station_lat, station1.station_lng),
-                                map: map,
-                                title: station1.station_name,
-                                icon: Red_Purple_Yellow
-                            });
-                        }
-                        else {
-                            var marker1 = new google.maps.Marker({
-                                position: new google.maps.LatLng(station1.station_lat, station1.station_lng),
-                                map: map,
-                                title: station1.station_name,
-                                icon:BS_R3R
-                            });
-                        }
-                        // var marker2 = new google.maps.Marker({
-                        //     position: new google.maps.LatLng(station1.point_lat, station1.point_lng),
-                        //     map: map,
-                        //     title: station1.station_name,
-                        // });
-
-                        markers.push(marker1);
-                        info = new google.maps.InfoWindow();
-                        google.maps.event.addListener(marker1, 'click', (function(marker1, i) {
-                            return function() {
-                                info.setContent(station1.station_name);
-                                info.open(map, marker1);
-                            }
-                        })(marker1, i));
-                    }
-
-
-                    if(station1.station_id==null){
-
-                        if(lat[count]!=null){
-                            myTrip.push(new google.maps.LatLng(parseFloat(lat[count]),parseFloat(long[count])));
-                            count++;
-
-                        }
-
-                    }
-
-                });
-
-                flightPath = new google.maps.Polyline({
-                    path: myTrip,
-                    strokeColor: R3R_color,
-                    strokeOpacity: 1.0,
-                    strokeWeight: strokeWeight
-                });
-
-                addLine();
-
-            });
-
-
         }
 
         function addAll_Path() {
-            var myTrip=new Array();
-            var lat = new Array();
-            var long = new Array();
 
-            var count = 0;
+            station();
 
+            // $.getJSON("/admin-transit/API/JSON/station/", function(jsonCM1) {
+            //
+            //     $.each(jsonCM1, function(i, station1) {
+            //
+            //         if(check_obj(station1.station_name)=="R1P-R3Y"){
+            //             var icon = Purple_Yellow;
+            //
+            //         }
+            //         else if(check_obj(station1.station_name)=="R1P-R3R"){
+            //             var icon = Red_Purple;
+            //         }
+            //         else if(check_obj(station1.station_name)=="R1P-R3R-R3Y"){
+            //             var icon =  Red_Purple_Yellow;
+            //         }
+            //         else if(check_obj(station1.station_name)=="R1P"){
+            //             var icon = BS_R1P;
+            //         }
+            //         else if(check_obj(station1.station_name)=="R1G-R3R"){
+            //             var icon = Red_Green;
+            //         }
+            //         else if(check_obj(station1.station_name)=="R1G"){
+            //             var icon = BS_R1G;
+            //         }
+            //         else if(check_obj(station1.station_name)=="R1P-R3Y"){
+            //             var icon = Purple_Yellow;
+            //         }
+            //         else if(check_obj(station1.station_name)=="R3Y"){
+            //             var icon = BS_R3Y;
+            //         }else if(check_obj(station1.station_name)=="R3R"){
+            //             var icon = BS_R3R;
+            //         }
+            //         else if(check_obj(station1.station_name)=="R2P"){
+            //             var icon = BS_R2P;
+            //         }
+            //         else if(check_obj(station1.station_name)=="R2B"){
+            //             var icon = BS_R2B;
+            //         }
+            //         else if(check_obj(station1.station_name)=="R2P-R2B"){
+            //             var icon = Pink_Brown;
+            //         }
+            //         else if(check_obj(station1.station_name)=="R3R-R3Y"){
+            //             var icon = Yellow_Red;
+            //         }
+            //         else if(check_obj(station1.station_name)=="B1G"){
+            //             var icon = BS_B1G;
+            //         }
+            //         else if(check_obj(station1.station_name)=="B1B"){
+            //             var icon = BS_B1B;
+            //         }
+            //         else if(check_obj(station1.station_name)=="B2G"){
+            //             var icon = BS_B2G;
+            //         }
+            //         else if(check_obj(station1.station_name)=="B2B"){
+            //             var icon = BS_B2B;
+            //         }
+            //         else if(check_obj(station1.station_name)=="B3G"){
+            //             var icon = BS_B3G;
+            //         }
+            //         else if(check_obj(station1.station_name)=="B3B"){
+            //             var icon = BS_B3B;
+            //         }
+            //         else if(check_obj(station1.station_name)=="KWG"){
+            //             var icon = BS_KWG;
+            //         }else {
+            //             var icon = BS_special;
+            //         }
+            //
+            //
+            //
+            //         var marker1 = new google.maps.Marker({
+            //             position: new google.maps.LatLng(station1.station_lat, station1.station_lng),
+            //             map: map,
+            //             title: station1.station_name,
+            //             icon: icon
+            //         });
+            //
+            //        var str = check_obj(station1.station_name);
+            //        var content = null;
+            //         var res = str.split("-");
+            //         console.log(res[1]);
+            //         if(res[1]!=null){
+            //         for (var i = 0; i <= res.length-1; i++) {
+            //             content += "<br> สาย "+res[i];
+            //         }
+            //         }else{
+            //             content = "<br> สาย "+str;
+            //         }
+            //
+            //         markers.push(marker1);
+            //         info = new google.maps.InfoWindow();
+            //         google.maps.event.addListener(marker1, 'click', (function(marker1, i) {
+            //             return function() {
+            //                 info.setContent(station1.station_name+content);
+            //
+            //                 info.open(map, marker1);
+            //             }
+            //         })(marker1, i));
+            //
+            //     });
+            // });
 
-
-            $.getJSON("/admin-transit/json_station/cm_stations_r3_left.json", function(jsonCM1) {
-                $.each(jsonCM1, function(i, station1) {
-
-                    if(station1.station_id==null) {
-                        lat[count] = station1.lat;
-                        long[count] = station1.lng;
+            var route = (function () {
+                var route = null;
+                $.ajax({
+                    'async': false,
+                    'global': false,
+                    'url': "/admin-transit/API/JSON/route/",
+                    'dataType': "json",
+                    'success': function (data) {
+                        route = data;
                     }
-                    if(station1.station_id!=null){
-                        if(station1.station_name=="Hillside plaza 2 (ธนาคาร UOB)"||
-                            station1.station_name=="วิทยาลัยศรีธนา 1"||
-                            station1.station_name=="กาดสวนแก้ว 1 (จุดจอดรถ)"||
-                            station1.station_name=="โรงพยาบาลเชียงใหม่ราม"||
-                            station1.station_name=="Icon aquare 2 (วัดราชมณเฑียน)"||
-                            station1.station_name=="ประตูช้างเผือก 2 (วัดหม้อคำตวง)"||
-                            station1.station_name=="วัดบุพพาราม"||
-                            station1.station_name=="ถนนท่าแพ"){
-                            var marker1 = new google.maps.Marker({
-                                position: new google.maps.LatLng(station1.station_lat, station1.station_lng),
-                                map: map,
-                                title: station1.station_name,
-                                icon: Purple_Yellow
-                            });
-                        }
-                        else if(station1.station_name=="ประตูท่าแพ 1 (cool muang coffee)"){
-                            var marker1 = new google.maps.Marker({
-                                position: new google.maps.LatLng(station1.station_lat, station1.station_lng),
-                                map: map,
-                                title: station1.station_name,
-                                icon: Red_Purple_Yellow
-                            });
-                        }
-                        else {
-                            var marker1 = new google.maps.Marker({
-                                position: new google.maps.LatLng(station1.station_lat, station1.station_lng),
-                                map: map,
-                                title: station1.station_name,
-                                icon: BS_R1P
-                            });
-                        }
-
-
-                        markers.push(marker1);
-                        info = new google.maps.InfoWindow();
-                        google.maps.event.addListener(marker1, 'click', (function(marker1, i) {
-                            return function() {
-                                info.setContent(station1.station_name);
-                                info.open(map, marker1);
-                            }
-                        })(marker1, i));
-                    }
-
-                    if(station1.station_id==null){
-
-                        if(lat[count]!=null){
-                            myTrip.push(new google.maps.LatLng(parseFloat(lat[count]),parseFloat(long[count])));
-                            count++;
-
-                        }
-
-                    }
-
                 });
+                return route;
+            })();
 
-                flightPath1 = new google.maps.Polyline({
-                    path: myTrip,
-                    strokeColor: R3L_color,
+
+
+
+            var obj = []
+
+            var route_color = null;
+            var old_type = null;
+
+
+
+            for (var i = 0; i < route.length-1; i++) {
+
+
+                var route_line = {
+                    lat: parseFloat(route[i].lat),
+                    lng: parseFloat(route[i].lng)
+                };
+
+
+                if(old_type==null){
+                    old_type = route[i].type;
+                }
+
+                if(old_type!=route[i].type){
+                    obj = [];
+                    old_type = route[i].type;
+                    flightAllPath.push(flightPath);
+                }
+
+                var c = search(route[i].type,json_route);
+                // console.log(c);
+                if(c.check){
+                    route_color= c.route_color;
+                    obj.push(route_line);
+                }
+
+
+                flightPath = new google.maps.Polyline({
+                    path: obj,
+                    strokeColor: route_color,
                     strokeOpacity: 1.0,
                     strokeWeight: strokeWeight
                 });
 
-                flightPath1.setMap(map);
-                myTrip=null;
-                myTrip=new Array();
-
-            });
-
-            $.getJSON("/admin-transit/json_station/cm_stations_r3_right.json", function(jsonCM1) {
-                $.each(jsonCM1, function(i, station1) {
-
-                    if(station1.station_id==null) {
-                        lat[count] = station1.lat;
-                        long[count] = station1.lng;
-                    }
-                    if(station1.station_id!=null){
-                        if(station1.station_name=="Hillside plaza 1 (จุดจอดรถ One Nimman)"||
-                            station1.station_name=="วิทยาลัยศรีธนาฯ (ฝั่งตรงข้าม)"||
-                            station1.station_name=="Icon aquare 1 (หน้า KFC Icon aquare)"||
-                            station1.station_name=="ประตูช้างเผือก 1 (หน้าโชว์รูม ฟอร์ด)"||
-                            station1.station_name=="ช้างม่อย (เซ็นทรัลอะไหล่)"||
-                            station1.station_name=="ตลาดวโรรส 1 (ธ.กรุงเทพ)"||
-                            station1.station_name=="กาดสวนแก้ว 2 (เซเว่น 12 ห้วยแก้ว)"||
-                            station1.station_name=="ตลาดต้นลำไย (ตลาดดอกไม้)"){
-                            var marker1 = new google.maps.Marker({
-                                position: new google.maps.LatLng(station1.station_lat, station1.station_lng),
-                                map: map,
-                                title: station1.station_name,
-                                icon: Red_Green
-                            });
-                        }
-                        else if(station1.station_name=="ถนนศรีภูมิ"){
-                            var marker1 = new google.maps.Marker({
-                                position: new google.maps.LatLng(station1.station_lat, station1.station_lng),
-                                map: map,
-                                title: station1.station_name,
-                                icon: Red_Purple
-                            });
-                        }
-                        else if(station1.station_name=="ประตูท่าแพ 1 (cool muang coffee)"){
-                            var marker1 = new google.maps.Marker({
-                                position: new google.maps.LatLng(station1.station_lat, station1.station_lng),
-                                map: map,
-                                title: station1.station_name,
-                                icon: Red_Purple_Yellow
-                            });
-                        }
-                        else {
-                            var marker1 = new google.maps.Marker({
-                                position: new google.maps.LatLng(station1.station_lat, station1.station_lng),
-                                map: map,
-                                title: station1.station_name,
-                                icon:BS_R3R
-                            });
-                        }
 
 
+            }
 
-                        markers.push(marker1);
-                        info = new google.maps.InfoWindow();
-                        google.maps.event.addListener(marker1, 'click', (function(marker1, i) {
-                            return function() {
-                                info.setContent(station1.station_name);
-                                info.open(map, marker1);
-                            }
-                        })(marker1, i));
-                    }
+            for(var i = 0; i <= flightAllPath.length-1; i++){
+                flightAllPath[i].setMap(map);
 
-                    if(station1.station_id==null){
-
-                        if(lat[count]!=null){
-                            myTrip.push(new google.maps.LatLng(parseFloat(lat[count]),parseFloat(long[count])));
-                            count++;
-
-                        }
-
-                    }
-
-                });
-
-                flightPath2 = new google.maps.Polyline({
-                    path: myTrip,
-                    strokeColor: R3R_color,
-                    strokeOpacity: 1.0,
-                    strokeWeight: strokeWeight
-                });
-
-                flightPath2.setMap(map);
-                myTrip=null;
-                myTrip=new Array();
-            });
-
-
-            $.getJSON("/admin-transit/json_station/cm_stations_r1_g.json", function(jsonCM1) {
-                $.each(jsonCM1, function(i, station1) {
-
-                    if(station1.station_id==null) {
-                        lat[count] = station1.lat;
-                        long[count] = station1.lng;
-                    }
-                    if(station1.station_id!=null){
-                        if(station1.station_name=="Hillside plaza 1 (จุดจอดรถ One Nimman)"||
-                            station1.station_name=="วิทยาลัยศรีธนาฯ (ฝั่งตรงข้าม)"||
-                            station1.station_name=="Icon aquare 1 (หน้า KFC Icon aquare)"||
-                            station1.station_name=="ประตูช้างเผือก 1 (หน้าโชว์รูม ฟอร์ด)"||
-                            station1.station_name=="ช้างม่อย (เซ็นทรัลอะไหล่)"||
-                            station1.station_name=="ตลาดวโรรส 1 (ธ.กรุงเทพ)"||
-                            station1.station_name=="กาดสวนแก้ว 2 (เซเว่น 12 ห้วยแก้ว)"||
-                            station1.station_name=="ตลาดต้นลำไย (ตลาดดอกไม้)"){
-                            var marker1 = new google.maps.Marker({
-                                position: new google.maps.LatLng(station1.station_lat, station1.station_lng),
-                                map: map,
-                                title: station1.station_name,
-                                icon: Red_Green
-                            });
-                        }else {
-                            var marker1 = new google.maps.Marker({
-                                position: new google.maps.LatLng(station1.station_lat, station1.station_lng),
-                                map: map,
-                                title: station1.station_name,
-                                icon: BS_R1G
-                            });
-                        }
-
-
-
-                        markers.push(marker1);
-                        info = new google.maps.InfoWindow();
-                        google.maps.event.addListener(marker1, 'click', (function(marker1, i) {
-                            return function() {
-                                info.setContent(station1.station_name);
-                                info.open(map, marker1);
-                            }
-                        })(marker1, i));
-                    }
-
-                    if(station1.station_id==null){
-
-                        if(lat[count]!=null){
-                            myTrip.push(new google.maps.LatLng(parseFloat(lat[count]),parseFloat(long[count])));
-                            count++;
-
-                        }
-
-                    }
-
-                });
-
-                flightPath3 = new google.maps.Polyline({
-                    path: myTrip,
-                    strokeColor: R1G_color,
-                    strokeOpacity: 1.0,
-                    strokeWeight: strokeWeight
-                });
-
-                flightPath3.setMap(map);
-                myTrip=null;
-                myTrip=new Array();
-            });
-
-            $.getJSON("/admin-transit/json_station/cm_stations_r1_p.json", function(jsonCM1) {
-                $.each(jsonCM1, function(i, station1) {
-
-                    if(station1.station_id==null) {
-                        lat[count] = station1.lat;
-                        long[count] = station1.lng;
-                    }
-                    if(station1.station_id!=null){
-                        if(station1.station_name=="Hillside plaza 2 (ธนาคาร UOB)"||
-                            station1.station_name=="วิทยาลัยศรีธนา 1"||
-                            station1.station_name=="กาดสวนแก้ว 1 (จุดจอดรถ)"||
-                            station1.station_name=="โรงพยาบาลเชียงใหม่ราม"||
-                            station1.station_name=="Icon aquare 2 (วัดราชมณเฑียน)"||
-                            station1.station_name=="ประตูช้างเผือก 2 (วัดหม้อคำตวง)"||
-                            station1.station_name=="วัดบุพพาราม"||
-                            station1.station_name=="ถนนท่าแพ"){
-                            var marker1 = new google.maps.Marker({
-                                position: new google.maps.LatLng(station1.station_lat, station1.station_lng),
-                                map: map,
-                                title: station1.station_name,
-                                icon: Purple_Yellow
-                            });
-                        }
-                        else if(station1.station_name=="ถนนศรีภูมิ"){
-                            var marker1 = new google.maps.Marker({
-                                position: new google.maps.LatLng(station1.station_lat, station1.station_lng),
-                                map: map,
-                                title: station1.station_name,
-                                icon: Red_Purple
-                            });
-                        }
-                        else if(station1.station_name=="ประตูท่าแพ 1 (cool muang coffee)"){
-                            var marker1 = new google.maps.Marker({
-                                position: new google.maps.LatLng(station1.station_lat, station1.station_lng),
-                                map: map,
-                                title: station1.station_name,
-                                icon: Red_Purple_Yellow
-                            });
-                        }
-                        else {
-                            var marker1 = new google.maps.Marker({
-                                position: new google.maps.LatLng(station1.station_lat, station1.station_lng),
-                                map: map,
-                                title: station1.station_name,
-                                icon: BS_R1P
-                            });
-                        }
-
-
-
-                        markers.push(marker1);
-                        info = new google.maps.InfoWindow();
-                        google.maps.event.addListener(marker1, 'click', (function(marker1, i) {
-                            return function() {
-                                info.setContent(station1.station_name);
-                                info.open(map, marker1);
-                            }
-                        })(marker1, i));
-                    }
-
-                    if(station1.station_id==null){
-
-                        if(lat[count]!=null){
-                            myTrip.push(new google.maps.LatLng(parseFloat(lat[count]),parseFloat(long[count])));
-                            count++;
-
-                        }
-
-                    }
-
-                });
-
-                flightPath4 = new google.maps.Polyline({
-                    path: myTrip,
-                    strokeColor: R1B_color,
-                    strokeOpacity: 1.0,
-                    strokeWeight: strokeWeight
-                });
-
-                flightPath4.setMap(map);
-                myTrip=null;
-                myTrip=new Array();
-            });
+            }
 
 
         }
+
+        //
+        var search = function(nameKey, myArray) {
+            for (var i=0; i <= myArray.length-1; i++) {
+                if (myArray[i].route_code === nameKey) {
+                    var check = true;
+                    var route_color = myArray[i].routh_color;
+            return {
+                check: check,
+                route_color: route_color
+            };
+                }
+            }
+        };
+
+
 
         function addLine() {
             flightPath.setMap(map);
         }
 
         function removeLine() {
-            if(flightPath!=null) {
-                flightPath.setMap(null);
+            for(var i = 0; i <= flightAllPath.length-1; i++){
+                flightAllPath[i].setMap(null);
             }
-            if(flightPath1!=null) {
-                flightPath1.setMap(null);
-            }
-            if(flightPath2!=null) {
-                flightPath2.setMap(null);
-            }
-            if(flightPath3!=null) {
-                flightPath3.setMap(null);
-            }
-            if(flightPath4!=null) {
-                flightPath4.setMap(null);
-            }
+            flightPath.setMap(null);
         }
 
         function getInfo(carB1) {
@@ -1078,6 +807,7 @@
             }
         }
 
+
         function setMapOnCar(map) {
             for (var i = 0; i < carMark.length; i++) {
                 carMark[i].setMap(map);
@@ -1127,12 +857,6 @@
                     if(carB1.Type == "minibus") {
                         var color = "#0d0c55";
                     }
-                    if(carB1.Type == "redcar") {
-                        var color = "#bb110a";
-                    }
-                    if(carB1.Type == "tuktuk") {
-                        var color = "#055500";
-                    }
                     if(carB1.Type == "bus") {
 
                         if(carB1.Color=="เขียว"){
@@ -1155,8 +879,10 @@
                             map: map,
                             title: carB1.Registerid,
                             icon: {
-                                path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
-                                scale: 5,
+                                                               // path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
+		path: car_symbol,
+                                //scale: 5,
+		scale: .7,
                                 strokeColor: 'white',
                                 strokeWeight: .01,
                                 fillOpacity: 1,
@@ -1176,44 +902,18 @@
                     }
 
                     if(type == null) {
-                        if(carB1.Type == "minibus") {
-                            var color = "#0d0c55";
-                        }
-                        if(carB1.Type == "redcar") {
-                            var color = "#bb110a";
-                        }
-                        if(carB1.Type == "tuktuk") {
-                            var color = "#055500";
-                        }
-                        if(carB1.Type == "bus") {
 
-                            if(carB1.Color=="เขียว"){
-                                var color = "#055500";
-                            }
-                            if(carB1.Color=="เหลือง"){
-                                var color = '#ffff07';
-                            }
-                            if(carB1.Color=="แดง"){
-                                var color = '#fe0404';
-                            }
-                            if(carB1.Color=="น้ำเงิน"){
-                                var color = "#515aee";
-                            }
-                        }
-
-                        //demo RTC3
-                        var car_detail =carB1.Detail;
-                        // var array = car_detail.split(',');
-                        //if(array[0]=="R3") {
-                        if(carB1.Type=="bus") {
+                        if(carB1.Type=="bus"||carB1.Type=="minibus"||carB1.Type=="kwvan") {
                             if(carB1.Color==car){
                                 var markBusB1 = new google.maps.Marker({
                                     position: new google.maps.LatLng(carB1.LaGoogle, carB1.LongGoogle),
                                     map: map,
                                     title: carB1.Registerid,
                                     icon: {
-                                        path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
-                                        scale: 5,
+                                                                      // path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
+		path: car_symbol,
+                                //scale: 5,
+		scale: .7,
                                         strokeColor: 'white',
                                         strokeWeight: .01,
                                         fillOpacity: 1,
@@ -1238,8 +938,10 @@
                                     map: map,
                                     title: carB1.Registerid,
                                     icon: {
-                                        path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
-                                        scale: 5,
+                                                                 // path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
+		path: car_symbol,
+                                //scale: 5,
+		scale: .7,
                                         strokeColor: 'white',
                                         strokeWeight: .01,
                                         fillOpacity: 1,

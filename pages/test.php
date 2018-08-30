@@ -1,17 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>CM-Transit - Map</title>
+    <title>SB Admin 2 - Bootstrap Admin Theme</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
+
+    <!-- MetisMenu CSS -->
+    <link href="../vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
+
     <!-- Custom CSS -->
     <link href="../dist/css/sb-admin-2.css" rel="stylesheet">
 
@@ -21,8 +26,6 @@
     <!-- Custom Fonts -->
     <link href="../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
-    <link rel="stylesheet" type="text/css" href="css/style.css" />
-
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -31,54 +34,31 @@
     <![endif]-->
 
 
-    <style>
-        .navbar .nav > li:hover> a, .navbar .nav > .active > a, .navbar .nav > .active > a:hover, .navbar .nav > .active > a:focus {
-            border: 0px solid #2e3f50;
-            color: #fff;
-            background-color: #2e3f50;
-            transition: border-color 1s ease;
-        }
-        .nav .open>a, .nav .open>a:focus, .nav .open>a:hover {
-            background-color: #2e3f50;
-            border-color: #2e3f50;
-        }
-        #page-wrapper {
-            background-color: #2e3f501a;
-        }
-        .divform{
-            margin-bottom: 2px;
-        }
-        #map {
-            height: 90%;
-        }
-    </style>
 </head>
 
 <body>
 
 <div id="wrapper">
-    <!-- Navigation -->
-    <?php include 'navbar.php' ?>
+
+    <?php include 'navbar.php'?>
 
     <div id="page-wrapper">
 
         <!-- Page Content -->
         <div class="container-fluid">
-                <ol class="breadcrumb" style="margin-top: 1rem;">
-                    <li class="breadcrumb-item active">Route & Timetable</li>
-                </ol>
+            <ol class="breadcrumb" style="margin-top: 1rem;">
+                <li class="breadcrumb-item active">Route & Timetable</li>
+            </ol>
 
-                <div class="embed-responsive embed-responsive-16by9">
-                    <div id="map" class="embed-responsive-item" style="overflow: hidden;">
-                    </div>
+            <div class="embed-responsive embed-responsive-16by9">
+                <div id="map" class="embed-responsive-item" style="overflow: hidden;">
                 </div>
+            </div>
         </div>
 
-            <!-- /#page-content-wrapper -->
-
-        </div>
 
     </div>
+    <!-- /#page-wrapper -->
 
 </div>
 <!-- /#wrapper -->
@@ -92,8 +72,14 @@
 <!-- Metis Menu Plugin JavaScript -->
 <script src="../vendor/metisMenu/metisMenu.min.js"></script>
 
+<!-- Morris Charts JavaScript -->
+<script src="../vendor/raphael/raphael.min.js"></script>
+<script src="../vendor/morrisjs/morris.min.js"></script>
+<script src="../data/morris-data.js"></script>
+
 <!-- Custom Theme JavaScript -->
 <script src="../dist/js/sb-admin-2.js"></script>
+
 
 <!-- Menu Toggle Script -->
 <script>
@@ -138,7 +124,7 @@
             center: location
         });
 
-        $.getJSON("CM_CAR/API", function(jsonBus1) {
+        $.getJSON("/admin-transit/CM_CAR/API", function(jsonBus1) {
             $.each(jsonBus1, function(i, carB1) {
 
                 if(carB1.Type == "minibus") {
@@ -151,16 +137,16 @@
                     var color = "#055500";
                 }
                 if(carB1.Type == "bus") {
-                    if(carB1.Color=="เขียว"){
+                    if(carB1.Color=="เน€เธเธตเธขเธง"){
                         var color = "#055500";
                     }
-                    if(carB1.Color=="เหลือง"){
+                    if(carB1.Color=="เน€เธซเธฅเธทเธญเธ"){
                         var color = '#ffff07';
                     }
-                    if(carB1.Color=="แดง"){
+                    if(carB1.Color=="เนเธ”เธ"){
                         var color = '#fe0404';
                     }
-                    if(carB1.Color=="น้ำเงิน"){
+                    if(carB1.Color=="เธเนเธณเน€เธเธดเธ"){
                         var color = "#515aee";
                     }
                 }
@@ -216,7 +202,7 @@
         markers = [];
         addR1_Go();
         setMapOnCar(null);
-        car = "เขียว";
+        car = "เน€เธเธตเธขเธง";
         getCarlocation();
     });
     $('#stationR1P').click(function() {
@@ -226,7 +212,7 @@
         markers = [];
         addR1_Back();
         setMapOnCar(null);
-        car = "น้ำเงิน";
+        car = "เธเนเธณเน€เธเธดเธ";
         getCarlocation();
     });
     $('#stationR3Y').click(function() {
@@ -236,7 +222,7 @@
         markers = [];
         addR3_Left();
         setMapOnCar(null);
-        car = "เหลือง";
+        car = "เน€เธซเธฅเธทเธญเธ";
         getCarlocation();
     });
     $('#stationR3R').click(function() {
@@ -246,7 +232,7 @@
         markers = [];
         addR3_Right();
         setMapOnCar(null);
-        car = "แดง";
+        car = "เนเธ”เธ";
         getCarlocation();
     });
     $('#stationALL').click(function() {
@@ -256,6 +242,7 @@
         addAll_Path();
     });
     $('#stationClear').click(function() {
+        setMapOnCar(null);
         clearMarkers();
         removeLine();
         markers = [];
@@ -269,14 +256,14 @@
     var R1G_color = '#1ca1ae';
     var R1B_color = '#683db7';
 
-    var BS_R1G = 'image/icon_station/R1G_busstop.png';
-    var BS_R1P = 'image/icon_station/R1P_busstop.png';
-    var BS_R3L = 'image/icon_station/R3L_busstop.png';
-    var BS_R3R = 'image/icon_station/R3R_busstop.png';
-    var Red_Green = 'image/icon_station/red-green.png';
-    var Purple_Yellow = 'image/icon_station/purple-yellow.png';
-    var Red_Purple = 'image/icon_station/red-purple.png';
-    var Red_Purple_Yellow = 'image/icon_station/red-purple-yellow.png';
+    var BS_R1G = '/admin-transit/image/icon_station/R1G_busstop.png';
+    var BS_R1P = '/admin-transit/image/icon_station/R1P_busstop.png';
+    var BS_R3L = '/admin-transit/image/icon_station/R3L_busstop.png';
+    var BS_R3R = '/admin-transit/image/icon_station/R3R_busstop.png';
+    var Red_Green = '/admin-transit/image/icon_station/red-green.png';
+    var Purple_Yellow = '/admin-transit/image/icon_station/purple-yellow.png';
+    var Red_Purple = '/admin-transit/image/icon_station/red-purple.png';
+    var Red_Purple_Yellow = '/admin-transit/image/icon_station/red-purple-yellow.png';
 
     //strokeWeight
     var strokeWeight = 4.0;
@@ -294,7 +281,7 @@
         }
 
 
-        $.getJSON("json_station/cm_stations_r1_g.json", function(jsonCM1) {
+        $.getJSON("/admin-transit/json_station/cm_stations_r1_g.json", function(jsonCM1) {
             $.each(jsonCM1, function(i, station1) {
 
                 if(station1.station_id==null) {
@@ -303,14 +290,14 @@
 
                 }
                 if(station1.station_id!=null){
-                    if(station1.station_name=="Hillside plaza 1 (จุดจอดรถ One Nimman)"||
-                        station1.station_name=="วิทยาลัยศรีธนาฯ (ฝั่งตรงข้าม)"||
-                        station1.station_name=="Icon aquare 1 (หน้า KFC Icon aquare)"||
-                        station1.station_name=="ประตูช้างเผือก 1 (หน้าโชว์รูม ฟอร์ด)"||
-                        station1.station_name=="ช้างม่อย (เซ็นทรัลอะไหล่)"||
-                        station1.station_name=="ตลาดวโรรส 1 (ธ.กรุงเทพ)"||
-                        station1.station_name=="กาดสวนแก้ว 2 (เซเว่น 12 ห้วยแก้ว)"||
-                        station1.station_name=="ตลาดต้นลำไย (ตลาดดอกไม้)"){
+                    if(station1.station_name=="Hillside plaza 1 (เธเธธเธ”เธเธญเธ”เธฃเธ– One Nimman)"||
+                        station1.station_name=="เธงเธดเธ—เธขเธฒเธฅเธฑเธขเธจเธฃเธตเธเธเธฒเธฏ (เธเธฑเนเธเธ•เธฃเธเธเนเธฒเธก)"||
+                        station1.station_name=="Icon aquare 1 (เธซเธเนเธฒ KFC Icon aquare)"||
+                        station1.station_name=="เธเธฃเธฐเธ•เธนเธเนเธฒเธเน€เธเธทเธญเธ 1 (เธซเธเนเธฒเนเธเธงเนเธฃเธนเธก เธเธญเธฃเนเธ”)"||
+                        station1.station_name=="เธเนเธฒเธเธกเนเธญเธข (เน€เธเนเธเธ—เธฃเธฑเธฅเธญเธฐเนเธซเธฅเน)"||
+                        station1.station_name=="เธ•เธฅเธฒเธ”เธงเนเธฃเธฃเธช 1 (เธ.เธเธฃเธธเธเน€เธ—เธ)"||
+                        station1.station_name=="เธเธฒเธ”เธชเธงเธเนเธเนเธง 2 (เน€เธเน€เธงเนเธ 12 เธซเนเธงเธขเนเธเนเธง)"||
+                        station1.station_name=="เธ•เธฅเธฒเธ”เธ•เนเธเธฅเธณเนเธข (เธ•เธฅเธฒเธ”เธ”เธญเธเนเธกเน)"){
                         var marker1 = new google.maps.Marker({
                             position: new google.maps.LatLng(station1.station_lat, station1.station_lng),
                             map: map,
@@ -377,7 +364,7 @@
         }
 
 
-        $.getJSON("json_station/cm_stations_r1_p.json", function(jsonCM1) {
+        $.getJSON("/admin-transit/json_station/cm_stations_r1_p.json", function(jsonCM1) {
             $.each(jsonCM1, function(i, station1) {
 
                 if(station1.station_id==null) {
@@ -390,14 +377,14 @@
                     // });
                 }
                 if(station1.station_id!=null){
-                    if(station1.station_name=="Hillside plaza 2 (ธนาคาร UOB)"||
-                        station1.station_name=="วิทยาลัยศรีธนา 1"||
-                        station1.station_name=="กาดสวนแก้ว 1 (จุดจอดรถ)"||
-                        station1.station_name=="โรงพยาบาลเชียงใหม่ราม"||
-                        station1.station_name=="Icon aquare 2 (วัดราชมณเฑียน)"||
-                        station1.station_name=="ประตูช้างเผือก 2 (วัดหม้อคำตวง)"||
-                        station1.station_name=="วัดบุพพาราม"||
-                        station1.station_name=="ถนนท่าแพ"){
+                    if(station1.station_name=="Hillside plaza 2 (เธเธเธฒเธเธฒเธฃ UOB)"||
+                        station1.station_name=="เธงเธดเธ—เธขเธฒเธฅเธฑเธขเธจเธฃเธตเธเธเธฒ 1"||
+                        station1.station_name=="เธเธฒเธ”เธชเธงเธเนเธเนเธง 1 (เธเธธเธ”เธเธญเธ”เธฃเธ–)"||
+                        station1.station_name=="เนเธฃเธเธเธขเธฒเธเธฒเธฅเน€เธเธตเธขเธเนเธซเธกเนเธฃเธฒเธก"||
+                        station1.station_name=="Icon aquare 2 (เธงเธฑเธ”เธฃเธฒเธเธกเธ“เน€เธ‘เธตเธขเธ)"||
+                        station1.station_name=="เธเธฃเธฐเธ•เธนเธเนเธฒเธเน€เธเธทเธญเธ 2 (เธงเธฑเธ”เธซเธกเนเธญเธเธณเธ•เธงเธ)"||
+                        station1.station_name=="เธงเธฑเธ”เธเธธเธเธเธฒเธฃเธฒเธก"||
+                        station1.station_name=="เธ–เธเธเธ—เนเธฒเนเธ"){
                         var marker1 = new google.maps.Marker({
                             position: new google.maps.LatLng(station1.station_lat, station1.station_lng),
                             map: map,
@@ -405,7 +392,7 @@
                             icon: Purple_Yellow
                         });
                     }
-                    else if(station1.station_name=="ถนนศรีภูมิ"){
+                    else if(station1.station_name=="เธ–เธเธเธจเธฃเธตเธ เธนเธกเธด"){
                         var marker1 = new google.maps.Marker({
                             position: new google.maps.LatLng(station1.station_lat, station1.station_lng),
                             map: map,
@@ -413,7 +400,7 @@
                             icon: Red_Purple
                         });
                     }
-                    else if(station1.station_name=="ประตูท่าแพ 1 (cool muang coffee)"){
+                    else if(station1.station_name=="เธเธฃเธฐเธ•เธนเธ—เนเธฒเนเธ 1 (cool muang coffee)"){
                         var marker1 = new google.maps.Marker({
                             position: new google.maps.LatLng(station1.station_lat, station1.station_lng),
                             map: map,
@@ -485,7 +472,7 @@
         }
 
 
-        $.getJSON("json_station/cm_stations_r3_left.json", function(jsonCM1) {
+        $.getJSON("/admin-transit/json_station/cm_stations_r3_left.json", function(jsonCM1) {
             $.each(jsonCM1, function(i, station1) {
 
                 if(station1.station_id==null) {
@@ -494,14 +481,14 @@
 
                 }
                 if(station1.station_id!=null){
-                    if(station1.station_name=="Hillside plaza 2 (ธนาคาร UOB)"||
-                        station1.station_name=="วิทยาลัยศรีธนา 1"||
-                        station1.station_name=="กาดสวนแก้ว 1 (จุดจอดรถ)"||
-                        station1.station_name=="โรงพยาบาลเชียงใหม่ราม"||
-                        station1.station_name=="Icon aquare 2 (วัดราชมณเฑียน)"||
-                        station1.station_name=="ประตูช้างเผือก 2 (วัดหม้อคำตวง)"||
-                        station1.station_name=="วัดบุพพาราม"||
-                        station1.station_name=="ถนนท่าแพ"){
+                    if(station1.station_name=="Hillside plaza 2 (เธเธเธฒเธเธฒเธฃ UOB)"||
+                        station1.station_name=="เธงเธดเธ—เธขเธฒเธฅเธฑเธขเธจเธฃเธตเธเธเธฒ 1"||
+                        station1.station_name=="เธเธฒเธ”เธชเธงเธเนเธเนเธง 1 (เธเธธเธ”เธเธญเธ”เธฃเธ–)"||
+                        station1.station_name=="เนเธฃเธเธเธขเธฒเธเธฒเธฅเน€เธเธตเธขเธเนเธซเธกเนเธฃเธฒเธก"||
+                        station1.station_name=="Icon aquare 2 (เธงเธฑเธ”เธฃเธฒเธเธกเธ“เน€เธ‘เธตเธขเธ)"||
+                        station1.station_name=="เธเธฃเธฐเธ•เธนเธเนเธฒเธเน€เธเธทเธญเธ 2 (เธงเธฑเธ”เธซเธกเนเธญเธเธณเธ•เธงเธ)"||
+                        station1.station_name=="เธงเธฑเธ”เธเธธเธเธเธฒเธฃเธฒเธก"||
+                        station1.station_name=="เธ–เธเธเธ—เนเธฒเนเธ"){
                         var marker1 = new google.maps.Marker({
                             position: new google.maps.LatLng(station1.station_lat, station1.station_lng),
                             map: map,
@@ -509,7 +496,7 @@
                             icon: Purple_Yellow
                         });
                     }
-                    else if(station1.station_name=="ประตูท่าแพ 1 (cool muang coffee)"){
+                    else if(station1.station_name=="เธเธฃเธฐเธ•เธนเธ—เนเธฒเนเธ 1 (cool muang coffee)"){
                         var marker1 = new google.maps.Marker({
                             position: new google.maps.LatLng(station1.station_lat, station1.station_lng),
                             map: map,
@@ -586,7 +573,7 @@
         }
 
 
-        $.getJSON("json_station/cm_stations_r3_right.json", function(jsonCM1) {
+        $.getJSON("/admin-transit/json_station/cm_stations_r3_right.json", function(jsonCM1) {
             $.each(jsonCM1, function(i, station1) {
 
                 if(station1.station_id==null) {
@@ -599,14 +586,14 @@
                     // });
                 }
                 if(station1.station_id!=null){
-                    if(station1.station_name=="Hillside plaza 1 (จุดจอดรถ One Nimman)"||
-                        station1.station_name=="วิทยาลัยศรีธนาฯ (ฝั่งตรงข้าม)"||
-                        station1.station_name=="Icon aquare 1 (หน้า KFC Icon aquare)"||
-                        station1.station_name=="ประตูช้างเผือก 1 (หน้าโชว์รูม ฟอร์ด)"||
-                        station1.station_name=="ช้างม่อย (เซ็นทรัลอะไหล่)"||
-                        station1.station_name=="ตลาดวโรรส 1 (ธ.กรุงเทพ)"||
-                        station1.station_name=="กาดสวนแก้ว 2 (เซเว่น 12 ห้วยแก้ว)"||
-                        station1.station_name=="ตลาดต้นลำไย (ตลาดดอกไม้)"){
+                    if(station1.station_name=="Hillside plaza 1 (เธเธธเธ”เธเธญเธ”เธฃเธ– One Nimman)"||
+                        station1.station_name=="เธงเธดเธ—เธขเธฒเธฅเธฑเธขเธจเธฃเธตเธเธเธฒเธฏ (เธเธฑเนเธเธ•เธฃเธเธเนเธฒเธก)"||
+                        station1.station_name=="Icon aquare 1 (เธซเธเนเธฒ KFC Icon aquare)"||
+                        station1.station_name=="เธเธฃเธฐเธ•เธนเธเนเธฒเธเน€เธเธทเธญเธ 1 (เธซเธเนเธฒเนเธเธงเนเธฃเธนเธก เธเธญเธฃเนเธ”)"||
+                        station1.station_name=="เธเนเธฒเธเธกเนเธญเธข (เน€เธเนเธเธ—เธฃเธฑเธฅเธญเธฐเนเธซเธฅเน)"||
+                        station1.station_name=="เธ•เธฅเธฒเธ”เธงเนเธฃเธฃเธช 1 (เธ.เธเธฃเธธเธเน€เธ—เธ)"||
+                        station1.station_name=="เธเธฒเธ”เธชเธงเธเนเธเนเธง 2 (เน€เธเน€เธงเนเธ 12 เธซเนเธงเธขเนเธเนเธง)"||
+                        station1.station_name=="เธ•เธฅเธฒเธ”เธ•เนเธเธฅเธณเนเธข (เธ•เธฅเธฒเธ”เธ”เธญเธเนเธกเน)"){
                         var marker1 = new google.maps.Marker({
                             position: new google.maps.LatLng(station1.station_lat, station1.station_lng),
                             map: map,
@@ -614,7 +601,7 @@
                             icon: Red_Green
                         });
                     }
-                    else if(station1.station_name=="ถนนศรีภูมิ"){
+                    else if(station1.station_name=="เธ–เธเธเธจเธฃเธตเธ เธนเธกเธด"){
                         var marker1 = new google.maps.Marker({
                             position: new google.maps.LatLng(station1.station_lat, station1.station_lng),
                             map: map,
@@ -622,7 +609,7 @@
                             icon: Red_Purple
                         });
                     }
-                    else if(station1.station_name=="ประตูท่าแพ 1 (cool muang coffee)"){
+                    else if(station1.station_name=="เธเธฃเธฐเธ•เธนเธ—เนเธฒเนเธ 1 (cool muang coffee)"){
                         var marker1 = new google.maps.Marker({
                             position: new google.maps.LatLng(station1.station_lat, station1.station_lng),
                             map: map,
@@ -690,7 +677,7 @@
 
 
 
-        $.getJSON("json_station/cm_stations_r3_left.json", function(jsonCM1) {
+        $.getJSON("/admin-transit/json_station/cm_stations_r3_left.json", function(jsonCM1) {
             $.each(jsonCM1, function(i, station1) {
 
                 if(station1.station_id==null) {
@@ -698,14 +685,14 @@
                     long[count] = station1.lng;
                 }
                 if(station1.station_id!=null){
-                    if(station1.station_name=="Hillside plaza 2 (ธนาคาร UOB)"||
-                        station1.station_name=="วิทยาลัยศรีธนา 1"||
-                        station1.station_name=="กาดสวนแก้ว 1 (จุดจอดรถ)"||
-                        station1.station_name=="โรงพยาบาลเชียงใหม่ราม"||
-                        station1.station_name=="Icon aquare 2 (วัดราชมณเฑียน)"||
-                        station1.station_name=="ประตูช้างเผือก 2 (วัดหม้อคำตวง)"||
-                        station1.station_name=="วัดบุพพาราม"||
-                        station1.station_name=="ถนนท่าแพ"){
+                    if(station1.station_name=="Hillside plaza 2 (เธเธเธฒเธเธฒเธฃ UOB)"||
+                        station1.station_name=="เธงเธดเธ—เธขเธฒเธฅเธฑเธขเธจเธฃเธตเธเธเธฒ 1"||
+                        station1.station_name=="เธเธฒเธ”เธชเธงเธเนเธเนเธง 1 (เธเธธเธ”เธเธญเธ”เธฃเธ–)"||
+                        station1.station_name=="เนเธฃเธเธเธขเธฒเธเธฒเธฅเน€เธเธตเธขเธเนเธซเธกเนเธฃเธฒเธก"||
+                        station1.station_name=="Icon aquare 2 (เธงเธฑเธ”เธฃเธฒเธเธกเธ“เน€เธ‘เธตเธขเธ)"||
+                        station1.station_name=="เธเธฃเธฐเธ•เธนเธเนเธฒเธเน€เธเธทเธญเธ 2 (เธงเธฑเธ”เธซเธกเนเธญเธเธณเธ•เธงเธ)"||
+                        station1.station_name=="เธงเธฑเธ”เธเธธเธเธเธฒเธฃเธฒเธก"||
+                        station1.station_name=="เธ–เธเธเธ—เนเธฒเนเธ"){
                         var marker1 = new google.maps.Marker({
                             position: new google.maps.LatLng(station1.station_lat, station1.station_lng),
                             map: map,
@@ -713,7 +700,7 @@
                             icon: Purple_Yellow
                         });
                     }
-                    else if(station1.station_name=="ประตูท่าแพ 1 (cool muang coffee)"){
+                    else if(station1.station_name=="เธเธฃเธฐเธ•เธนเธ—เนเธฒเนเธ 1 (cool muang coffee)"){
                         var marker1 = new google.maps.Marker({
                             position: new google.maps.LatLng(station1.station_lat, station1.station_lng),
                             map: map,
@@ -766,7 +753,7 @@
 
         });
 
-        $.getJSON("json_station/cm_stations_r3_right.json", function(jsonCM1) {
+        $.getJSON("/admin-transit/json_station/cm_stations_r3_right.json", function(jsonCM1) {
             $.each(jsonCM1, function(i, station1) {
 
                 if(station1.station_id==null) {
@@ -774,14 +761,14 @@
                     long[count] = station1.lng;
                 }
                 if(station1.station_id!=null){
-                    if(station1.station_name=="Hillside plaza 1 (จุดจอดรถ One Nimman)"||
-                        station1.station_name=="วิทยาลัยศรีธนาฯ (ฝั่งตรงข้าม)"||
-                        station1.station_name=="Icon aquare 1 (หน้า KFC Icon aquare)"||
-                        station1.station_name=="ประตูช้างเผือก 1 (หน้าโชว์รูม ฟอร์ด)"||
-                        station1.station_name=="ช้างม่อย (เซ็นทรัลอะไหล่)"||
-                        station1.station_name=="ตลาดวโรรส 1 (ธ.กรุงเทพ)"||
-                        station1.station_name=="กาดสวนแก้ว 2 (เซเว่น 12 ห้วยแก้ว)"||
-                        station1.station_name=="ตลาดต้นลำไย (ตลาดดอกไม้)"){
+                    if(station1.station_name=="Hillside plaza 1 (เธเธธเธ”เธเธญเธ”เธฃเธ– One Nimman)"||
+                        station1.station_name=="เธงเธดเธ—เธขเธฒเธฅเธฑเธขเธจเธฃเธตเธเธเธฒเธฏ (เธเธฑเนเธเธ•เธฃเธเธเนเธฒเธก)"||
+                        station1.station_name=="Icon aquare 1 (เธซเธเนเธฒ KFC Icon aquare)"||
+                        station1.station_name=="เธเธฃเธฐเธ•เธนเธเนเธฒเธเน€เธเธทเธญเธ 1 (เธซเธเนเธฒเนเธเธงเนเธฃเธนเธก เธเธญเธฃเนเธ”)"||
+                        station1.station_name=="เธเนเธฒเธเธกเนเธญเธข (เน€เธเนเธเธ—เธฃเธฑเธฅเธญเธฐเนเธซเธฅเน)"||
+                        station1.station_name=="เธ•เธฅเธฒเธ”เธงเนเธฃเธฃเธช 1 (เธ.เธเธฃเธธเธเน€เธ—เธ)"||
+                        station1.station_name=="เธเธฒเธ”เธชเธงเธเนเธเนเธง 2 (เน€เธเน€เธงเนเธ 12 เธซเนเธงเธขเนเธเนเธง)"||
+                        station1.station_name=="เธ•เธฅเธฒเธ”เธ•เนเธเธฅเธณเนเธข (เธ•เธฅเธฒเธ”เธ”เธญเธเนเธกเน)"){
                         var marker1 = new google.maps.Marker({
                             position: new google.maps.LatLng(station1.station_lat, station1.station_lng),
                             map: map,
@@ -789,7 +776,7 @@
                             icon: Red_Green
                         });
                     }
-                    else if(station1.station_name=="ถนนศรีภูมิ"){
+                    else if(station1.station_name=="เธ–เธเธเธจเธฃเธตเธ เธนเธกเธด"){
                         var marker1 = new google.maps.Marker({
                             position: new google.maps.LatLng(station1.station_lat, station1.station_lng),
                             map: map,
@@ -797,7 +784,7 @@
                             icon: Red_Purple
                         });
                     }
-                    else if(station1.station_name=="ประตูท่าแพ 1 (cool muang coffee)"){
+                    else if(station1.station_name=="เธเธฃเธฐเธ•เธนเธ—เนเธฒเนเธ 1 (cool muang coffee)"){
                         var marker1 = new google.maps.Marker({
                             position: new google.maps.LatLng(station1.station_lat, station1.station_lng),
                             map: map,
@@ -851,7 +838,7 @@
         });
 
 
-        $.getJSON("json_station/cm_stations_r1_g.json", function(jsonCM1) {
+        $.getJSON("/admin-transit/json_station/cm_stations_r1_g.json", function(jsonCM1) {
             $.each(jsonCM1, function(i, station1) {
 
                 if(station1.station_id==null) {
@@ -859,14 +846,14 @@
                     long[count] = station1.lng;
                 }
                 if(station1.station_id!=null){
-                    if(station1.station_name=="Hillside plaza 1 (จุดจอดรถ One Nimman)"||
-                        station1.station_name=="วิทยาลัยศรีธนาฯ (ฝั่งตรงข้าม)"||
-                        station1.station_name=="Icon aquare 1 (หน้า KFC Icon aquare)"||
-                        station1.station_name=="ประตูช้างเผือก 1 (หน้าโชว์รูม ฟอร์ด)"||
-                        station1.station_name=="ช้างม่อย (เซ็นทรัลอะไหล่)"||
-                        station1.station_name=="ตลาดวโรรส 1 (ธ.กรุงเทพ)"||
-                        station1.station_name=="กาดสวนแก้ว 2 (เซเว่น 12 ห้วยแก้ว)"||
-                        station1.station_name=="ตลาดต้นลำไย (ตลาดดอกไม้)"){
+                    if(station1.station_name=="Hillside plaza 1 (เธเธธเธ”เธเธญเธ”เธฃเธ– One Nimman)"||
+                        station1.station_name=="เธงเธดเธ—เธขเธฒเธฅเธฑเธขเธจเธฃเธตเธเธเธฒเธฏ (เธเธฑเนเธเธ•เธฃเธเธเนเธฒเธก)"||
+                        station1.station_name=="Icon aquare 1 (เธซเธเนเธฒ KFC Icon aquare)"||
+                        station1.station_name=="เธเธฃเธฐเธ•เธนเธเนเธฒเธเน€เธเธทเธญเธ 1 (เธซเธเนเธฒเนเธเธงเนเธฃเธนเธก เธเธญเธฃเนเธ”)"||
+                        station1.station_name=="เธเนเธฒเธเธกเนเธญเธข (เน€เธเนเธเธ—เธฃเธฑเธฅเธญเธฐเนเธซเธฅเน)"||
+                        station1.station_name=="เธ•เธฅเธฒเธ”เธงเนเธฃเธฃเธช 1 (เธ.เธเธฃเธธเธเน€เธ—เธ)"||
+                        station1.station_name=="เธเธฒเธ”เธชเธงเธเนเธเนเธง 2 (เน€เธเน€เธงเนเธ 12 เธซเนเธงเธขเนเธเนเธง)"||
+                        station1.station_name=="เธ•เธฅเธฒเธ”เธ•เนเธเธฅเธณเนเธข (เธ•เธฅเธฒเธ”เธ”เธญเธเนเธกเน)"){
                         var marker1 = new google.maps.Marker({
                             position: new google.maps.LatLng(station1.station_lat, station1.station_lng),
                             map: map,
@@ -918,7 +905,7 @@
             myTrip=new Array();
         });
 
-        $.getJSON("json_station/cm_stations_r1_p.json", function(jsonCM1) {
+        $.getJSON("/admin-transit/json_station/cm_stations_r1_p.json", function(jsonCM1) {
             $.each(jsonCM1, function(i, station1) {
 
                 if(station1.station_id==null) {
@@ -926,14 +913,14 @@
                     long[count] = station1.lng;
                 }
                 if(station1.station_id!=null){
-                    if(station1.station_name=="Hillside plaza 2 (ธนาคาร UOB)"||
-                        station1.station_name=="วิทยาลัยศรีธนา 1"||
-                        station1.station_name=="กาดสวนแก้ว 1 (จุดจอดรถ)"||
-                        station1.station_name=="โรงพยาบาลเชียงใหม่ราม"||
-                        station1.station_name=="Icon aquare 2 (วัดราชมณเฑียน)"||
-                        station1.station_name=="ประตูช้างเผือก 2 (วัดหม้อคำตวง)"||
-                        station1.station_name=="วัดบุพพาราม"||
-                        station1.station_name=="ถนนท่าแพ"){
+                    if(station1.station_name=="Hillside plaza 2 (เธเธเธฒเธเธฒเธฃ UOB)"||
+                        station1.station_name=="เธงเธดเธ—เธขเธฒเธฅเธฑเธขเธจเธฃเธตเธเธเธฒ 1"||
+                        station1.station_name=="เธเธฒเธ”เธชเธงเธเนเธเนเธง 1 (เธเธธเธ”เธเธญเธ”เธฃเธ–)"||
+                        station1.station_name=="เนเธฃเธเธเธขเธฒเธเธฒเธฅเน€เธเธตเธขเธเนเธซเธกเนเธฃเธฒเธก"||
+                        station1.station_name=="Icon aquare 2 (เธงเธฑเธ”เธฃเธฒเธเธกเธ“เน€เธ‘เธตเธขเธ)"||
+                        station1.station_name=="เธเธฃเธฐเธ•เธนเธเนเธฒเธเน€เธเธทเธญเธ 2 (เธงเธฑเธ”เธซเธกเนเธญเธเธณเธ•เธงเธ)"||
+                        station1.station_name=="เธงเธฑเธ”เธเธธเธเธเธฒเธฃเธฒเธก"||
+                        station1.station_name=="เธ–เธเธเธ—เนเธฒเนเธ"){
                         var marker1 = new google.maps.Marker({
                             position: new google.maps.LatLng(station1.station_lat, station1.station_lng),
                             map: map,
@@ -941,7 +928,7 @@
                             icon: Purple_Yellow
                         });
                     }
-                    else if(station1.station_name=="ถนนศรีภูมิ"){
+                    else if(station1.station_name=="เธ–เธเธเธจเธฃเธตเธ เธนเธกเธด"){
                         var marker1 = new google.maps.Marker({
                             position: new google.maps.LatLng(station1.station_lat, station1.station_lng),
                             map: map,
@@ -949,7 +936,7 @@
                             icon: Red_Purple
                         });
                     }
-                    else if(station1.station_name=="ประตูท่าแพ 1 (cool muang coffee)"){
+                    else if(station1.station_name=="เธเธฃเธฐเธ•เธนเธ—เนเธฒเนเธ 1 (cool muang coffee)"){
                         var marker1 = new google.maps.Marker({
                             position: new google.maps.LatLng(station1.station_lat, station1.station_lng),
                             map: map,
@@ -1036,53 +1023,53 @@
         }
 
         if(carB1.CM_Engine == 1){
-            carB1.CM_Engine = 'ปกติ';
+            carB1.CM_Engine = 'เธเธเธ•เธด';
         }
         else{
-            carB1.CM_Engine = 'ดับเครื่องยนต์';
+            carB1.CM_Engine = 'เธ”เธฑเธเน€เธเธฃเธทเนเธญเธเธขเธเธ•เน';
         }
 
         if(carB1.CM_Battery == 1){
-            carB1.CM_Battery = 'ปกติ';
+            carB1.CM_Battery = 'เธเธเธ•เธด';
         }
         else{
-            carB1.CM_Battery = 'ไม่ปกติ';
+            carB1.CM_Battery = 'เนเธกเนเธเธเธ•เธด';
         }
 
         if(carB1.SignalFall == 0){
-            carB1.SignalFall = 'สัญญาณปกติ ข้อมูลถูกต้อง';
+            carB1.SignalFall = 'เธชเธฑเธเธเธฒเธ“เธเธเธ•เธด เธเนเธญเธกเธนเธฅเธ–เธนเธเธ•เนเธญเธ';
         }
         else if(carB1.SignalFall == 1){
-            carB1.SignalFall = 'สัญญาณขาดหาย';
+            carB1.SignalFall = 'เธชเธฑเธเธเธฒเธ“เธเธฒเธ”เธซเธฒเธข';
         }
 
         else if(carB1.SignalFall == 2){
-            carB1.SignalFall = 'ตำแหน่งคลาดเคลื่อน';
+            carB1.SignalFall = 'เธ•เธณเนเธซเธเนเธเธเธฅเธฒเธ”เน€เธเธฅเธทเนเธญเธ';
         }
         else if(carB1.SignalFall == 3){
-            carB1.SignalFall = 'เฝ้าระวัง';
+            carB1.SignalFall = 'เน€เธเนเธฒเธฃเธฐเธงเธฑเธ';
         }
         else if(carB1.SignalFall == 'F'){
-            carB1.SignalFall = 'สัญญาณขาดหายเกิน 12 ชั่วโมง';
+            carB1.SignalFall = 'เธชเธฑเธเธเธฒเธ“เธเธฒเธ”เธซเธฒเธขเน€เธเธดเธ 12 เธเธฑเนเธงเนเธกเธ';
         }
 
         info.setContent('' +
             '<div id="content">' +
             '<h2 style="color: blue">' + carB1.Registerid + '</h2>' +
             '</div> <hr> ' +
-            'สาย: '+ carB1.Detail + '<br>'+
-            'ข้อมูลล่าสุด:' + carB1.Date +':' + carB1.Time +'<br>' +
-            'ข้อมูลผู้ขับ: '+ carB1.DriverName + ' สถานะ: '+ carB1.StatusLogInOut + '<br> <hr>'+
-            'เครื่องยนต์: '+ carB1.CM_Engine + '<br>'+
-            'แบตเตอร์รี่: '+ carB1.CM_Battery + '<br>'+
-            'น้ำมัน: '+ carB1.Fuel + '<br>'+
-            'อุณหภูมิ: '+ '' + '<br>'+
-            'เซ็นเซอร์ฝุ่นละออง: '+ carB1.SensorPM + '<br> <hr>'+
+            'เธชเธฒเธข: '+ carB1.Detail + '<br>'+
+            'เธเนเธญเธกเธนเธฅเธฅเนเธฒเธชเธธเธ”:' + carB1.Date +':' + carB1.Time +'<br>' +
+            'เธเนเธญเธกเธนเธฅเธเธนเนเธเธฑเธ: '+ carB1.DriverName + ' เธชเธ–เธฒเธเธฐ: '+ carB1.StatusLogInOut + '<br> <hr>'+
+            'เน€เธเธฃเธทเนเธญเธเธขเธเธ•เน: '+ carB1.CM_Engine + '<br>'+
+            'เนเธเธ•เน€เธ•เธญเธฃเนเธฃเธตเน: '+ carB1.CM_Battery + '<br>'+
+            'เธเนเธณเธกเธฑเธ: '+ carB1.Fuel + '<br>'+
+            'เธญเธธเธ“เธซเธ เธนเธกเธด: '+ '' + '<br>'+
+            'เน€เธเนเธเน€เธเธญเธฃเนเธเธธเนเธเธฅเธฐเธญเธญเธ: '+ carB1.SensorPM + '<br> <hr>'+
             'GSM: '+ '' + '<br>'+
             'GPS: '+ '' + '<br>'+
-            'สถานะ: '+ carB1.SignalFall + '<br> <hr>'+
-            'ตำแหน่ง: '+ '' + '<br>'+
-            'พิกัด: ('+ carB1.LaGoogle +','+ carB1.LongGoogle +')<br> <hr>'+ carB1.Type);
+            'เธชเธ–เธฒเธเธฐ: '+ carB1.SignalFall + '<br> <hr>'+
+            'เธ•เธณเนเธซเธเนเธ: '+ '' + '<br>'+
+            'เธเธดเธเธฑเธ”: ('+ carB1.LaGoogle +','+ carB1.LongGoogle +')<br> <hr>'+ carB1.Type);
     };
 
     function setMapOnAll(map) {
@@ -1132,8 +1119,8 @@
     }
 
     function getCarlocation(type) {
-console.log(car);
-        $.getJSON("CM_CAR/API", function(jsonBus1) {
+        console.log(car);
+        $.getJSON("/admin-transit/CM_CAR/API", function(jsonBus1) {
             clearMarkCar();
             carMark = [];
             $.each(jsonBus1, function(i, carB1) {
@@ -1148,16 +1135,16 @@ console.log(car);
                 }
                 if(carB1.Type == "bus") {
 
-                    if(carB1.Color=="เขียว"){
+                    if(carB1.Color=="เน€เธเธตเธขเธง"){
                         var color = "#055500";
                     }
-                    if(carB1.Color=="เหลือง"){
+                    if(carB1.Color=="เน€เธซเธฅเธทเธญเธ"){
                         var color = '#ffff07';
                     }
-                    if(carB1.Color=="แดง"){
+                    if(carB1.Color=="เนเธ”เธ"){
                         var color = '#fe0404';
                     }
-                    if(carB1.Color=="น้ำเงิน"){
+                    if(carB1.Color=="เธเนเธณเน€เธเธดเธ"){
                         var color = "#515aee";
                     }
                 }
@@ -1200,16 +1187,16 @@ console.log(car);
                     }
                     if(carB1.Type == "bus") {
 
-                        if(carB1.Color=="เขียว"){
+                        if(carB1.Color=="เน€เธเธตเธขเธง"){
                             var color = "#055500";
                         }
-                        if(carB1.Color=="เหลือง"){
+                        if(carB1.Color=="เน€เธซเธฅเธทเธญเธ"){
                             var color = '#ffff07';
                         }
-                        if(carB1.Color=="แดง"){
+                        if(carB1.Color=="เนเธ”เธ"){
                             var color = '#fe0404';
                         }
-                        if(carB1.Color=="น้ำเงิน"){
+                        if(carB1.Color=="เธเนเธณเน€เธเธดเธ"){
                             var color = "#515aee";
                         }
                     }
@@ -1220,30 +1207,30 @@ console.log(car);
                     //if(array[0]=="R3") {
                     if(carB1.Type=="bus") {
                         if(carB1.Color==car){
-                        var markBusB1 = new google.maps.Marker({
-                            position: new google.maps.LatLng(carB1.LaGoogle, carB1.LongGoogle),
-                            map: map,
-                            title: carB1.Registerid,
-                            icon: {
-                                path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
-                                scale: 5,
-                                strokeColor: 'white',
-                                strokeWeight: .01,
-                                fillOpacity: 1,
-                                fillColor: color,
-                                // offset: '5%',
-                                rotation: parseFloat(carB1.Direction)
-                            }
-                        });
+                            var markBusB1 = new google.maps.Marker({
+                                position: new google.maps.LatLng(carB1.LaGoogle, carB1.LongGoogle),
+                                map: map,
+                                title: carB1.Registerid,
+                                icon: {
+                                    path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
+                                    scale: 5,
+                                    strokeColor: 'white',
+                                    strokeWeight: .01,
+                                    fillOpacity: 1,
+                                    fillColor: color,
+                                    // offset: '5%',
+                                    rotation: parseFloat(carB1.Direction)
+                                }
+                            });
 
-                        carMark.push(markBusB1);
-                        info = new google.maps.InfoWindow();
-                        google.maps.event.addListener(markBusB1, 'click', (function (markBusB1, i) {
-                            return function () {
-                                getInfo(carB1);
-                                info.open(map, markBusB1);
-                            }
-                        })(markBusB1, i));
+                            carMark.push(markBusB1);
+                            info = new google.maps.InfoWindow();
+                            google.maps.event.addListener(markBusB1, 'click', (function (markBusB1, i) {
+                                return function () {
+                                    getInfo(carB1);
+                                    info.open(map, markBusB1);
+                                }
+                            })(markBusB1, i));
                         }
                         if(car=="all"){
                             var markBusB1 = new google.maps.Marker({
@@ -1281,6 +1268,17 @@ console.log(car);
     }
 
 </script>
+<!-- jQuery -->
+<script src="../vendor/jquery/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="../vendor/bootstrap/js/bootstrap.min.js"></script>
+
+<!-- Metis Menu Plugin JavaScript -->
+<script src="../vendor/metisMenu/metisMenu.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="../dist/js/sb-admin-2.js"></script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCCeIm4Qr_eDTBDnE55Q1DJbZ4qXZLYjss&callback=initMap"
         async defer>
 </script>

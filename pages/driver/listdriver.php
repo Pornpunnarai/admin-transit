@@ -43,7 +43,7 @@
     <div id="wrapper">
 
         <!-- Navigation -->
-        <?php include '../navbar.html'?>
+        <?php include '../navbar.php' ?>
         <div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">

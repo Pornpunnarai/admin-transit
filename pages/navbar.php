@@ -77,7 +77,6 @@
 </head>
 
 <body>
-
 <div id="wrapper">
 
     <!-- Navigation -->
@@ -107,12 +106,18 @@
                     <!--</li>-->
                     <li><a href="/admin-transit/pages/driver-transit.php"><i class="fa fa-user-times"></i> Driver Transit</a>
                     <li class="divider"></li>
-                    <li><a href="/admin-transit/pages/login.html"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                    <li><a href="login.html"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
                     </li>
                 </ul>
             </li>
         </ul>
 
+        <?php
+        $url = 'http://www.cmtransit.com/API/route_name'; // path to your JSON file
+        $data = file_get_contents($url); // put the contents of the file into a variable
+        $characters = json_decode($data); // decode the JSON feed
+
+        ?>
         <!-- /.navbar-top-links -->
         <div class="navbar-default sidebar" role="navigation">
             <div class="sidebar-nav navbar-collapse">
@@ -124,32 +129,19 @@
                                 <a href="#">รถเทศบาลเชียงใหม่<span class="fa arrow"></span></a>
                                 <ul class="nav nav-third-level">
                                     <li>
-                                        <a href="#">เทศบาลเชียงใหม่-ทุกสาย</a>
+                                        <a id="B-ALL" href="#">เทศบาลเชียงใหม่-ทุกสาย</a>
                                     </li>
+                                    <?php
+                                    foreach ($characters as $character) {
+                                        if($character->type_car=="minibus"){
+                                    ?>
                                     <li>
-                                        <a href="#">B1-Go</a>
+                                        <a id="<?=$character->route_code?>" onclick="route('<?=$character->route_code?>')" href="#"><?=$character->name_th?></a>
                                     </li>
-                                    <li>
-                                        <a href="#">B1-Back</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">B2-Go</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">B2-Back</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">B3-Go</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">B3-Back</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">B4-Go</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">B4-Back</a>
-                                    </li>
+                                    <?php
+                                        }
+                                    }
+                                    ?>
                                 </ul>
                                 <!-- /.nav-third-level -->
                             </li>
@@ -157,33 +149,36 @@
                                 <a href="#">RTC<span class="fa arrow"></span></a>
                                 <ul class="nav nav-third-level">
                                     <li>
-                                        <a id="stationALL" href="#">RTC-ทุกสาย</a>
+                                        <a id="RTC-ALL" href="#">RTC-ทุกสาย</a>
                                     </li>
-                                    <li>
-                                        <a id="stationR1G" href="#">R1G-Zoo-Cen</a>
-                                    </li>
-                                    <li>
-                                        <a id="stationR1P" href="#">R1P-Cen-Zoo</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">R2R</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">R2L</a>
-                                    </li>
-                                    <li>
-                                        <a id="stationR3Y" href="#">R3Y</a>
-                                    </li>
-                                    <li>
-                                        <a id="stationR3R" href="#">R3R</a>
-                                    </li>
+                                    <?php
+                                    foreach ($characters as $character) {
+                                        if($character->type_car=="bus"){
+                                            ?>
+                                            <li>
+                                                <a id="<?=$character->route_code?>" onclick="route('<?=$character->route_code?>')" href="#"><?=$character->name_th?></a>
+                                            </li>
+                                            <?php
+                                        }
+                                    }
+                                    ?>
 
                                 </ul>
                                 <!-- /.nav-third-level -->
                             </li>
 
                             <li>
-                                <a href="#">รถตู้ขวัญเวียง</a>
+                                <?php
+                                foreach ($characters as $character) {
+                                if($character->type_car=="van"){
+                                ?>
+                            <li>
+                                <a id="<?=$character->route_code?>" onclick="route('<?=$character->route_code?>')" href="#"><?=$character->name_th?></a>
+                            </li>
+                            <?php
+                            }
+                            }
+                            ?>
                             </li>
                             <li>
                                 <a href="#">ทุกเส้นทาง</a>
@@ -195,12 +190,12 @@
                         <!-- /.nav-second-level -->
                     </li>
                     <li>
-                        <a><i class="fa fa-map-signs fa-fw"></i>
+                        <a href=""><i class="fa fa-map-signs fa-fw"></i>
                             <span class="nav-link-text">Bus Stop</span>
                         </a>
                     </li>
                     <li>
-                        <a><i class="fa fa-times-circle-o fa-fw"></i>
+                        <a href=""><i class="fa fa-times-circle-o fa-fw"></i>
                             <span class="nav-link-text">Route & Timetable</span>
                         </a>
                     </li>
@@ -216,7 +211,7 @@
                                 <a href="/admin-transit/pages/driver/listdriver.php"><i class="fa fa-table fa-fw"></i> ข้อมูลคนขับรถ</a>
                             </li>
                             <li>
-                                <a><i class="fa fa-files-o fa-fw"></i>คะแนนคนขับรถ</a>
+                                <a href="#"><i class="fa fa-files-o fa-fw"></i>คะแนนคนขับรถ</a>
                             </li>
                         </ul>
                         <!-- /.nav-second-level -->
