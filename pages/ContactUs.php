@@ -20,6 +20,9 @@
     <!-- Custom CSS -->
     <link href="../dist/css/sb-admin-2.css" rel="stylesheet">
 
+    <!-- Morris Charts CSS -->
+    <link href="../vendor/morrisjs/morris.css" rel="stylesheet">
+
     <!-- Custom Fonts -->
     <link href="../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
@@ -30,25 +33,41 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 
+
 </head>
 
 <body>
 
     <div id="wrapper">
 
-    <?php include 'navbar.php' ?>
-        <!-- Page Content -->
+        <?php include 'navbar.php' ?>
+
         <div id="page-wrapper">
+
+            <!-- Page Content -->
             <div class="container-fluid">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <h1 class="page-header">Blank</h1>
-                    </div>
-                    <!-- /.col-lg-12 -->
+                <ol class="breadcrumb" style="margin-top: 1rem;">
+                    <li class="breadcrumb-item active">Contact Us</li>
+                </ol>
+
+                <div class="col-md-12" style="background-color: white">
+                    <h4>
+                        งานเดินรถฯ เทศบาลนครเชียงใหม่ <b> โทร. 053-261-011 </b>
+                    </h4>
+
+                    <h4>
+                        บริษัท Regional Transits Corporation จำกัด <b> โทร. 052-060-001 </b>
+                    </h4>
+
+                    <h4>
+                        บริษัท ขวัญเวียงขนส่ง จำกัด (ปอ.10) <b> โทร. 084-665-5314 </b>
+                    </h4>
+
+
                 </div>
-                <!-- /.row -->
             </div>
-            <!-- /.container-fluid -->
+
+
         </div>
         <!-- /#page-wrapper -->
 
@@ -64,8 +83,31 @@
     <!-- Metis Menu Plugin JavaScript -->
     <script src="../vendor/metisMenu/metisMenu.min.js"></script>
 
+    <!-- Morris Charts JavaScript -->
+    <script src="../vendor/raphael/raphael.min.js"></script>
+    <script src="../vendor/morrisjs/morris.min.js"></script>
+    <script src="../data/morris-data.js"></script>
+
     <!-- Custom Theme JavaScript -->
     <script src="../dist/js/sb-admin-2.js"></script>
+
+
+
+
+    <!-- jQuery -->
+    <script src="../vendor/jquery/jquery.min.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="../vendor/bootstrap/js/bootstrap.min.js"></script>
+
+    <!-- Metis Menu Plugin JavaScript -->
+    <script src="../vendor/metisMenu/metisMenu.min.js"></script>
+
+    <!-- Custom Theme JavaScript -->
+    <script src="../dist/js/sb-admin-2.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCCeIm4Qr_eDTBDnE55Q1DJbZ4qXZLYjss&callback=initMap"
+            async defer>
+    </script>
 
 </body>
 

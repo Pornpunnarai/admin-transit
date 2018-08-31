@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Bootstrap Admin Theme</title>
+    <title>CM - Transit</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="../../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -46,9 +46,9 @@
         <?php include '../navbar.php' ?>
         <div id="page-wrapper">
             <div class="row">
-                <div class="col-lg-12">
-                    <h1 class="page-header">ข้อมูลคนขับรถ</h1>
-                </div>
+                <ol class="breadcrumb" style="margin-top: 1rem;">
+                    <li class="breadcrumb-item active">ข้อมูลขนคับรถ</li>
+                </ol>
                 <!-- /.col-lg-12 -->
             </div>
             <!-- /.row -->

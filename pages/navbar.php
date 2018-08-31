@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Bootstrap Admin Theme</title>
+    <title>CM - Transit</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="/admin-transit/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -95,21 +95,21 @@
         <ul class="nav navbar-top-links navbar-right">
 
             <!-- /.dropdown -->
-            <li class="dropdown">
-                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                    <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
-                </a>
-                <ul class="dropdown-menu dropdown-user">
-                    <!--<li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>-->
-                    <!--</li>-->
-                    <!--<li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>-->
-                    <!--</li>-->
-                    <li><a href="/admin-transit/pages/driver-transit.php"><i class="fa fa-user-times"></i> Driver Transit</a>
-                    <li class="divider"></li>
-                    <li><a href="login.html"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
-                    </li>
-                </ul>
-            </li>
+            <!--            <li class="dropdown">-->
+            <!--                <a class="dropdown-toggle" data-toggle="dropdown" href="#">-->
+            <!--                    <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>-->
+            <!--                </a>-->
+            <!--                <ul class="dropdown-menu dropdown-user">-->
+            <!--                    <!--<li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>-->
+            <!--                    <!--</li>-->
+            <!--                    <!--<li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>-->
+            <!--                    <!--</li>-->
+            <!--                    <li><a href="/admin-transit/pages/driver-transit.php"><i class="fa fa-user-times"></i> Driver Transit</a>-->
+            <!--                    <li class="divider"></li>-->
+            <!--                    <li><a href="login.html"><i class="fa fa-sign-out fa-fw"></i> Logout</a>-->
+            <!--                    </li>-->
+            <!--                </ul>-->
+            <!--            </li>-->
         </ul>
 
         <?php
@@ -134,11 +134,11 @@
                                     <?php
                                     foreach ($characters as $character) {
                                         if($character->type_car=="minibus"){
-                                    ?>
-                                    <li>
-                                        <a id="<?=$character->route_code?>" onclick="route('<?=$character->route_code?>')" href="#"><?=$character->name_th?></a>
-                                    </li>
-                                    <?php
+                                            ?>
+                                            <li>
+                                                <a id="<?=$character->route_code?>" onclick="route('<?=$character->route_code?>')" href="#"><?=$character->name_th?></a>
+                                            </li>
+                                            <?php
                                         }
                                     }
                                     ?>
@@ -195,27 +195,47 @@
                         </a>
                     </li>
                     <li>
-                        <a href=""><i class="fa fa-times-circle-o fa-fw"></i>
+                        <a href="/admin-transit/pages/route.php"><i class="fa fa-times-circle-o fa-fw"></i>
                             <span class="nav-link-text">Route & Timetable</span>
                         </a>
                     </li>
+
                     <li>
                         <a href="#driver-selected"><i class="fa fa-user fa-fw"></i>
                             <span class="nav-link-text">Driver</span><span class="fa arrow"></span>
                         </a>
                         <ul class="nav nav-second-level">
+                            <!--                            <li>-->
+                            <!--                                <a href="/admin-transit/pages/driver/register.php"><i class="fa fa-dashboard fa-fw"></i> ลงทะเบียน</a>-->
+                            <!--                            </li>-->
                             <li>
-                                <a href="/admin-transit/pages/driver/register.php"><i class="fa fa-dashboard fa-fw"></i> ลงทะเบียน</a>
+                                <a href="/admin-transit/pages/driver-car.php"><i class="fa fa-user fa-fw"></i> คนขับรถ-รถ</a>
                             </li>
                             <li>
-                                <a href="/admin-transit/pages/driver/listdriver.php"><i class="fa fa-table fa-fw"></i> ข้อมูลคนขับรถ</a>
+                                <a href="/admin-transit/pages/driver/listdriver.php"><i class="fa fa-user-plus fa-fw"></i> ข้อมูลคนขับรถ</a>
                             </li>
                             <li>
-                                <a href="#"><i class="fa fa-files-o fa-fw"></i>คะแนนคนขับรถ</a>
+                                <a href="/admin-transit/CM_CAR/API/report.php"><i class="fa fa-table fa-fw"></i> รายงานคนขับรถ</a>
                             </li>
+                            <!--                            <li>-->
+                            <!--                                <a href="#"><i class="fa fa-files-o fa-fw"></i>คะแนนคนขับรถ</a>-->
+                            <!--                            </li>-->
                         </ul>
                         <!-- /.nav-second-level -->
                     </li>
+
+<!--                    <li>-->
+<!--                        <a href="/admin-transit/pages/route.php"><i class="fa fa-times-circle-o fa-fw"></i>-->
+<!--                            <span class="nav-link-text">Route & Timetable</span>-->
+<!--                        </a>-->
+<!--                    </li>-->
+
+                    <li>
+                        <a href="/admin-transit/pages/ContactUs.php"><i class="fa fa-volume-control-phone fa-fw"></i>
+                            <span class="nav-link-text">Contact us</span>
+                        </a>
+                    </li>
+
                 </ul>
             </div>
             <!-- /.sidebar-collapse -->
