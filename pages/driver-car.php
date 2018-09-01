@@ -37,7 +37,7 @@
 </head>
 
 <body>
-
+<canvas id="canvas" width="36" height="36" style="display: none;"></canvas>
     <div id="wrapper">
 
         <?php include 'navbar.php' ?>
@@ -55,51 +55,13 @@
                         <div class="row">
                             <h4>ข้อมูลคนขับรถ</h4>
 
-<!--                            --><?php
-//                            $url = 'http://183.90.168.61/cmcar/';
-//                            $content = file_get_contents($url);
-//                            $json = json_decode($content, true);
-//                            $no = 1;
-//                            foreach($json as $i)
-//                            {
-//                                ?>
 
                             <div class="col-lg-2">
                                 <img src="/admin-transit/image/avatar.png" width="100%">
                             </div>
-                            <div class="col-lg-10">
-<!--                                <h4>Name : --><?//=$i['DriverName']?><!--</h4>-->
-<!--                                <h4>ID Card : --><?//=$i['DriverIDCard']?><!--</h4>-->
-<!--                                --><?php
-//                                if($i['StatusLogInOut']=="I"){
-//                                    $status = '<button class="btn btn-success btn-circle"></button>';
-//                                }
-//                                else{
-//                                    $status = '<button class="btn btn-danger btn-circle"></button>';
-//                                }
-//                                ?>
-<!--                                <h4>Status Login/Logout :--><?//=$status?><!--</h4>-->
-<!--                                <h4>Car Id : --><?//=$i['Registerid']?><!--</h4>-->
-<!--                                <h4>Type : --><?//=$i['Type']?><!--</h4>-->
-<!--                                <h4>Fast : --><?//=$i['Fast']?><!--</h4>-->
-<!--                                <h4>Latitude : --><?//=$i['LaGoogle']?><!--</h4>-->
-<!--                                <h4>Longitude : --><?//=$i['LongGoogle']?><!--</h4>-->
-
-
-                                <h4>Name : MR WITUN SIRIMONGKON</h4>
-                                <h4>ID Card : 4170600002511</h4>
-                                <h4>Status Login/Logout :<button class="btn btn-success btn-circle"></button></h4>
-                                <h4>Car Id : 10-6737</h4>
-                                <h4>Type : minibus</h4>
-                                <h4>Fast : 0 </h4>
-                                <h4>Latitude : 18.8003</h4>
-                                <h4>Longitude : 099.01730</h4>
-
+                            <div id="driver" class="col-lg-10">
                             </div>
-<!--                                --><?php
-//                                $no++;
-//                            }
-//                            ?>
+
 
                         </div>
                         <br>
@@ -114,48 +76,102 @@
                         <div class="col-lg-12" style="background-color: #ccc">
                             <h4 class="text-center">ข้อมูลรถ</h4>
 
-                                <table class="table table-bordered" style="text-align: center">
-                                    <thead>
-                                    <tr>
-                                        <th class="text-center">Car ID</th>
-                                        <th class="text-center">Type</th>
-                                        <th class="text-center">Status</th>
-                                        <th class="text-center">Infomation</th>
-                                    </tr>
-                                    </thead>
 
-                                    <?php
-                                    $url = 'http://183.90.168.61/cmcar/';
-                                    $content = file_get_contents($url);
-                                    $json = json_decode($content, true);
-                                    $no = 1;
-                                    foreach($json as $i)
-                                    {
-                                    ?>
 
-                                    <tbody>
-                                    <tr>
-                                        <td><?=$i['Registerid']?></td>
-                                        <td><?=$i['Detail']?></td>
-                                        <?php
-                                        if($i['StatusLogInOut']=="I"){
-                                            $status = '<button class="btn btn-success btn-circle"></button>';
-                                        }
-                                        else{
-                                            $status = '<button class="btn btn-danger btn-circle"></button>';
-                                        }
-                                        ?>
-                                        <td><?=$status?></td>
-                                        <td><button class="btn btn-primary">Info</button></td>
-                                    </tr>
-                                    </tbody>
 
-                                        <?php
-                                        $no++;
-                                    }
-                                    ?>
+                                <table id="createTable" class="table table-bordered" style="text-align: center">
+<!--                                    <thead>-->
+<!--                                    <tr>-->
+<!--                                        <th class="text-center">Car ID</th>-->
+<!--                                        <th class="text-center">Type</th>-->
+<!--                                        <th class="text-center">Status</th>-->
+<!--                                        <th class="text-center">Infomation</th>-->
+<!--                                        <th class="text-center">Lat</th>-->
+<!--                                    </tr>-->
+<!--                                    </thead>-->
+
 
                                 </table>
+
+                            <script>
+
+
+
+                                createTable();
+                                // setInterval(function(){createTable();}, 5000);
+
+
+
+
+
+
+                                function createTable() {
+
+                                    var Parent = document.getElementById("createTable");
+                                    while(Parent.hasChildNodes())
+                                    {
+                                        Parent.removeChild(Parent.firstChild);
+                                    }
+
+
+                                    var json_route = (function () {
+                                        var json_route = null;
+                                        $.ajax({
+                                            'async': false,
+                                            'global': false,
+                                            'url': "/admin-transit/CM_CAR/API",
+                                            'dataType': "json",
+                                            'success': function (data) {
+                                                json_route = data;
+                                            }
+                                        });
+                                        return json_route;
+                                    })();
+
+
+                                    var table = document.getElementById("createTable");
+                                    var header = table.createTHead();
+                                    var row = header.insertRow(0);
+                                    var cell1 = row.insertCell(0);
+                                    var cell2 = row.insertCell(1);
+                                    var cell3 = row.insertCell(2);
+                                    var cell4 = row.insertCell(3);
+
+
+                                    cell1.innerHTML = "<b>Car ID</b>";
+                                    cell2.innerHTML = "<b>Type</b>";
+                                    cell3.innerHTML = "<b>Status</b>";
+                                    cell4.innerHTML = "<b>Infomation</b>";
+
+
+
+                                    for(var i = 0;i<=json_route.length-1;i++){
+                                    if(json_route[i].Type=="bus"||json_route[i].Type=="minibus"||json_route[i].Type=="kwvan"){
+                                        var row = table.insertRow(1);
+                                        var cell1 = row.insertCell(0);
+                                        var cell2 = row.insertCell(1);
+                                        var cell3 = row.insertCell(2);
+                                        var cell4 = row.insertCell(3);
+                                        // var cell5 = row.insertCell(4);
+                                        cell1.innerHTML = json_route[i].Registerid;
+                                        cell2.innerHTML = json_route[i].Detail;
+                                        var status = "";
+                                        if(json_route[i].StatusLogInOut=="I"){
+                                             status = "<button class=\"btn btn-success btn-circle\"></button>";
+                                        }else{
+                                             status = "<button class=\"btn btn-danger btn-circle\"></button>";
+                                        }
+
+
+                                        cell3.innerHTML = status;
+                                        cell4.innerHTML = "<button class=\"btn btn-primary\" onclick=\"driver('" +
+                                            json_route[i].Registerid +
+                                            "')\">Info</button>";
+                                        // cell5.innerHTML = json_route[i].IDCar;
+                                    }
+                                    }
+                                }
+                            </script>
 
                         </div>
 
@@ -229,438 +245,15 @@
                 center: location
             });
 
-            $.getJSON("/admin-transit/CM_CAR/API", function(jsonBus1) {
-                $.each(jsonBus1, function(i, carB1) {
 
-                    if(carB1.Type == "minibus") {
-                        var color = "#0d0c55";
-                    }
-                    if(carB1.Type == "redcar") {
-                        var color = "#bb110a";
-                    }
-                    if(carB1.Type == "tuktuk") {
-                        var color = "#055500";
-                    }
-                    if(carB1.Type == "bus") {
-                        if(carB1.Color=="เขียว"){
-                            var color = "#055500";
-                        }
-                        if(carB1.Color=="เหลือง"){
-                            var color = '#ffff07';
-                        }
-                        if(carB1.Color=="แดง"){
-                            var color = '#fe0404';
-                        }
-                        if(carB1.Color=="น้ำเงิน"){
-                            var color = "#515aee";
-                        }
-                    }
-
-                    //var car_detail =carB1.Detail;
-                    //var array = car_detail.split(',');
-                    //if(array[0]=="R3"){
-                    if(carB1.Type == "bus"||carB1.Type=="minibus"||carB1.Type=="kwvan"){
-                        var markBusB1 = new google.maps.Marker({
-                            position: new google.maps.LatLng(carB1.LaGoogle, carB1.LongGoogle),
-                            map: map,
-                            title: carB1.Registerid,
-                            icon: {
-                               // path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
-		path: car_symbol,
-                                //scale: 5,
-		scale: .7,
-                                strokeColor: 'white',
-                                strokeWeight: .01,
-                                fillOpacity: 1,
-                                fillColor: color,
-                                // offset: '5%',
-                                rotation: parseFloat(carB1.Direction)
-
-                                // anchor: new google.maps.Point(10, 25)
-                            }
-                        });
-
-
-                        carMark.push(markBusB1);
-                        info = new google.maps.InfoWindow();
-
-                        google.maps.event.addListener(markBusB1, 'click', (function(markBusB1, i) {
-                            return function() {
-                                getInfo(carB1);
-                                info.open(map, markBusB1);
-                            }
-                        })(markBusB1, i));
-                    }
-
-                });
-            });
-
-
-            addAll_Path();
-
+            var Interval;
+            var IntervalBegin = setInterval(function () {
+                getCarlocation();
+            }, 2000);
 
 
         }
 
-        var json = (function () {
-            var json = null;
-            $.ajax({
-                'async': false,
-                'global': false,
-                'url': "/admin-transit/API/JSON/station/",
-                'dataType': "json",
-                'success': function (data) {
-                    json = data;
-                }
-            });
-            return json;
-        })();
-
-        var json_route = (function () {
-            var json_route = null;
-            $.ajax({
-                'async': false,
-                'global': false,
-                'url': "/admin-transit/API/JSON/route_name/",
-                'dataType': "json",
-                'success': function (data) {
-                    json_route = data;
-                }
-            });
-            return json_route;
-        })();
-        function check_obj(station_name) {
-            var array = [];
-            var type;
-
-            for (var i = 0; i <= json.length-1; i++) {
-
-                if(json[i].station_name == station_name){
-
-                    array.push(json[i].type);
-                }
-            }
-            type = array.join("-");
-            return type;
-        }
-
-      function route(route){
-                removeLine();
-                clearMarkers();
-                markers = [];
-                addR1_Back(route);
-          setMapOnCar(null);
-          car = route;
-          getCarlocation();
-        }
-
-        function addR1_Back(route) {
-
-            var myTrip=new Array();
-            var lat = new Array();
-            var long = new Array();
-            var check = null;
-            var count = 0;
-            console.log(line);
-            if(line!=null){
-                console.log("right");
-                line.remove();
-            }
-
-
-
-            //line color
-            var route_color;
-            for (var i = 0; i <= json_route.length-1; i++) {
-
-                if (route==json_route[i].route_code) {
-                    route_color = json_route[i].routh_color;
-                }
-            }
-
-
-            station(route);
-
-            $.getJSON("/admin-transit/API/JSON/route/", function(jsonCM1) {
-                $.each(jsonCM1, function(i, station1) {
-                    if(station1.type==route){
-                        lat[count] = station1.lat;
-                        long[count] = station1.lng;
-
-                        if(lat[count]!=null){
-                            myTrip.push(new google.maps.LatLng(parseFloat(lat[count]),parseFloat(long[count])));
-                            count++;
-
-                        }
-
-                    }
-
-                });
-
-
-                flightPath = new google.maps.Polyline({
-                    path: myTrip,
-                    strokeColor: route_color,
-                    strokeOpacity: 1.0,
-                    strokeWeight: strokeWeight
-                });
-
-                addLine();
-
-
-            });
-        }
-
-
-        $('#stationALL').click(function() {
-            removeLine();
-            clearMarkers();
-            markers = [];
-            addAll_Path();
-        });
-        $('#stationClear').click(function() {
-            setMapOnCar(null);
-            clearMarkers();
-            removeLine();
-            markers = [];
-        });
-
-
-
-
-        var BS_R1G = '/admin-transit/image/icon_station/R1G_busstop.png';
-        var BS_R1P = '/admin-transit/image/icon_station/R1P_busstop.png';
-        var BS_R2P = '/admin-transit/image/icon_station/R2P_busstop.png';
-        var BS_R2B = '/admin-transit/image/icon_station/R2B_busstop.png';
-        var BS_R3Y = '/admin-transit/image/icon_station/R3Y_busstop.png';
-        var BS_R3R = '/admin-transit/image/icon_station/R3R_busstop.png';
-        var Pink_Brown = '/admin-transit/image/icon_station/red-green.png';
-        var Purple_Yellow = '/admin-transit/image/icon_station/purple-yellow.png';
-        var Yellow_Red = '/admin-transit/image/icon_station/yellow-red.png';
-        var Red_Green = '/admin-transit/image/icon_station/red-green.png';
-        var Red_Purple = '/admin-transit/image/icon_station/red-purple.png';
-        var Red_Purple_Yellow = '/admin-transit/image/icon_station/red-purple-yellow.png';
-        var BS_B1G = '/admin-transit/image/icon_station/B1G_busstop.png';
-        var BS_B1B = '/admin-transit/image/icon_station/B1B_busstop.png';
-        var BS_B2G = '/admin-transit/image/icon_station/B2G_busstop.png';
-        var BS_B2B = '/admin-transit/image/icon_station/B2B_busstop.png';
-        var BS_B3G = '/admin-transit/image/icon_station/B3G_busstop.png';
-        var BS_B3B = '/admin-transit/image/icon_station/B3G_busstop.png';
-        var BS_KWG = '/admin-transit/image/icon_station/KWG_busstop.png';
-        var BS_special = '/admin-transit/image/icon_station/BS_special.png';
-
-        //strokeWeight
-        var strokeWeight = 4.0;
-        var icon = null;
-
-
-        function station(route) {
-            var check = false;
-            if(route==null){
-                check = true;
-            }
-            $.getJSON("/admin-transit/API/JSON/station/", function(jsonCM1) {
-
-                $.each(jsonCM1, function(i, station1) {
-                    if(station1.type==route||check==true){
-                    // if(check_obj(station1.station_name)=="R1P-R3Y"){
-                    //     var icon = Purple_Yellow;
-                    // }
-                    // else if(check_obj(station1.station_name)=="R1P-R3R"){
-                    //     var icon = Red_Purple;
-                    // }
-                    // else if(check_obj(station1.station_name)=="R1P-R3R-R3Y"){
-                    //     var icon =  Red_Purple_Yellow;
-                    // }
-                    if(check_obj(station1.station_name)=="R1P"){
-                        var icon = BS_R1P;
-                    }
-                    // else if(check_obj(station1.station_name)=="R1G-R3R"){
-                    //     var icon = Red_Green;
-                    // }
-                    else if(check_obj(station1.station_name)=="R1G"){
-                        var icon = BS_R1G;
-                    }
-                    // else if(check_obj(station1.station_name)=="R1P-R3Y"){
-                    //     var icon = Purple_Yellow;
-                    // }
-                    else if(check_obj(station1.station_name)=="R3Y"){
-                        var icon = BS_R3Y;
-                    }else if(check_obj(station1.station_name)=="R3R"){
-                        var icon = BS_R3R;
-                    }
-                    else if(check_obj(station1.station_name)=="R2P"){
-                        var icon = BS_R2P;
-                    }
-                    else if(check_obj(station1.station_name)=="R2B"){
-                        var icon = BS_R2B;
-                    }
-                    // else if(check_obj(station1.station_name)=="R2P-R2B"){
-                    //     var icon = Pink_Brown;
-                    // }
-                    // else if(check_obj(station1.station_name)=="R3R-R3Y"){
-                    //     var icon = Yellow_Red;
-                    // }
-                    else if(check_obj(station1.station_name)=="B1G"){
-                        var icon = BS_B1G;
-                    }
-                    else if(check_obj(station1.station_name)=="B1B"){
-                        var icon = BS_B1B;
-                    }
-                    else if(check_obj(station1.station_name)=="B2G"){
-                        var icon = BS_B2G;
-                    }
-                    else if(check_obj(station1.station_name)=="B2B"){
-                        var icon = BS_B2B;
-                    }
-                    else if(check_obj(station1.station_name)=="B3G"){
-                        var icon = BS_B3G;
-                    }
-                    else if(check_obj(station1.station_name)=="B3B"){
-                        var icon = BS_B3B;
-                    }
-                    else if(check_obj(station1.station_name)=="KWG"){
-                        var icon = BS_KWG;
-                    }else {
-                        var icon = BS_special;
-                    }
-
-
-
-                    var marker1 = new google.maps.Marker({
-                        position: new google.maps.LatLng(station1.station_lat, station1.station_lng),
-                        map: map,
-                        title: station1.station_name,
-                        icon: icon
-                    });
-
-                    var str = check_obj(station1.station_name);
-                    var content = '';
-                    var res = str.split("-");
-                    console.log(res[1]);
-                    if(res[1]!=null){
-                        for (var i = 0; i <= res.length-1; i++) {
-                            content += "<br> สาย "+res[i];
-                        }
-                    }else{
-                        content = "<br> สาย "+str;
-                    }
-
-                    markers.push(marker1);
-                    info = new google.maps.InfoWindow();
-                    google.maps.event.addListener(marker1, 'click', (function(marker1, i) {
-                        return function() {
-                            info.setContent(station1.station_name +content);
-
-                            info.open(map, marker1);
-                        }
-                    })(marker1, i));
-                    }
-                });
-
-                });
-        }
-
-        function addAll_Path() {
-
-            station();
-
-            var route = (function () {
-                var route = null;
-                $.ajax({
-                    'async': false,
-                    'global': false,
-                    'url': "/admin-transit/API/JSON/route/",
-                    'dataType': "json",
-                    'success': function (data) {
-                        route = data;
-                    }
-                });
-                return route;
-            })();
-
-
-
-
-            var obj = []
-
-            var route_color = null;
-            var old_type = null;
-
-
-
-            for (var i = 0; i < route.length-1; i++) {
-
-
-                var route_line = {
-                    lat: parseFloat(route[i].lat),
-                    lng: parseFloat(route[i].lng)
-                };
-
-
-                if(old_type==null){
-                    old_type = route[i].type;
-                }
-
-                if(old_type!=route[i].type){
-                    obj = [];
-                    old_type = route[i].type;
-                    flightAllPath.push(flightPath);
-                }
-
-                var c = search(route[i].type,json_route);
-                // console.log(c);
-                if(c.check){
-                    route_color= c.route_color;
-                    obj.push(route_line);
-                }
-
-
-                flightPath = new google.maps.Polyline({
-                    path: obj,
-                    strokeColor: route_color,
-                    strokeOpacity: 1.0,
-                    strokeWeight: strokeWeight
-                });
-
-
-
-            }
-
-            for(var i = 0; i <= flightAllPath.length-1; i++){
-                flightAllPath[i].setMap(map);
-
-            }
-
-
-        }
-
-        //
-        var search = function(nameKey, myArray) {
-            for (var i=0; i <= myArray.length-1; i++) {
-                if (myArray[i].route_code === nameKey) {
-                    var check = true;
-                    var route_color = myArray[i].routh_color;
-            return {
-                check: check,
-                route_color: route_color
-            };
-                }
-            }
-        };
-
-
-
-        function addLine() {
-            flightPath.setMap(map);
-        }
-
-        function removeLine() {
-            for(var i = 0; i <= flightAllPath.length-1; i++){
-                flightAllPath[i].setMap(null);
-            }
-            flightPath.setMap(null);
-        }
 
         function getInfo(carB1) {
             if(carB1.StatusLogInOut == 'I'){
@@ -742,104 +335,140 @@
             setMapOnCar(null);
         }
 
-        var Interval;
-        var IntervalBegin = setInterval(function () {
-            getCarlocation();
-        }, 10000);
-
-        function getCar(type) {
-            clearInterval(IntervalBegin);
-            clearMarkCar();
-            if(Interval == null) {
-                getCarlocation(type);
-                clearInterval(Interval);
-                Interval = setInterval(function () {
-                    getCarlocation(type);
-                }, 5000);
-            }
-            else{
-                clearInterval(Interval);
-                getCarlocation(type);
-                Interval = setInterval(function () {
-                    getCarlocation(type);
-                }, 5000);
-            }
-
+var car_id = null;
+        function driver(idCar) {
+            car_id = idCar;
+            console.log("driver",car_id);
         }
 
         function getCarlocation(type) {
-            console.log(car);
+
+
+
+
+
+
             $.getJSON("/admin-transit/CM_CAR/API", function(jsonBus1) {
                 clearMarkCar();
                 carMark = [];
                 $.each(jsonBus1, function(i, carB1) {
-                    if(carB1.Type == "minibus") {
-                        var color = "#0d0c55";
-                    }
-                    if(carB1.Type == "bus") {
-
-                        if(carB1.Color=="เขียว"){
-                            var color = "#055500";
-                        }
-                        if(carB1.Color=="เหลือง"){
-                            var color = '#ffff07';
-                        }
-                        if(carB1.Color=="แดง"){
-                            var color = '#fe0404';
-                        }
-                        if(carB1.Color=="น้ำเงิน"){
-                            var color = "#515aee";
-                        }
-                    }
-
-                    if(carB1.Type == type) {
-                        var markBusB1 = new google.maps.Marker({
-                            position: new google.maps.LatLng(carB1.LaGoogle, carB1.LongGoogle),
-                            map: map,
-                            title: carB1.Registerid,
-                            icon: {
-                                                               // path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
-		path: car_symbol,
-                                //scale: 5,
-		scale: .7,
-                                strokeColor: 'white',
-                                strokeWeight: .01,
-                                fillOpacity: 1,
-                                fillColor: color,
-                                // offset: '5%',
-                                rotation: parseFloat(carB1.Direction)
-                            }
-                        });
-                        carMark.push(markBusB1);
-                        info = new google.maps.InfoWindow();
-                        google.maps.event.addListener(markBusB1, 'click', (function (markBusB1, i) {
-                            return function () {
-                                getInfo(carB1);
-                                info.open(map, markBusB1);
-                            }
-                        })(markBusB1, i));
-                    }
-
+                    //test map
+// if(carB1.Registerid=="10-7116"){
+//                     map.setCenter({ lat: parseFloat(carB1.LaGoogle), lng: parseFloat(carB1.LongGoogle) });
+//     map.setZoom(19);
+// }
                     if(type == null) {
 
+                        if(carB1.Registerid==car_id){
+                            var button = '';
+                            if(carB1.StatusLogInOut=="I"){
+                                 button = '<button class="btn btn-success btn-circle"></button>';
+                            }else{
+                                 button = '<button class="btn btn-danger btn-circle"></button>';
+                            }
+                            console.log(car_id);
+                            document.getElementById("driver").innerHTML =
+                                "      <h4>Name : "+ carB1.DriverName +"</h4>\n" +
+                                "                                <h4>ID Card : "+ carB1.DriverIDCard +"</h4>\n" +
+                                "                                <h4>Status Login/Logout :"+ button +"</h4>\n" +
+                                "                                <h4>Car Id : "+carB1.Registerid+"</h4>\n" +
+                                "                                <h4>Type : "+carB1.Type+"</h4>\n" +
+                                "                                <h4>Fast : "+carB1.Fast+" </h4>\n" +
+                                "                                <h4>Latitude : "+carB1.LaGoogle+"</h4>\n" +
+                                "                                <h4>Longitude : "+carB1.LongGoogle+"</h4>"+
+                            "                                <h4>Next Station : "+carB1.busstop+"</h4>\n" +
+                            "                                <h4>Estimate Time : "+carB1.datetime_busstop+" min</h4>";
+
+
+
+                    map.setCenter({ lat: parseFloat(carB1.LaGoogle), lng: parseFloat(carB1.LongGoogle) });
+                    map.setZoom(19);
+
+
+                        }
+
+
                         if(carB1.Type=="bus"||carB1.Type=="minibus"||carB1.Type=="kwvan") {
-                            if(carB1.Color==car){
+                            var car_check = null;
+                            var bypass = false;
+                            var by_passcheck = null;
+                            if(car=="R1G"||car=="R1P"){
+
+                                car_check  = "R1";
+
+                            }
+                            if(car=="R2P"||car=="R2B"){
+                                car_check = "R2";
+
+                            }
+                            if(car=="R3Y"){
+                                car_check = "R3-Y";
+                            }
+                            if(car=="R3R"){
+                                car_check = "R3-R";
+                            }
+
+                            if(car=="B1G"||car=="B1B")
+                            {
+                                if(carB1.Detail=="B1,2"||carB1.Detail=="B1,6"||carB1.Detail=="B1,3" ||carB1.Detail=="B1,1"
+                                    ||carB1.Detail=="B1,5"||carB1.Detail=="B1,4") {
+                                    bypass = true;
+                                    by_passcheck = "minibus"
+                                }
+                            }
+                            if(car=="B2G" ||car=="B2B")
+                            {
+                                if(carB1.Detail=="B2,5"||carB1.Detail=="B2,1"|| carB1.Detail=="B2,4"
+                                    ||carB1.Detail=="B2,6"||carB1.Detail=="B2,2"||carB1.Detail=="B2,3"){
+                                    bypass = true;
+                                    by_passcheck = "minibus"
+                                }
+                            }
+                            if(car=="B3G" ||car=="B3B")
+                            {
+                                if(carB1.Detail=="B3,30"||carB1.Detail=="B3,33"||carB1.Detail=="B3,34"||carB1.Detail=="B3,37"){
+                                    bypass = true;
+                                    by_passcheck = "minibus"
+                                }
+                            }
+
+
+                            if(car=="KWG")
+                            {
+                                bypass = true;
+                                by_passcheck = "kwvan"
+                            }
+
+
+
+                            if(bypass){
+                                if(carB1.Type==by_passcheck){
+                                    var markBusB1 = new google.maps.Marker({
+                                        position: new google.maps.LatLng(carB1.LaGoogle, carB1.LongGoogle),
+                                        map: map,
+                                        title: carB1.Registerid,
+                                        icon: drawRotated(carB1.Direction,carB1.Type)
+                                    });
+
+                                    carMark.push(markBusB1);
+                                    info = new google.maps.InfoWindow();
+                                    google.maps.event.addListener(markBusB1, 'click', (function (markBusB1, i) {
+                                        return function () {
+                                            getInfo(carB1);
+                                            info.open(map, markBusB1);
+                                        }
+                                    })(markBusB1, i));
+                                }
+                            }
+
+
+                            if(carB1.Detail==car_check){
+                                // console.log(car_check);
                                 var markBusB1 = new google.maps.Marker({
                                     position: new google.maps.LatLng(carB1.LaGoogle, carB1.LongGoogle),
                                     map: map,
                                     title: carB1.Registerid,
-                                    icon: {
-                                                                      // path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
-		path: car_symbol,
-                                //scale: 5,
-		scale: .7,
-                                        strokeColor: 'white',
-                                        strokeWeight: .01,
-                                        fillOpacity: 1,
-                                        fillColor: color,
-                                        // offset: '5%',
-                                        rotation: parseFloat(carB1.Direction)
-                                    }
+                                    icon: drawRotated(carB1.Direction,car)
                                 });
 
                                 carMark.push(markBusB1);
@@ -851,25 +480,17 @@
                                     }
                                 })(markBusB1, i));
                             }
+
+
+
                             if(car=="all"){
+
                                 var markBusB1 = new google.maps.Marker({
                                     position: new google.maps.LatLng(carB1.LaGoogle, carB1.LongGoogle),
                                     map: map,
                                     title: carB1.Registerid,
-                                    icon: {
-                                                                 // path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
-		path: car_symbol,
-                                //scale: 5,
-		scale: .7,
-                                        strokeColor: 'white',
-                                        strokeWeight: .01,
-                                        fillOpacity: 1,
-                                        fillColor: color,
-                                        // offset: '5%',
-                                        rotation: parseFloat(carB1.Direction)
-                                    }
+                                    icon: drawRotated(carB1.Direction,carB1.Detail)
                                 });
-
                                 carMark.push(markBusB1);
                                 info = new google.maps.InfoWindow();
                                 google.maps.event.addListener(markBusB1, 'click', (function (markBusB1, i) {
@@ -884,10 +505,74 @@
 
                         }
                     }
+
                 });
             });
+
+
         }
 
+
+        var canvas=document.getElementById("canvas");
+        var ctx=canvas.getContext("2d");
+
+        function drawRotated(degrees,route_code){
+
+
+            if(route_code=="R1"){
+                route_code = "R1G";
+            }
+            if(route_code=="R2"){
+                route_code = "R2B";
+            }
+            if(route_code=="R3-Y"){
+                route_code = "R3Y";
+            }
+            if(route_code=="R3-R"){
+                route_code = "R3R";
+            }
+
+
+
+
+
+            if(route_code=="B1,2"||route_code=="B1,6"||route_code=="B1,3" ||route_code=="B1,1"
+                ||route_code=="B1,5"||route_code=="B1,4" ||route_code=="B2,5"||route_code=="B2,1"||
+                route_code=="B2,4" ||route_code=="B2,6"||route_code=="B2,2"||route_code=="B2,3"
+                ||route_code=="B3,30"||route_code=="B3,33"||route_code=="B3,34"||route_code=="B3,37"){
+                route_code = "Minibus"
+
+
+            }
+            if(route_code==""){
+                route_code = "KWG";
+            }
+            if(route_code=="สำรอง"){
+                route_code = "R2B";
+            }
+
+
+            if(route_code=="minibus"){
+                route_code = "Minibus";
+            }
+            if(route_code=="kwvan"){
+                route_code = "KWG";
+            }
+            var image=document.createElement("img");
+            image.src= '/admin-transit/image/icon_car/'+route_code+'.png';
+
+            ctx.clearRect(0,0,canvas.width,canvas.height);
+            ctx.save();
+            ctx.translate(canvas.width/2,canvas.height/2);
+            ctx.rotate(degrees*Math.PI/180);
+            ctx.drawImage(image,-image.width/2,-image.width/2);
+            ctx.restore();
+
+
+
+            return canvas.toDataURL();
+
+        }
     </script>
     <!-- jQuery -->
     <script src="../vendor/jquery/jquery.min.js"></script>

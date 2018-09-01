@@ -128,9 +128,9 @@
                             <li>
                                 <a href="#">รถเทศบาลเชียงใหม่<span class="fa arrow"></span></a>
                                 <ul class="nav nav-third-level">
-                                    <li>
-                                        <a id="B-ALL" href="#">เทศบาลเชียงใหม่-ทุกสาย</a>
-                                    </li>
+<!--                                    <li>-->
+<!--                                        <a id="B-ALL" href="#">เทศบาลเชียงใหม่-ทุกสาย</a>-->
+<!--                                    </li>-->
                                     <?php
                                     foreach ($characters as $character) {
                                         if($character->type_car=="minibus"){
@@ -148,9 +148,9 @@
                             <li>
                                 <a href="#">RTC<span class="fa arrow"></span></a>
                                 <ul class="nav nav-third-level">
-                                    <li>
-                                        <a id="RTC-ALL" href="#">RTC-ทุกสาย</a>
-                                    </li>
+<!--                                    <li>-->
+<!--                                        <a id="RTC-ALL" href="#">RTC-ทุกสาย</a>-->
+<!--                                    </li>-->
                                     <?php
                                     foreach ($characters as $character) {
                                         if($character->type_car=="bus"){
