@@ -123,71 +123,7 @@
             <div class="sidebar-nav navbar-collapse">
                 <ul class="nav" id="side-menu">
                     <li>
-                        <a href="#"><i class="fa fa-map-o fa-fw"></i> Map<span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
-                            <li>
-                                <a href="#">รถเทศบาลเชียงใหม่<span class="fa arrow"></span></a>
-                                <ul class="nav nav-third-level">
-<!--                                    <li>-->
-<!--                                        <a id="B-ALL" href="#">เทศบาลเชียงใหม่-ทุกสาย</a>-->
-<!--                                    </li>-->
-                                    <?php
-                                    foreach ($characters as $character) {
-                                        if($character->type_car=="minibus"){
-                                            ?>
-                                            <li>
-                                                <a id="<?=$character->route_code?>" onclick="route('<?=$character->route_code?>')" href="#"><?=$character->name_th?></a>
-                                            </li>
-                                            <?php
-                                        }
-                                    }
-                                    ?>
-                                </ul>
-                                <!-- /.nav-third-level -->
-                            </li>
-                            <li>
-                                <a href="#">RTC<span class="fa arrow"></span></a>
-                                <ul class="nav nav-third-level">
-<!--                                    <li>-->
-<!--                                        <a id="RTC-ALL" href="#">RTC-ทุกสาย</a>-->
-<!--                                    </li>-->
-                                    <?php
-                                    foreach ($characters as $character) {
-                                        if($character->type_car=="bus"){
-                                            ?>
-                                            <li>
-                                                <a id="<?=$character->route_code?>" onclick="route('<?=$character->route_code?>')" href="#"><?=$character->name_th?></a>
-                                            </li>
-                                            <?php
-                                        }
-                                    }
-                                    ?>
-
-                                </ul>
-                                <!-- /.nav-third-level -->
-                            </li>
-
-                            <li>
-                                <?php
-                                foreach ($characters as $character) {
-                                if($character->type_car=="van"){
-                                ?>
-                            <li>
-                                <a id="<?=$character->route_code?>" onclick="route('<?=$character->route_code?>')" href="#"><?=$character->name_th?></a>
-                            </li>
-                            <?php
-                            }
-                            }
-                            ?>
-                            </li>
-                            <li>
-                                <a id="icon_off" onclick="route('all')" href="#">ทุกเส้นทาง</a>
-                            </li>
-                            <li>
-                                <a id="stationClear" href="#">Clear Station</a>
-                            </li>
-                        </ul>
-                        <!-- /.nav-second-level -->
+                        <a href="/admin-transit/pages/index.php"><i class="fa fa-map-o fa-fw"></i> Map<span class="fa arrow"></span></a>
                     </li>
                     <li>
                         <a href="#"><i class="fa fa-map-signs fa-fw"></i>

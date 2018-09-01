@@ -33,7 +33,7 @@
 <canvas id="canvas" width="36" height="36" style="display: none;"></canvas>
     <div id="wrapper">
 
-        <?php include 'navbar.php' ?>
+        <?php include 'navbar2.php' ?>
 
         <div id="page-wrapper">
 

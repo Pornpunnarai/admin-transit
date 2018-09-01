@@ -40,7 +40,7 @@
 
     <div id="wrapper">
 
-        <?php include 'navbar.php' ?>
+        <?php include 'navbar2.php' ?>
 
         <div id="page-wrapper">
 

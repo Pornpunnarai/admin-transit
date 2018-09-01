@@ -43,7 +43,7 @@
     <div id="wrapper">
 
         <!-- Navigation -->
-        <?php include '../navbar.php' ?>
+        <?php include '../navbar2.php' ?>
         <div id="page-wrapper">
             <div class="row">
                 <ol class="breadcrumb" style="margin-top: 1rem;">
