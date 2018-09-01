@@ -37,6 +37,7 @@
 </head>
 
 <body>
+
 <canvas id="canvas" width="36" height="36" style="display: none;"></canvas>
 <div id="wrapper">
 
@@ -49,6 +50,8 @@
             <ol class="breadcrumb" style="margin-top: 1rem;">
                 <li class="breadcrumb-item active">Route & Timetable</li>
             </ol>
+
+            <button class="btn-primary" onclick="icon_off()">Icon</button>
 
             <div class="embed-responsive embed-responsive-16by9">
                 <div id="map" class="embed-responsive-item" style="overflow: hidden;">
@@ -200,13 +203,21 @@
     }
 
     function route(route){
-        removeLine();
-        clearMarkers();
-        markers = [];
-        addR1_Back(route);
-        setMapOnCar(null);
-        car = route;
-        getCarlocation();
+        if(route!="all") {
+            removeLine();
+            clearMarkers();
+            markers = [];
+            addR1_Back(route);
+            setMapOnCar(null);
+            car = route;
+            getCarlocation();
+
+        }else {
+            removeLine();
+            clearMarkers();
+            markers = [];
+            addAll_Path()
+        }
     }
 
     function addR1_Back(route) {
@@ -282,10 +293,24 @@
         markers = [];
     });
 
-
-
-
     var BS_special = '/admin-transit/image/icon_station/R3R_busstop.png';
+    function icon_off(){
+        if(BS_special == '/admin-transit/image/icon_station/R3R_busstop.png'){
+            BS_special = '/admin-transit/image/icon_station/point.png';
+        }else{
+            BS_special = '/admin-transit/image/icon_station/R3R_busstop.png'
+        }
+        removeLine();
+        clearMarkers();
+        markers = [];
+        route(car)
+        if(car=="all"){
+            addAll_Path();
+        }
+    }
+
+
+
 
     //strokeWeight
     var strokeWeight = 4.0;
