@@ -26,13 +26,6 @@
     <!-- Custom Fonts -->
     <link href="../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-
 
 </head>
 
@@ -51,7 +44,7 @@
                 </ol>
 
                 <div class="col-lg-12" style="background-color: white; padding: 1%">
-                    <div class="col-lg-8">
+                    <div class="col-lg-6">
                         <div class="row">
                             <h4>ข้อมูลคนขับรถ</h4>
 
@@ -72,39 +65,17 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-4">
+                    <div class="col-lg-6">
                         <div class="col-lg-12" style="background-color: #ccc">
                             <h4 class="text-center">ข้อมูลรถ</h4>
 
-
-
-
                                 <table id="createTable" class="table table-bordered" style="text-align: center">
-<!--                                    <thead>-->
-<!--                                    <tr>-->
-<!--                                        <th class="text-center">Car ID</th>-->
-<!--                                        <th class="text-center">Type</th>-->
-<!--                                        <th class="text-center">Status</th>-->
-<!--                                        <th class="text-center">Infomation</th>-->
-<!--                                        <th class="text-center">Lat</th>-->
-<!--                                    </tr>-->
-<!--                                    </thead>-->
-
 
                                 </table>
 
                             <script>
-
-
-
                                 createTable();
                                 // setInterval(function(){createTable();}, 5000);
-
-
-
-
-
-
                                 function createTable() {
 
                                     var Parent = document.getElementById("createTable");
@@ -112,7 +83,6 @@
                                     {
                                         Parent.removeChild(Parent.firstChild);
                                     }
-
 
                                     var json_route = (function () {
                                         var json_route = null;
@@ -128,7 +98,6 @@
                                         return json_route;
                                     })();
 
-
                                     var table = document.getElementById("createTable");
                                     var header = table.createTHead();
                                     var row = header.insertRow(0);
@@ -136,14 +105,15 @@
                                     var cell2 = row.insertCell(1);
                                     var cell3 = row.insertCell(2);
                                     var cell4 = row.insertCell(3);
-
+                                    var cell5 = row.insertCell(4);
+                                    var cell6 = row.insertCell(5);
 
                                     cell1.innerHTML = "<b>Car ID</b>";
                                     cell2.innerHTML = "<b>Type</b>";
                                     cell3.innerHTML = "<b>Status</b>";
-                                    cell4.innerHTML = "<b>Infomation</b>";
-
-
+                                    cell4.innerHTML = "<b>Login Time</b>";
+                                    cell5.innerHTML = "<b>Logout Time</b>";
+                                    cell6.innerHTML = "<b>Infomation</b>";
 
                                     for(var i = 0;i<=json_route.length-1;i++){
                                     if(json_route[i].Type=="bus"||json_route[i].Type=="minibus"||json_route[i].Type=="kwvan"){
@@ -152,6 +122,8 @@
                                         var cell2 = row.insertCell(1);
                                         var cell3 = row.insertCell(2);
                                         var cell4 = row.insertCell(3);
+                                        var cell5 = row.insertCell(4);
+                                        var cell6 = row.insertCell(5);
                                         // var cell5 = row.insertCell(4);
                                         cell1.innerHTML = json_route[i].Registerid;
                                         cell2.innerHTML = json_route[i].Detail;
@@ -161,10 +133,10 @@
                                         }else{
                                              status = "<button class=\"btn btn-danger btn-circle\"></button>";
                                         }
-
-
                                         cell3.innerHTML = status;
-                                        cell4.innerHTML = "<button class=\"btn btn-primary\" onclick=\"driver('" +
+                                        cell4.innerHTML = json_route[i].LogIn;
+                                        cell5.innerHTML = json_route[i].LogOut;
+                                        cell6.innerHTML = "<button class=\"btn btn-primary\" onclick=\"driver('" +
                                             json_route[i].Registerid +
                                             "')\">Info</button>";
                                         // cell5.innerHTML = json_route[i].IDCar;
@@ -253,8 +225,7 @@
 
 
         }
-
-
+        
         function getInfo(carB1) {
             if(carB1.StatusLogInOut == 'I'){
                 carB1.StatusLogInOut = 'Login';
@@ -319,13 +290,11 @@
             }
         }
 
-
         function setMapOnCar(map) {
             for (var i = 0; i < carMark.length; i++) {
                 carMark[i].setMap(map);
             }
         }
-
 
         function clearMarkers() {
             setMapOnAll(null);
@@ -335,18 +304,13 @@
             setMapOnCar(null);
         }
 
-var car_id = null;
+        var car_id = null;
         function driver(idCar) {
             car_id = idCar;
             console.log("driver",car_id);
         }
 
         function getCarlocation(type) {
-
-
-
-
-
 
             $.getJSON("/admin-transit/CM_CAR/API", function(jsonBus1) {
                 clearMarkCar();
@@ -509,9 +473,7 @@ var car_id = null;
                 });
             });
 
-
         }
-
 
         var canvas=document.getElementById("canvas");
         var ctx=canvas.getContext("2d");
@@ -531,10 +493,6 @@ var car_id = null;
             if(route_code=="R3-R"){
                 route_code = "R3R";
             }
-
-
-
-
 
             if(route_code=="B1,2"||route_code=="B1,6"||route_code=="B1,3" ||route_code=="B1,1"
                 ||route_code=="B1,5"||route_code=="B1,4" ||route_code=="B2,5"||route_code=="B2,1"||
@@ -568,11 +526,10 @@ var car_id = null;
             ctx.drawImage(image,-image.width/2,-image.width/2);
             ctx.restore();
 
-
-
             return canvas.toDataURL();
 
         }
+
     </script>
     <!-- jQuery -->
     <script src="../vendor/jquery/jquery.min.js"></script>
