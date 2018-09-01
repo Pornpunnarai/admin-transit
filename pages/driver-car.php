@@ -45,6 +45,7 @@
 
                 <div class="col-lg-12" style="background-color: white; padding: 1%">
                     <div class="col-lg-6">
+
                         <div class="row">
                             <h4>ข้อมูลคนขับรถ</h4>
 
@@ -52,6 +53,7 @@
                             <div class="col-lg-2">
                                 <img src="/admin-transit/image/avatar.png" width="100%">
                             </div>
+
                             <div id="driver" class="col-lg-10">
                             </div>
 
@@ -225,7 +227,7 @@
 
 
         }
-        
+
         function getInfo(carB1) {
             if(carB1.StatusLogInOut == 'I'){
                 carB1.StatusLogInOut = 'Login';
