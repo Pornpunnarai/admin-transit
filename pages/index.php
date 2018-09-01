@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Bootstrap Admin Theme</title>
+    <title>CM - Transit</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -48,10 +48,11 @@
         <!-- Page Content -->
         <div class="container-fluid">
             <ol class="breadcrumb" style="margin-top: 1rem;">
-                <li class="breadcrumb-item active">Route & Timetable</li>
+                <li class="breadcrumb-item active" style="height: 35px">Map</li>
+                <button style="float: right" class="btn btn-primary" onclick="icon_off()">Icon</button>
             </ol>
 
-            <button class="btn-primary" onclick="icon_off()">Icon</button>
+
 
             <div class="embed-responsive embed-responsive-16by9">
                 <div id="map" class="embed-responsive-item" style="overflow: hidden;">
