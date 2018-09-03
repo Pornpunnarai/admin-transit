@@ -97,6 +97,7 @@
     var map;
     var flightAllPath = [];
     var flightPath;
+    var info_array = [];
     var info;
     var line = null;
     var markers = [];
@@ -217,7 +218,7 @@
             removeLine();
             clearMarkers();
             markers = [];
-            addAll_Path()
+            addAll_Path();
             setMapOnCar(null);
             car = "all";
             getCarlocation();
@@ -563,15 +564,32 @@
     }, 3000);
 
 
-var car_select = null;
 
 
+    function closeAllInfoWindows() {
+        for (var i=0;i<=info_array.length-1;i++) {
+            info_array[i].close();
+        }
+    }
 
-
+    var car_select = null;
     function getCarlocation(type) {
-
-var icon = null;
+        if(car_select!=null){
+        closeAllInfoWindows();
+            google.maps.event.trigger(car_select, 'click');
+        }
+        var icon = null;
         var icon_type = null;
+
+        //station estimate time
+        clearMarkers();
+        markers = [];
+        if(car=="all"){
+            station();
+        }else{
+        station(car);
+        }
+
         $.getJSON("/admin-transit/CM_CAR/API", function(jsonBus1) {
             clearMarkCar();
             carMark = [];
@@ -850,25 +868,30 @@ var icon = null;
                             info = new google.maps.InfoWindow();
                             google.maps.event.addListener(markBusB1, 'click', (function (markBusB1, i) {
                                 return function () {
-                                    // car_select = markBusB1;
+closeAllInfoWindows();
+                                    car_select = markBusB1;
                                     getInfo(carB1);
+                                    info_array.push(info);
                                     info.open(map, markBusB1);
+                                    info_array[info_array.length-1].open(map, markBusB1);
+
                                 }
                             })(markBusB1, i));
 
-console.log(icon,carB1.Detail);
+
 
                         }
 
 
 
                     }
+
+
                 }
 
             });
         });
-        // console.log(car_select);
-        google.maps.event.trigger(car_select, 'click');
+
     }
 
 
