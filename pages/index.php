@@ -553,13 +553,13 @@
     var Interval;
     var IntervalBegin = setInterval(function () {
         getCarlocation();
-    }, 3000);
+    }, 10000);
 
 
 
     function getCarlocation(type) {
 
-
+var icon = null;
 
         $.getJSON("/admin-transit/CM_CAR/API", function(jsonBus1) {
             clearMarkCar();
@@ -624,6 +624,124 @@
                         }
 
 
+                        const x = parseFloat(carB1.Direction);
+                        switch (true) {
+                            case (x >= 5 && x <= 15):
+                                icon = '/admin-transit/image/icon_car/R3R/R3R-10.png';
+                                break;
+                            case (x >= 15 && x <= 25):
+                                icon = '/admin-transit/image/icon_car/R3R/R3R-20.png';
+                                break;
+                            case (x >= 25 && x <= 35):
+                                icon = '/admin-transit/image/icon_car/R3R/R3R-30.png';
+                                break;
+                            case (x >= 35 && x <= 45):
+                                icon = '/admin-transit/image/icon_car/R3R/R3R-40.png';
+                                break;
+                            case (x >= 45 && x <= 55):
+                                icon = '/admin-transit/image/icon_car/R3R/R3R-50.png';
+                                break;
+                            case (x >= 55 && x <= 65):
+                                icon = '/admin-transit/image/icon_car/R3R/R3R-60.png';
+                                break;
+                            case (x >= 65 && x <= 75):
+                                icon = '/admin-transit/image/icon_car/R3R/R3R-70.png';
+                                break;
+                            case (x >= 75 && x <= 85):
+                                icon = '/admin-transit/image/icon_car/R3R/R3R-80.png';
+                                break;
+                            case (x >= 85 && x <= 95):
+                                icon = '/admin-transit/image/icon_car/R3R/R3R-90.png';
+                                break;
+                            case (x >= 95 && x <= 105):
+                                icon = '/admin-transit/image/icon_car/R3R/R3R-100.png';
+                                break;
+                            case (x >= 105 && x <= 115):
+                                icon = '/admin-transit/image/icon_car/R3R/R3R-110.png';
+                                break;
+                            case (x >= 115 && x <= 125):
+                                icon = '/admin-transit/image/icon_car/R3R/R3R-120.png';
+                                break;
+                            case (x >= 125 && x <= 135):
+                                icon = '/admin-transit/image/icon_car/R3R/R3R-130.png';
+                                break;
+                            case (x >= 135 && x <= 145):
+                                icon = '/admin-transit/image/icon_car/R3R/R3R-140.png';
+                                break;
+                            case (x >= 145 && x <= 155):
+                                icon = '/admin-transit/image/icon_car/R3R/R3R-150.png';
+                                break;
+                            case (x >= 155 && x <= 165):
+                                icon = '/admin-transit/image/icon_car/R3R/R3R-160.png';
+                                break;
+                            case (x >= 165 && x <= 175):
+                                icon = '/admin-transit/image/icon_car/R3R/R3R-170.png';
+                                break;
+                            case (x >= 175 && x <= 185):
+                                icon = '/admin-transit/image/icon_car/R3R/R3R-180.png';
+                                break;
+                            case (x >= 185 && x <= 195):
+                                icon = '/admin-transit/image/icon_car/R3R/R3R-190.png';
+                                break;
+                            case (x >= 195 && x <= 205):
+                                icon = '/admin-transit/image/icon_car/R3R/R3R-200.png';
+                                break;
+                            case (x >= 205 && x <= 215):
+                                icon = '/admin-transit/image/icon_car/R3R/R3R-210.png';
+                                break;
+                            case (x >= 215 && x <= 225):
+                                icon = '/admin-transit/image/icon_car/R3R/R3R-220.png';
+                                break;
+                            case (x >= 225 && x <= 235):
+                                icon = '/admin-transit/image/icon_car/R3R/R3R-230.png';
+                                break;
+                            case (x >= 235 && x <= 245):
+                                icon = '/admin-transit/image/icon_car/R3R/R3R-240.png';
+                                break;
+                            case (x >= 245 && x <= 255):
+                                icon = '/admin-transit/image/icon_car/R3R/R3R-250.png';
+                                break;
+                            case (x >= 255 && x <= 265):
+                                icon = '/admin-transit/image/icon_car/R3R/R3R-260.png';
+                                break;
+                            case (x >= 265 && x <= 275):
+                                icon = '/admin-transit/image/icon_car/R3R/R3R-270.png';
+                                break;
+                            case (x >= 275 && x <= 285):
+                                icon = '/admin-transit/image/icon_car/R3R/R3R-280.png';
+                                break;
+                            case (x >= 285 && x <= 295):
+                                icon = '/admin-transit/image/icon_car/R3R/R3R-290.png';
+                                break;
+                            case (x >= 295 && x <= 305):
+                                icon = '/admin-transit/image/icon_car/R3R/R3R-300.png';
+                                break;
+                            case (x >= 305 && x <= 315):
+                                icon = '/admin-transit/image/icon_car/R3R/R3R-310.png';
+                                break;
+                            case (x >= 315 && x <= 325):
+                                icon = '/admin-transit/image/icon_car/R3R/R3R-320.png';
+                                break;
+                            case (x >= 325 && x <= 335):
+                                icon = '/admin-transit/image/icon_car/R3R/R3R-330.png';
+                                break;
+                            case (x >= 335 && x <= 345):
+                                icon = '/admin-transit/image/icon_car/R3R/R3R-340.png';
+                                break;
+                            case (x >= 345 && x <= 355):
+                                icon = '/admin-transit/image/icon_car/R3R/R3R-350.png';
+                                break;
+                            case (x >= 355 && x <= 360):
+                                icon = '/admin-transit/image/icon_car/R3R/R3R-360.png';
+                                break;
+                            case (x >= 0 && x <= 5):
+                                icon = '/admin-transit/image/icon_car/R3R/R3R-360.png';
+                                break;
+                            default:
+                                icon = '/admin-transit/image/icon_car/R3R/R3R-360.png';
+                                break;
+                        }
+
 
                         if(bypass){
                             if(carB1.Type==by_passcheck){
@@ -631,7 +749,7 @@
                                     position: new google.maps.LatLng(carB1.LaGoogle, carB1.LongGoogle),
                                     map: map,
                                     title: carB1.Registerid,
-                                    icon: drawRotated(carB1.Direction,carB1.Type)
+                                    icon: icon
                                 });
 
                                 carMark.push(markBusB1);
@@ -652,7 +770,7 @@
                                 position: new google.maps.LatLng(carB1.LaGoogle, carB1.LongGoogle),
                                 map: map,
                                 title: carB1.Registerid,
-                                icon: drawRotated(carB1.Direction,car)
+                                icon: icon
                             });
 
                             carMark.push(markBusB1);
@@ -673,7 +791,7 @@
                                 position: new google.maps.LatLng(carB1.LaGoogle, carB1.LongGoogle),
                                 map: map,
                                 title: carB1.Registerid,
-                                icon: drawRotated(carB1.Direction,carB1.Detail)
+                                icon: icon
                             });
                             carMark.push(markBusB1);
                             info = new google.maps.InfoWindow();
