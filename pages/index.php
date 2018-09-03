@@ -218,6 +218,9 @@
             clearMarkers();
             markers = [];
             addAll_Path()
+            setMapOnCar(null);
+            car = "all";
+            getCarlocation();
         }
     }
 
@@ -356,7 +359,7 @@
                     info = new google.maps.InfoWindow();
                     google.maps.event.addListener(marker1, 'click', (function(marker1, i) {
                         return function() {
-                            info.setContent(station1.id+"--" +station1.station_name +content);
+                            info.setContent(station1.station_name +content);
 
                             info.open(map, marker1);
                         }
@@ -525,7 +528,11 @@
             'GPS: '+ '' + '<br>'+
             'สถานะ: '+ carB1.SignalFall + '<br> <hr>'+
             'ตำแหน่ง: '+ '' + '<br>'+
-            'พิกัด: ('+ carB1.LaGoogle +','+ carB1.LongGoogle +')<br> <hr>'+ carB1.Type);
+            'พิกัด: ('+ carB1.LaGoogle +','+ carB1.LongGoogle +')<br> <hr>'+
+            'ประเภทรถ: '+ carB1.Type +'<br>'+
+            'สถาณีต่อไป: '+ carB1.busstop +'<br>'+
+            'ระยะเวลา: '+ carB1.datetime_busstop +' นาที <br>'
+        );
     };
 
     function setMapOnAll(map) {
@@ -553,14 +560,18 @@
     var Interval;
     var IntervalBegin = setInterval(function () {
         getCarlocation();
-    }, 10000);
+    }, 3000);
+
+
+var car_select = null;
+
 
 
 
     function getCarlocation(type) {
 
 var icon = null;
-
+        var icon_type = null;
         $.getJSON("/admin-transit/CM_CAR/API", function(jsonBus1) {
             clearMarkCar();
             carMark = [];
@@ -579,17 +590,20 @@ var icon = null;
                         if(car=="R1G"||car=="R1P"){
 
                             car_check  = "R1";
-
+                            icon_type = "R1G";
                         }
                         if(car=="R2P"||car=="R2B"){
                             car_check = "R2";
+                            icon_type = "R2P";
 
                         }
                         if(car=="R3Y"){
                             car_check = "R3-Y";
+                            icon_type = "R3Y";
                         }
                         if(car=="R3R"){
                             car_check = "R3-R";
+                            icon_type = "R3R";
                         }
 
                         if(car=="B1G"||car=="B1B")
@@ -598,6 +612,7 @@ var icon = null;
                                 ||carB1.Detail=="B1,5"||carB1.Detail=="B1,4") {
                                 bypass = true;
                                 by_passcheck = "minibus"
+                                icon_type = "minibus";
                             }
                         }
                         if(car=="B2G" ||car=="B2B")
@@ -606,6 +621,7 @@ var icon = null;
                                 ||carB1.Detail=="B2,6"||carB1.Detail=="B2,2"||carB1.Detail=="B2,3"){
                                 bypass = true;
                                 by_passcheck = "minibus"
+                                icon_type = "minibus";
                             }
                         }
                         if(car=="B3G" ||car=="B3B")
@@ -613,6 +629,7 @@ var icon = null;
                             if(carB1.Detail=="B3,30"||carB1.Detail=="B3,33"||carB1.Detail=="B3,34"||carB1.Detail=="B3,37"){
                                 bypass = true;
                                 by_passcheck = "minibus"
+                                icon_type = "minibus";
                             }
                         }
 
@@ -621,124 +638,159 @@ var icon = null;
                         {
                             bypass = true;
                             by_passcheck = "kwvan"
+                            icon_type = "KWG";
                         }
 
+
+                        if(carB1.Detail=="R1"){
+                            icon_type = "R1G";
+                        }
+                        if(carB1.Detail=="R2"){
+                            icon_type = "R2P";
+                        }
+                        if(carB1.Detail=="R3-Y"){
+                            icon_type = "R3Y";
+                        }
+                        if(carB1.Detail=="R3-R"){
+                            icon_type = "R3R";
+                        }
+
+                        if(carB1.Detail=="B1,2"||carB1.Detail=="B1,6"||carB1.Detail=="B1,3" ||carB1.Detail=="B1,1"
+                            ||carB1.Detail=="B1,5"||carB1.Detail=="B1,4")
+                        {
+                            icon_type = "minibus";
+                        }
+                        if(carB1.Detail=="B2,5"||carB1.Detail=="B2,1"|| carB1.Detail=="B2,4"
+                            ||carB1.Detail=="B2,6"||carB1.Detail=="B2,2"||carB1.Detail=="B2,3")
+                        {
+                            icon_type = "minibus";
+                        }
+                        if(carB1.Detail=="B3,30"||carB1.Detail=="B3,33"||carB1.Detail=="B3,34"||carB1.Detail=="B3,37")
+                        {
+                            icon_type = "minibus";
+                        }
+
+
+                        if(carB1.Detail=="")
+                        {
+                            icon_type = "KWG";
+                        }
 
                         const x = parseFloat(carB1.Direction);
                         switch (true) {
                             case (x >= 5 && x <= 15):
-                                icon = '/admin-transit/image/icon_car/R3R/R3R-10.png';
+                                icon = '/admin-transit/image/icon_car/degree/'+icon_type+'-10.png';
                                 break;
                             case (x >= 15 && x <= 25):
-                                icon = '/admin-transit/image/icon_car/R3R/R3R-20.png';
+                                icon = '/admin-transit/image/icon_car/degree/'+icon_type+'-20.png';
                                 break;
                             case (x >= 25 && x <= 35):
-                                icon = '/admin-transit/image/icon_car/R3R/R3R-30.png';
+                                icon = '/admin-transit/image/icon_car/degree/'+icon_type+'-30.png';
                                 break;
                             case (x >= 35 && x <= 45):
-                                icon = '/admin-transit/image/icon_car/R3R/R3R-40.png';
+                                icon = '/admin-transit/image/icon_car/degree/'+icon_type+'-40.png';
                                 break;
                             case (x >= 45 && x <= 55):
-                                icon = '/admin-transit/image/icon_car/R3R/R3R-50.png';
+                                icon = '/admin-transit/image/icon_car/degree/'+icon_type+'-50.png';
                                 break;
                             case (x >= 55 && x <= 65):
-                                icon = '/admin-transit/image/icon_car/R3R/R3R-60.png';
+                                icon = '/admin-transit/image/icon_car/degree/'+icon_type+'-60.png';
                                 break;
                             case (x >= 65 && x <= 75):
-                                icon = '/admin-transit/image/icon_car/R3R/R3R-70.png';
+                                icon = '/admin-transit/image/icon_car/degree/'+icon_type+'-70.png';
                                 break;
                             case (x >= 75 && x <= 85):
-                                icon = '/admin-transit/image/icon_car/R3R/R3R-80.png';
+                                icon = '/admin-transit/image/icon_car/degree/'+icon_type+'-80.png';
                                 break;
                             case (x >= 85 && x <= 95):
-                                icon = '/admin-transit/image/icon_car/R3R/R3R-90.png';
+                                icon = '/admin-transit/image/icon_car/degree/'+icon_type+'-90.png';
                                 break;
                             case (x >= 95 && x <= 105):
-                                icon = '/admin-transit/image/icon_car/R3R/R3R-100.png';
+                                icon = '/admin-transit/image/icon_car/degree/'+icon_type+'-100.png';
                                 break;
                             case (x >= 105 && x <= 115):
-                                icon = '/admin-transit/image/icon_car/R3R/R3R-110.png';
+                                icon = '/admin-transit/image/icon_car/degree/'+icon_type+'-110.png';
                                 break;
                             case (x >= 115 && x <= 125):
-                                icon = '/admin-transit/image/icon_car/R3R/R3R-120.png';
+                                icon = '/admin-transit/image/icon_car/degree/'+icon_type+'-120.png';
                                 break;
                             case (x >= 125 && x <= 135):
-                                icon = '/admin-transit/image/icon_car/R3R/R3R-130.png';
+                                icon = '/admin-transit/image/icon_car/degree/'+icon_type+'-130.png';
                                 break;
                             case (x >= 135 && x <= 145):
-                                icon = '/admin-transit/image/icon_car/R3R/R3R-140.png';
+                                icon = '/admin-transit/image/icon_car/degree/'+icon_type+'-140.png';
                                 break;
                             case (x >= 145 && x <= 155):
-                                icon = '/admin-transit/image/icon_car/R3R/R3R-150.png';
+                                icon = '/admin-transit/image/icon_car/degree/'+icon_type+'-150.png';
                                 break;
                             case (x >= 155 && x <= 165):
-                                icon = '/admin-transit/image/icon_car/R3R/R3R-160.png';
+                                icon = '/admin-transit/image/icon_car/degree/'+icon_type+'-160.png';
                                 break;
                             case (x >= 165 && x <= 175):
-                                icon = '/admin-transit/image/icon_car/R3R/R3R-170.png';
+                                icon = '/admin-transit/image/icon_car/degree/'+icon_type+'-170.png';
                                 break;
                             case (x >= 175 && x <= 185):
-                                icon = '/admin-transit/image/icon_car/R3R/R3R-180.png';
+                                icon = '/admin-transit/image/icon_car/degree/'+icon_type+'-180.png';
                                 break;
                             case (x >= 185 && x <= 195):
-                                icon = '/admin-transit/image/icon_car/R3R/R3R-190.png';
+                                icon = '/admin-transit/image/icon_car/degree/'+icon_type+'-190.png';
                                 break;
                             case (x >= 195 && x <= 205):
-                                icon = '/admin-transit/image/icon_car/R3R/R3R-200.png';
+                                icon = '/admin-transit/image/icon_car/degree/'+icon_type+'-200.png';
                                 break;
                             case (x >= 205 && x <= 215):
-                                icon = '/admin-transit/image/icon_car/R3R/R3R-210.png';
+                                icon = '/admin-transit/image/icon_car/degree/'+icon_type+'-210.png';
                                 break;
                             case (x >= 215 && x <= 225):
-                                icon = '/admin-transit/image/icon_car/R3R/R3R-220.png';
+                                icon = '/admin-transit/image/icon_car/degree/'+icon_type+'-220.png';
                                 break;
                             case (x >= 225 && x <= 235):
-                                icon = '/admin-transit/image/icon_car/R3R/R3R-230.png';
+                                icon = '/admin-transit/image/icon_car/degree/'+icon_type+'-230.png';
                                 break;
                             case (x >= 235 && x <= 245):
-                                icon = '/admin-transit/image/icon_car/R3R/R3R-240.png';
+                                icon = '/admin-transit/image/icon_car/degree/'+icon_type+'-240.png';
                                 break;
                             case (x >= 245 && x <= 255):
-                                icon = '/admin-transit/image/icon_car/R3R/R3R-250.png';
+                                icon = '/admin-transit/image/icon_car/degree/'+icon_type+'-250.png';
                                 break;
                             case (x >= 255 && x <= 265):
-                                icon = '/admin-transit/image/icon_car/R3R/R3R-260.png';
+                                icon = '/admin-transit/image/icon_car/degree/'+icon_type+'-260.png';
                                 break;
                             case (x >= 265 && x <= 275):
-                                icon = '/admin-transit/image/icon_car/R3R/R3R-270.png';
+                                icon = '/admin-transit/image/icon_car/degree/'+icon_type+'-270.png';
                                 break;
                             case (x >= 275 && x <= 285):
-                                icon = '/admin-transit/image/icon_car/R3R/R3R-280.png';
+                                icon = '/admin-transit/image/icon_car/degree/'+icon_type+'-280.png';
                                 break;
                             case (x >= 285 && x <= 295):
-                                icon = '/admin-transit/image/icon_car/R3R/R3R-290.png';
+                                icon = '/admin-transit/image/icon_car/degree/'+icon_type+'-290.png';
                                 break;
                             case (x >= 295 && x <= 305):
-                                icon = '/admin-transit/image/icon_car/R3R/R3R-300.png';
+                                icon = '/admin-transit/image/icon_car/degree/'+icon_type+'-300.png';
                                 break;
                             case (x >= 305 && x <= 315):
-                                icon = '/admin-transit/image/icon_car/R3R/R3R-310.png';
+                                icon = '/admin-transit/image/icon_car/degree/'+icon_type+'-310.png';
                                 break;
                             case (x >= 315 && x <= 325):
-                                icon = '/admin-transit/image/icon_car/R3R/R3R-320.png';
+                                icon = '/admin-transit/image/icon_car/degree/'+icon_type+'-320.png';
                                 break;
                             case (x >= 325 && x <= 335):
-                                icon = '/admin-transit/image/icon_car/R3R/R3R-330.png';
+                                icon = '/admin-transit/image/icon_car/degree/'+icon_type+'-330.png';
                                 break;
                             case (x >= 335 && x <= 345):
-                                icon = '/admin-transit/image/icon_car/R3R/R3R-340.png';
+                                icon = '/admin-transit/image/icon_car/degree/'+icon_type+'-340.png';
                                 break;
                             case (x >= 345 && x <= 355):
-                                icon = '/admin-transit/image/icon_car/R3R/R3R-350.png';
+                                icon = '/admin-transit/image/icon_car/degree/'+icon_type+'-350.png';
                                 break;
                             case (x >= 355 && x <= 360):
-                                icon = '/admin-transit/image/icon_car/R3R/R3R-360.png';
+                                icon = '/admin-transit/image/icon_car/degree/'+icon_type+'-360.png';
                                 break;
                             case (x >= 0 && x <= 5):
-                                icon = '/admin-transit/image/icon_car/R3R/R3R-360.png';
+                                icon = '/admin-transit/image/icon_car/degree/'+icon_type+'-360.png';
                                 break;
                             default:
-                                icon = '/admin-transit/image/icon_car/R3R/R3R-360.png';
+                                icon = '/admin-transit/image/icon_car/degree/'+icon_type+'-360.png';
                                 break;
                         }
 
@@ -787,6 +839,7 @@ var icon = null;
 
                         if(car=="all"){
 
+
                             var markBusB1 = new google.maps.Marker({
                                 position: new google.maps.LatLng(carB1.LaGoogle, carB1.LongGoogle),
                                 map: map,
@@ -797,10 +850,14 @@ var icon = null;
                             info = new google.maps.InfoWindow();
                             google.maps.event.addListener(markBusB1, 'click', (function (markBusB1, i) {
                                 return function () {
+                                    // car_select = markBusB1;
                                     getInfo(carB1);
                                     info.open(map, markBusB1);
                                 }
                             })(markBusB1, i));
+
+console.log(icon,carB1.Detail);
+
                         }
 
 
@@ -810,7 +867,8 @@ var icon = null;
 
             });
         });
-        console.log(carMark);
+        // console.log(car_select);
+        google.maps.event.trigger(car_select, 'click');
     }
 
 
