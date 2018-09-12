@@ -559,9 +559,9 @@
     }
 
     var Interval;
-    var IntervalBegin = setInterval(function () {
-        getCarlocation();
-    }, 3000);
+    // var IntervalBegin = setInterval(function () {
+    //     getCarlocation();
+    // }, 3000);
 
 
 
@@ -582,13 +582,13 @@
         var icon_type = null;
 
         //station estimate time
-        clearMarkers();
-        markers = [];
-        if(car=="all"){
-            station();
-        }else{
-        station(car);
-        }
+        // clearMarkers();
+        // markers = [];
+        // if(car=="all"){
+        //     station();
+        // }else{
+        // station(car);
+        // }
 
         $.getJSON("/admin-transit/CM_CAR/API", function(jsonBus1) {
             clearMarkCar();
@@ -891,7 +891,7 @@ closeAllInfoWindows();
 
             });
         });
-
+        setTimeout(getCarlocation, 5000);
     }
 
 
