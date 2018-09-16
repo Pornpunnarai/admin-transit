@@ -76,16 +76,25 @@
                     title: "Latitude:" + position.lat + " | Longitude:" + position.lng,
                     icon: check_direction(car[i].Direction,car[i].Detail)
                 });
+
+                    marker['infowindow'] = new google.maps.InfoWindow({
+                        content: 'sssss'
+                    });
+
+                    google.maps.event.addListener(marker, 'click', function(marker, i) {
+                        this['infowindow'].open(map, this);
+                    });
+
+
                 array_marker.push(marker);
 
-
-                    google.maps.event.addListener(marker, 'click', (function (marker, i) {
-                        return function () {
-                            info.setContent('<div id="content">xxx</div>');
-                            // console.log('<div id="content'+car[i].Registerid+'">xxx</div>');
-                            info.open(map, marker);
-                        }
-                    })(marker, i));
+                    //
+                    // google.maps.event.addListener(marker, 'click', (function (marker, i) {
+                    //     return function () {
+                    //         info.setContent('<div id="content">xxx</div>');
+                    //         info.open(map, marker);
+                    //     }
+                    // })(marker, i));
                 }
             }
 
@@ -133,11 +142,16 @@
                 array_marker[i].setPosition(latlng);
                 array_marker[i].setIcon(check_direction(array_result[i].direction,array_result[i].type));
 
-                var item = document.getElementById("content");
-                item.innerHTML = 'sss';
+                var marker = array_marker[i];
+                // google.maps.event.addListener(marker, 'click', (function (marker, i) {
+                //     return function () {
+                //         info.setContent('ssss'+array_postion[i].lng);
+                //     }
+                // })(marker, i));
 
-
-
+                marker['infowindow'] = new google.maps.InfoWindow({
+                    content: 'sssss'+array_postion[i].lng
+                });
 
             }
             if(x!=numDeltas){
