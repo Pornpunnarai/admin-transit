@@ -184,7 +184,7 @@
                                 <a id="icon_off" onclick="route('all')" href="#">ทุกเส้นทาง</a>
                             </li>
                             <li>
-                                <a id="stationClear" href="#">Clear Station</a>
+                                <a id="stationClear" onclick="stationClear()" href="#">Clear Station</a>
                             </li>
                         </ul>
                         <!-- /.nav-second-level -->

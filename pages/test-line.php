@@ -33,8 +33,8 @@
 //FIRST POLYLINE SNAP TO ROAD
 
             ChileTrip1 = [
-                new google.maps.LatLng(18.8103981,98.9479397),
-                new google.maps.LatLng(18.81064,98.94912)
+                new google.maps.LatLng(18.80931,98.95303),
+                new google.maps.LatLng(18.80204,98.96684)
             ];
 
             // ChileTrip1 = [];
@@ -72,12 +72,34 @@ var str = "";
                         for(var i=0;i<=snap_path1.length-1;i++){
 
                             var latlng = {lat:snap_path1[i].lat(),lng:snap_path1[i].lng()}
+                            console.log(snap_path1[i].lat(),snap_path1[i].lng());
                             myTrip.push(latlng);
                     // str += "{lat: "+snap_path1[i].lat()+", lng: "+snap_path1[i].lng()+"},";
 
 // console.log("{lat: "+snap_path1[i].lat()+", lng: "+snap_path1[i].lng()+"}");
                             // test.push(new google.maps.LatLng(parseFloat(snap_path1[i].lat()),parseFloat(snap_path1[i].lng())));
                         }
+                        for(var i=0;i<=myTrip.length-1;i++) {
+
+                            if(myTrip[i+1]!=null){
+                            var p1 = {x: myTrip[i].lat, y: myTrip[i].lng};
+
+                            var p2 = {x: myTrip[i+1].lat, y: myTrip[i+1].lng};
+
+                            // angle in radians
+                            var angleRadians = Math.atan2(p2.y - p1.y, p2.x - p1.x);
+
+                            // angle in degrees
+                            var angleDeg = Math.atan2(p2.y - p1.y, p2.x - p1.x) * 180 / Math.PI;
+
+                            if(angleDeg < 0){
+                                angleDeg = 360 + angleDeg;
+                            }
+
+                            console.log(angleDeg);
+                            }
+                        }
+
                         var flightPath = new google.maps.Polyline({
                             path: myTrip,
                             geodesic: true,
@@ -136,6 +158,10 @@ var str = "";
         };
         window.onload = function() { initialize();};
 
+
+    </script>
+
+    <script>
 
     </script>
 </head>
