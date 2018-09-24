@@ -76,7 +76,7 @@ console.log(route);
             $.getJSON("/admin-transit/CM_CAR/API", function(jsonBus1) {
                 $.each(jsonBus1, function(i, carB1) {
                     if(carB1.busstop!=null){
-                        console.log(carB1.busstop);
+                        // console.log(carB1.busstop);
                     }
 
 //for cm transit only
@@ -212,6 +212,9 @@ function drawPolyLine(route) {
                         }
                     }
                 };
+if(polyline.type=="B1G"){
+    console.log(polyline.type);
+}
 
                 var c = search(polyline.type,json_route);
 
