@@ -12,6 +12,7 @@
     </style>
     <!--    <script src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>-->
     <script src="../vendor/jquery/jquery.min.js"></script>
+<!--    <script src="https://maps.googleapis.com/maps/api/js?libraries=geometry"></script>-->
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCCeIm4Qr_eDTBDnE55Q1DJbZ4qXZLYjss"></script>
     <script>
         var json_station = (function () {
@@ -32,7 +33,7 @@
 
         var xi = 0;
         for(var i = 0;i<=json_station.length-1;i++) {
-            if (json_station[i].type == "R1G") {
+            if (json_station[i].type == "B1G") {
 
                 // console.log(json_station[i]);
                 array_selected[xi] = json_station[i];
@@ -116,10 +117,19 @@ if(count==1) {
             }
 
 
+
+
+            var pos1 = new google.maps.LatLng(new_mytrip[i].lat,new_mytrip[i].lng);
+            var pos2 = new google.maps.LatLng(new_mytrip[i+1].lat,new_mytrip[i+1].lng);
+            var total = google.maps.geometry.spherical.computeDistanceBetween(pos1, pos2);
+            // console.log(angleDeg);
+            // console.log(Math.round(angleDeg));
+
+
         route_cal.push({route_id: 1,route_type:array_selected[count].type,	station_id_start:array_selected[count-1].id,
             station_name_start:	array_selected[count-1].station_name,station_id_dest:array_selected[count].id,station_name_dest:array_selected[count].station_name,
             section_start:x,section_end:x+1,section_all:new_mytrip.length - 1,lat_start:new_mytrip[i].lat,lng_start:new_mytrip[i].lng,lat_dest:new_mytrip[i+1].lat,lng_dest:new_mytrip[i+1].lng,
-            direction: angleDeg
+            direction: angleDeg,distance: total
         });
 x++;
         }
@@ -159,6 +169,13 @@ else {
             }
 
 
+            var pos1 = new google.maps.LatLng(new_mytrip[i].lat,new_mytrip[i].lng);
+            var pos2 = new google.maps.LatLng(new_mytrip[i+1].lat,new_mytrip[i+1].lng);
+            var total = google.maps.geometry.spherical.computeDistanceBetween(pos1, pos2);
+            console.log(angleDeg);
+            console.log(Math.round(angleDeg));
+
+
             route_cal.push({
                 route_id: 1,
                 route_type: array_selected[count].type,
@@ -173,7 +190,8 @@ else {
                 lng_start: new_mytrip[i].lng,
                 lat_dest: new_mytrip[i + 1].lat,
                 lng_dest: new_mytrip[i + 1].lng,
-                direction: angleDeg
+                direction: angleDeg,
+                distance: total
             });
             x++;
         }
@@ -206,7 +224,6 @@ else {
         clearPolyline();
 
 
-
     ChileTrip1 = [
         new google.maps.LatLng(array_selected[count].station_lat,array_selected[count].station_lng),
         new google.maps.LatLng(array_selected[count+1].station_lat,array_selected[count+1].station_lng)
@@ -223,7 +240,7 @@ map.setZoom(17);
         });
         google.maps.event.addListener(marker1, 'click', (function(marker1, i) {
             return function() {
-                info.setContent('station<br>'+array_selected[count].station_lat+","+array_selected[count].station_lng);
+                info.setContent('station: <br>'+array_selected[count].station_lat+","+array_selected[count].station_lng);
 
                 info.open(map, marker1);
             }
@@ -237,7 +254,7 @@ map.setZoom(17);
         });
         google.maps.event.addListener(marker2, 'click', (function(marker2, i) {
             return function() {
-                info.setContent('station<br>'+array_selected[count].station_lat+","+array_selected[count].station_lng);
+                info.setContent('station: <br>'+array_selected[count+1].station_lat+","+array_selected[count+1].station_lng);
 
                 info.open(map, marker2);
             }
@@ -330,7 +347,8 @@ map.setZoom(17);
 console.log(station_table);
 console.log(route_table);
         console.log(route_cal);
-        // console.log(old_mytrip);
+        var save = document.getElementById("save");
+        save.style.display = "block";
 
         var flightPath = new google.maps.Polyline({
             path: old_mytrip,
@@ -348,6 +366,22 @@ console.log(route_table);
 
 
 }
+
+        function distance(lat1, lon1, lat2, lon2, unit) {
+            var radlat1 = Math.PI * lat1/180
+            var radlat2 = Math.PI * lat2/180
+            var radlon1 = Math.PI * lon1/180
+            var radlon2 = Math.PI * lon2/180
+            var theta = lon1-lon2
+            var radtheta = Math.PI * theta/180
+            var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+            dist = Math.acos(dist)
+            dist = dist * 180/Math.PI
+            dist = dist * 60 * 1.1515
+            if (unit=="K") { dist = dist * 1.609344 }
+            if (unit=="N") { dist = dist * 0.8684 }
+            return dist
+        }
 
         function clearStation() {
             for (var i = 0; i < stations.length; i++) {
@@ -448,6 +482,42 @@ console.log(route_table);
             // }
 
         }
+
+        function distance(lat1, lon1, lat2, lon2, unit) {
+            var radlat1 = Math.PI * lat1/180
+            var radlat2 = Math.PI * lat2/180
+            var radlon1 = Math.PI * lon1/180
+            var radlon2 = Math.PI * lon2/180
+            var theta = lon1-lon2
+            var radtheta = Math.PI * theta/180
+            var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+            dist = Math.acos(dist)
+            dist = dist * 180/Math.PI
+            dist = dist * 60 * 1.1515
+            if (unit=="K") { dist = dist * 1.609344 }
+            if (unit=="N") { dist = dist * 0.8684 }
+            return dist
+        }
+
+
+        function save() {
+
+            console.log(station_table);
+            console.log(route_table);
+            console.log(route_cal);
+
+
+            $.ajax({
+                type: "POST",
+                data: {station_table:station_table,
+                    route_table:route_table,
+                    route_cal:route_cal},
+                url: "check-test-line.php",
+                success: function(msg){
+                   console.log(msg);
+                }
+            });
+        }
     </script>
 
 </head>
@@ -459,6 +529,9 @@ Array End: <input type="number" id="end" >
 <button onclick="editLine()">Click</button>
 <br>
 <button onclick="drawLine()">Draw Line</button>
+
+<br>
+<button id="save" style="display: none" onclick="save()">Save</button>
 
 <script src="http://www.google-analytics.com/urchin.js" type="text/javascript">
 </script>
