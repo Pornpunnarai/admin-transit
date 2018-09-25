@@ -56,6 +56,11 @@
             map = new google.maps.Map(document.getElementById('map'), myOptions);
             map.setCenter(pos);
 
+            google.maps.event.addListener(map,'click',function(event) {
+                document.getElementById('latspan').innerHTML = event.latLng.lat()
+                document.getElementById('lngspan').innerHTML = event.latLng.lng()
+            });
+
 
         };
         window.onload = function() { initialize();};
@@ -367,21 +372,6 @@ console.log(route_table);
 
 }
 
-        function distance(lat1, lon1, lat2, lon2, unit) {
-            var radlat1 = Math.PI * lat1/180
-            var radlat2 = Math.PI * lat2/180
-            var radlon1 = Math.PI * lon1/180
-            var radlon2 = Math.PI * lon2/180
-            var theta = lon1-lon2
-            var radtheta = Math.PI * theta/180
-            var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
-            dist = Math.acos(dist)
-            dist = dist * 180/Math.PI
-            dist = dist * 60 * 1.1515
-            if (unit=="K") { dist = dist * 1.609344 }
-            if (unit=="N") { dist = dist * 0.8684 }
-            return dist
-        }
 
         function clearStation() {
             for (var i = 0; i < stations.length; i++) {
@@ -404,7 +394,6 @@ console.log(route_table);
         }
 
 
-
         function editLine() {
 
             var start = parseInt(document.getElementById("start").value);
@@ -421,28 +410,31 @@ console.log(route_table);
             }
 
 
-            // for (var i = 0; i < new_mytrip.length; i++) {
-            //
-            //     var marker3 = new google.maps.Marker({
-            //         position: new google.maps.LatLng(new_mytrip[i].lat,new_mytrip[i].lng),
-            //         map: map,
-            //         title: new_mytrip[i].lat+","+new_mytrip[i].lng,
-            //         icon: BS_special
-            //     });
-            //     info = new google.maps.InfoWindow();
-            //     google.maps.event.addListener(marker3, 'click', (function(marker3, i) {
-            //         return function() {
-            //             // info.setContent('point<br>'+snap_path1[i].lat()+","+snap_path1[i].lng());
-            //             //
-            //             // info.open(map, marker3);
-            //         }
-            //     })(marker3, i));
-            //     console.log(i);
-            //     info.setContent(''+i);
-            //     info.open(map, marker3);
-            //
-            // }
-            // points.push(marker3);
+
+
+            //open window
+            for (var i = 0; i < new_mytrip.length; i++) {
+
+                var marker3 = new google.maps.Marker({
+                    position: new google.maps.LatLng(new_mytrip[i].lat,new_mytrip[i].lng),
+                    map: map,
+                    title: new_mytrip[i].lat+","+new_mytrip[i].lng,
+                    icon: BS_special
+                });
+                info = new google.maps.InfoWindow();
+                google.maps.event.addListener(marker3, 'click', (function(marker3, i) {
+                    return function() {
+                        // info.setContent('point<br>'+snap_path1[i].lat()+","+snap_path1[i].lng());
+                        //
+                        // info.open(map, marker3);
+                    }
+                })(marker3, i));
+                console.log(i);
+                info.setContent(''+i);
+                info.open(map, marker3);
+
+            }
+            points.push(marker3);
 
 
 
@@ -483,20 +475,151 @@ console.log(route_table);
 
         }
 
-        function distance(lat1, lon1, lat2, lon2, unit) {
-            var radlat1 = Math.PI * lat1/180
-            var radlat2 = Math.PI * lat2/180
-            var radlon1 = Math.PI * lon1/180
-            var radlon2 = Math.PI * lon2/180
-            var theta = lon1-lon2
-            var radtheta = Math.PI * theta/180
-            var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
-            dist = Math.acos(dist)
-            dist = dist * 180/Math.PI
-            dist = dist * 60 * 1.1515
-            if (unit=="K") { dist = dist * 1.609344 }
-            if (unit=="N") { dist = dist * 0.8684 }
-            return dist
+
+        var arr = ['One', 'Two', 'Three'];
+        arr.splice(1, 0, "Zero1");  //ระบุ parameter 2 เป็น 0 จะเท่ากับการ add
+        arr.splice(2, 0, "Zero2");  //ระบุ parameter 2 เป็น 0 จะเท่ากับการ add
+        console.log(arr);
+
+        function insertLine() {
+
+            var point_index = parseInt(document.getElementById("point_index").value);
+
+            var latspan = document.getElementById("latspan").innerHTML;
+            var lngspan = document.getElementById("lngspan").innerHTML;
+
+            ChileTrip1 = [
+                new google.maps.LatLng(new_mytrip[point_index].lat,new_mytrip[point_index].lng),
+                new google.maps.LatLng(latspan,lngspan)
+            ];
+
+
+
+
+
+            var traceChileTrip1 = new google.maps.Polyline({
+                path: ChileTrip1,
+                strokeColor: "red",
+                strokeOpacity: 1.0,
+                strokeWeight: 0
+            });
+
+
+var new_point = [];
+            var service1 = new google.maps.DirectionsService(),traceChileTrip1,snap_path1=[];
+
+            for(j=0;j<ChileTrip1.length-1;j++){
+                service1.route({origin: ChileTrip1[j],destination: ChileTrip1[j+1],travelMode: google.maps.DirectionsTravelMode.DRIVING},function(result, status) {
+                    if(status == google.maps.DirectionsStatus.OK) {
+                        snap_path1 = snap_path1.concat(result.routes[0].overview_path);
+                        for(var i=0;i<=snap_path1.length-1;i++){
+                            var latlng = {lat:snap_path1[i].lat(),lng:snap_path1[i].lng()}
+                            new_point.push(latlng);
+                        }
+
+                    } else {
+                        alert("Directions request failed: "+status);
+                        // location.reload();
+                    }
+
+                });
+            }
+
+            clearPoint();
+            // clearStation();
+            clearPolyline();
+
+
+
+
+
+
+
+            console.log(new_mytrip);
+            //for tomorrow
+console.log(new_point.length-1);
+
+
+
+
+            for(var i=1;i<=new_point.length-1;i++){
+                console.log(i);
+                // new_mytrip.splice(point_index+1, 0, new_point[i]);
+                // point_index++;
+            }
+
+            console.log(new_mytrip);
+
+
+
+
+
+
+
+
+
+
+            //open window
+            for (var i = 0; i < new_mytrip.length; i++) {
+
+                var marker3 = new google.maps.Marker({
+                    position: new google.maps.LatLng(new_mytrip[i].lat,new_mytrip[i].lng),
+                    map: map,
+                    title: new_mytrip[i].lat+","+new_mytrip[i].lng,
+                    icon: BS_special
+                });
+                info = new google.maps.InfoWindow();
+                google.maps.event.addListener(marker3, 'click', (function(marker3, i) {
+                    return function() {
+                        // info.setContent('point<br>'+snap_path1[i].lat()+","+snap_path1[i].lng());
+                        //
+                        // info.open(map, marker3);
+                    }
+                })(marker3, i));
+                // console.log(i);
+                info.setContent(''+i);
+                info.open(map, marker3);
+
+            }
+            points.push(marker3);
+
+
+
+
+
+
+            var flightPath2 = new google.maps.Polyline({
+                path: old_mytrip,
+                geodesic: true,
+                strokeColor: '#ff1835',
+                strokeOpacity: 1.0,
+                strokeWeight: 2
+            });
+            flightPath2.setMap(map);
+            flightPaths.push(flightPath2);
+
+            var flightPath = new google.maps.Polyline({
+                path: new_mytrip,
+                geodesic: true,
+                strokeColor: '#0d0c55',
+                strokeOpacity: 1.0,
+                strokeWeight: 2
+            });
+            // console.log(old_mytrip);
+            // console.log(new_mytrip);
+
+
+            flightPaths.push(flightPath);
+            flightPath.setMap(map);
+
+
+            // myTrip = new_mytrip;
+
+            // for (var i = 0; i < new_mytrip.length; i++) {
+            //     var latlng = {lat:new_mytrip[i].lat,lng:new_mytrip[i].lng}
+            //     myTrip.push(latlng);
+            // }
+
         }
 
 
@@ -530,6 +653,13 @@ Array End: <input type="number" id="end" >
 <br>
 <button onclick="drawLine()">Draw Line</button>
 
+<br>
+<span id="latspan"></span>
+<br>
+<span id="lngspan"></span>
+<br>
+Point Index: <input type="number" id="point_index" >
+<button onclick="insertLine()">Insert</button>
 <br>
 <button id="save" style="display: none" onclick="save()">Save</button>
 
