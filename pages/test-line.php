@@ -20,7 +20,7 @@
             $.ajax({
                 'async': false,
                 'global': false,
-                'url': "/admin-transit/API/JSON/station/",
+                'url': "/admin-transit/API/JSON/station_fack/",
                 'dataType': "json",
                 'success': function (data) {
                     station = data;
@@ -33,7 +33,7 @@
 
         var xi = 0;
         for(var i = 0;i<=json_station.length-1;i++) {
-            if (json_station[i].type == "B1G") {
+            if (json_station[i].type == "B2G") {
 
                 // console.log(json_station[i]);
                 array_selected[xi] = json_station[i];
