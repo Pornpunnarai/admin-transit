@@ -11,6 +11,11 @@ var car = (function () {
     });
     return car;
 })();
+
+
+
+
+
 var json_station = (function () {
     var station = null;
     $.ajax({
@@ -33,11 +38,13 @@ var array_postion = [];
 var array_delta = [];
 var icon = null;
 var interval = null;
+var interval_car = null;
 var flightAllPath = [];
 var flightPath;
 var BS_special = '/admin-transit/image/icon_station/R3R_busstop.png';
 var array_station = [];
 var icon_current = "all";
+var car_realtime = null;
 function initialize() {
 
 
@@ -49,6 +56,25 @@ function initialize() {
     };
     map = new google.maps.Map(document.getElementById("mapCanvas"), myOptions);
     info = new google.maps.InfoWindow();
+
+
+     interval_car = setInterval(function() {
+            var car = (function () {
+                var car = null;
+                $.ajax({
+                    'async': false,
+                    'global': false,
+                    'url': "/admin-transit/CM_CAR/API",
+                    'dataType': "json",
+                    'success': function (data) {
+                        car = data;
+                    }
+                });
+                return car;
+            })();
+            car_realtime = car
+        },
+        2000);
 
     route("all");
 }
@@ -71,13 +97,12 @@ console.log(route);
     removeLine();
     setMapOnCar(null);
 
+
     interval = setInterval(function() {
             var xi = 0;
             $.getJSON("/admin-transit/CM_CAR/API", function(jsonBus1) {
                 $.each(jsonBus1, function(i, carB1) {
-                    if(carB1.busstop!=null){
-                        // console.log(carB1.busstop);
-                    }
+
 
 //for cm transit only
                     if(carB1.Type=="minibus"||carB1.Type=="bus"||carB1.Type=="kwvan") {
@@ -88,8 +113,45 @@ console.log(route);
                                 , direction: parseFloat(carB1.Direction), type: carB1.Detail,busstop: carB1.busstop
                             };
                             xi++;
-                        }
-                    }
+
+                            if(carB1.busstop!=null){
+
+
+                                var car_select = [];
+                                for (var i = 0; i <= car_realtime.length-1; i++) {
+
+
+                                    //fix bus_stop_name
+                                if(car_realtime[i].Type==carB1.Type){
+                                    car_select.push(car_realtime[i]);
+                                }
+
+
+                                }
+
+
+                                        var str = estimate_time('ท่าอากาศยานเชียงใหม่ ');
+                                        var content = '';
+
+                                            for (var i = 0; i <= str.length-1; i++) {
+                                                    content += "<br> สาย "+str[i].type;
+                                            }
+
+                                for (var i = 0; i <= car_select.length-1; i++) {
+                                    content += "<br> เวราโดยประมาณ "+car_select[i].LaGoogle+"-"+convert_car_detail(car_select[i].Detail);
+                                }
+
+
+
+                                for (var i = 0; i <= str.length-1; i++) {
+                                    $('#station-'+str[i].station_id+'-'+str[i].type).html(str[i].station_name+content);
+                                }
+
+
+                                    }
+                                }
+                            }
+
 
                 });
             });
@@ -200,6 +262,8 @@ function drawPolyLine(route) {
                     flightAllPath.push(flightPath);
                 }
 
+
+
                 var search = function(nameKey, myArray) {
                     for (var i=0; i <= myArray.length-1; i++) {
                         if (myArray[i].route_code === nameKey) {
@@ -212,9 +276,9 @@ function drawPolyLine(route) {
                         }
                     }
                 };
-if(polyline.type=="B1G"){
-    console.log(polyline.type);
-}
+// if(polyline.type=="B1G"){
+//     console.log(polyline.type);
+// }
 
                 var c = search(polyline.type,json_route);
 
@@ -255,7 +319,8 @@ if(polyline.type=="B1G"){
 function station(route) {
     clearStation();
     var check = false;
-
+    var x = 0;
+    var old_open = null;
     $.getJSON("/admin-transit/API/JSON/station/", function(jsonCM1) {
 
         $.each(jsonCM1, function(i, station1) {
@@ -263,7 +328,14 @@ function station(route) {
                 // For Aj.Poon
                 var icon = BS_special;
 
-                var marker1 = new google.maps.Marker({
+                // var marker1 = new google.maps.Marker({
+                //     position: new google.maps.LatLng(station1.station_lat, station1.station_lng),
+                //     map: map,
+                //     title: station1.station_name,
+                //     icon: icon
+                // });
+
+                marker = new google.maps.Marker({
                     position: new google.maps.LatLng(station1.station_lat, station1.station_lng),
                     map: map,
                     title: station1.station_name,
@@ -284,15 +356,32 @@ function station(route) {
                     content = "<br> สาย "+str;
                 }
 
-                array_station.push(marker1);
-                info = new google.maps.InfoWindow();
-                google.maps.event.addListener(marker1, 'click', (function(marker1, i) {
-                    return function() {
-                        info.setContent(station1.station_name +content);
+                array_station.push(marker);
+                // info = new google.maps.InfoWindow();
+                // google.maps.event.addListener(marker1, 'click', (function(marker1, i) {
+                //     return function() {
+                //         info.setContent(station1.station_name +content);
+                //
+                //         info.open(map, marker1);
+                //     }
+                // })(marker1, i));
 
-                        info.open(map, marker1);
+                 content = '<span id="station-' + station1.station_id +'-'+station1.type+'">'+station1.station_name +content+'<span>';
+                 // console.log(content);
+                marker['infowindow'] = new google.maps.InfoWindow({
+                    content: content
+                });
+
+                x++;
+                google.maps.event.addListener(marker, 'click', function (e) {
+                    if (old_open != null) {
+                        old_open.close()
                     }
-                })(marker1, i));
+                    this['infowindow'].open(map, this);
+                    old_open = this['infowindow'];
+
+                });
+
             }
         });
 
@@ -313,6 +402,24 @@ function check_station(station_name) {
     type = array.join("-");
     return type;
 }
+
+
+function estimate_time(station_name) {
+    var array = [];
+    // var type;
+
+    for (var i = 0; i <= json_station.length-1; i++) {
+
+        if(json_station[i].station_name == station_name){
+
+            array.push({station_id:json_station[i].station_id,station_name:json_station[i].station_name, type:json_station[i].type});
+        }
+    }
+    // type = array.join("-");
+    return array;
+}
+
+
 function removeLine() {
     for(var i = 0; i <= flightAllPath.length-1; i++){
         flightAllPath[i].setMap(null);
@@ -603,3 +710,4 @@ function stationClear(){
     array_marker = [];
     clearInterval(interval);
 }
+
