@@ -20,7 +20,7 @@
             $.ajax({
                 'async': false,
                 'global': false,
-                'url': "/admin-transit/API/JSON/station_fack/",
+                'url': "/admin-transit/API/JSON/station_fake/",
                 'dataType': "json",
                 'success': function (data) {
                     station = data;
@@ -28,7 +28,7 @@
             });
             return station;
         })();
-
+    
         var array_selected = [];
 
         var xi = 0;
