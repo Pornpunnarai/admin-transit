@@ -3,14 +3,6 @@ include ('connect-mysql.php');
 
 
 
-
-
-//
-//
-//$sql = "SELECT * FROM `file_list` WHERE  `content_list_id` = '".$content_list_id."' AND `status` = 'Pre-Add' OR `status` = 'Delete'";
-//$objQuery = mysqli_query($objCon, $sql);
-//$result = mysqli_fetch_array($objQuery, MYSQLI_ASSOC);
-
 $station_table = $_POST["station_table"];
 $route_table = $_POST["route_table"];
 $route_cal = $_POST["route_cal"];
@@ -18,7 +10,7 @@ $route_cal = $_POST["route_cal"];
 foreach ($station_table as $value) {
 
 
-    $sql = "UPDATE `station` SET `point_lat`='".$value["point_lat"]."',`point_lng`= '".$value["point_lng"]."' WHERE `id` = '".$value["station_id"]."'";
+    $sql = "UPDATE `station` SET `point_lat`='".$value["point_lat"]."',`point_lng`= '".$value["point_lng"]."' WHERE `station_id` = '".$value["station_id"]."' AND `type` = '".$value["type"]."'";
     $objQuery = mysqli_query($objCon, $sql);
 
 
