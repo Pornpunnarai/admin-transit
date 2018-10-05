@@ -25,6 +25,8 @@
     <!-- Custom Fonts -->
     <link href="../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
+    <link href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css">
+
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -35,14 +37,11 @@
     <script src="../vendor/jquery/jquery.min.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCCeIm4Qr_eDTBDnE55Q1DJbZ4qXZLYjss"></script>
 
+
+
+
     <script src="car-test.js"></script>
 
-    <!--    <style>-->
-    <!--        #mapCanvas{-->
-    <!--            width: 100%;-->
-    <!--            height: 400px;-->
-    <!--        }-->
-    <!--    </style>-->
 </head>
 
 <body>
@@ -86,7 +85,8 @@
                     <div class="col-lg-12" style="background-color: #ccc">
                         <h4 class="text-center">ข้อมูลรถ</h4>
 
-                        <table id="createTable2" class="table table-bordered" style="text-align: center">
+                        <table id="example" class="table table-striped table-bordered" style="width:100%">
+                            <thead>
                             <tr>
                                 <th>Car ID</th>
                                 <th>Type</th>
@@ -95,6 +95,8 @@
                                 <th>Logout Time</th>
                                 <th>Infomation</th>
                             </tr>
+                            </thead>
+                            <tbody>
                             <?php
 
                             $file ='http://cmtransit.com/admin-transit/CM_CAR/API/';
@@ -104,27 +106,28 @@
                             $json_obj = json_decode($json_str);
 
                             foreach ($json_obj as $key => $value) {
-                                   if($value->Type=="kwvan"||$value->Type=="minibus"||$value->Type=="bus"){
-                            ?>
-                            <tr>
-                                <td><?=$value->Registerid?></td>
-                                <td><?=convert_car_detail($value->Detail)?></td>
-                                <?php
-                                if($value->StatusLogInOut=="I"){
-                                    $status = "<button class=\"btn btn-success btn-circle\"></button>";
-                                }else{
-                                    $status = "<button class=\"btn btn-danger btn-circle\"></button>";
+                                if($value->Type=="kwvan"||$value->Type=="minibus"||$value->Type=="bus"){
+                                    ?>
+                                    <tr>
+                                        <td><?=$value->Registerid?></td>
+                                        <td><?=convert_car_detail($value->Detail)?></td>
+                                        <?php
+                                        if($value->StatusLogInOut=="I"){
+                                            $status = "<button class=\"btn btn-success btn-circle\"></button>";
+                                        }else{
+                                            $status = "<button class=\"btn btn-danger btn-circle\"></button>";
+                                        }
+                                        ?>
+                                        <td><?=$status?></td>
+                                        <td><?=$value->LogIn?></td>
+                                        <td><?=$value->LogOut?></td>
+                                        <td><button class="btn btn-primary" onclick="driver('<?=$value->Registerid?>')">Info</button></td>
+                                    </tr>
+                                    <?php
                                 }
-                                ?>
-                                <td><?=$status?></td>
-                                <td><?=$value->LogIn?></td>
-                                <td><?=$value->LogOut?></td>
-                                <td><button class="btn btn-primary" onclick="driver('<?=$value->Registerid?>')">Info</button></td>
-                            </tr>
-                            <?php
-                                   }
                             }
                             ?>
+                            </tbody>
                         </table>
 
 
@@ -142,7 +145,15 @@
 
 </div>
 
+<script>
+    $(document).ready(function() {
+        $('#example').DataTable();
+    } );
+</script>
 
+<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
 
 <!--<div id="mapCanvas"></div>-->
 </body>
