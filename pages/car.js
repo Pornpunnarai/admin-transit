@@ -109,8 +109,31 @@ console.log(route);
 
                         if (convert_car_detail(carB1.Detail) == route||route=="all") {
                             array_result[xi] = {
-                                lat: parseFloat(carB1.LaGoogle), lng: parseFloat(carB1.LongGoogle)
-                                , direction: parseFloat(carB1.Direction), type: carB1.Detail,busstop: carB1.busstop
+                                lat: parseFloat(carB1.LaGoogle),
+                                lng: parseFloat(carB1.LongGoogle),
+                                direction: parseFloat(carB1.Direction),
+                                type: carB1.Detail,
+                                busstop: carB1.busstop,
+                                car_content: '' +
+                                    '<div id="content">' +
+                                    '<h2 style="color: blue">' + carB1.Registerid + '</h2>' +
+                                    '</div> <hr> ' +
+                                    'สาย: '+ carB1.Detail + '<br>'+
+                                    'ข้อมูลล่าสุด:' + carB1.Date +':' + carB1.Time +'<br>' +
+                                    'ข้อมูลผู้ขับ: '+ carB1.DriverName + ' สถานะ: '+ carB1.StatusLogInOut + '<hr>'+
+                                    'เครื่องยนต์: '+ carB1.CM_Engine + '<br>'+
+                                    'แบตเตอร์รี่: '+ carB1.CM_Battery + '<br>'+
+                                    'น้ำมัน: '+ carB1.Fuel + '<br>'+
+                                    'อุณหภูมิ: '+ '' + '<br>'+
+                                    'เซ็นเซอร์ฝุ่นละออง: '+ carB1.SensorPM + '<hr>'+
+                                    'GSM: '+ '' + '<br>'+
+                                    'GPS: '+ '' + '<br>'+
+                                    'สถานะ: '+ carB1.SignalFall + '<hr>'+
+                                    'ตำแหน่ง: '+ '' + '<br>'+
+                                    'พิกัด: ('+ carB1.LaGoogle +','+ carB1.LongGoogle +') <hr>'+
+                                    'ประเภทรถ: '+ carB1.Type +'<br>'+
+                                    'สถาณีต่อไป: '+ carB1.busstop +'<br>'+
+                                    'ระยะเวลา: '+ carB1.datetime_busstop +' นาที <br>'
                             };
                             xi++;
 
@@ -137,9 +160,10 @@ console.log(route);
                                                     content += "<br> สาย "+str[i].type;
                                             }
 
-                                for (var i = 0; i <= car_select.length-1; i++) {
-                                    content += "<br> เวราโดยประมาณ "+car_select[i].LaGoogle+"-"+convert_car_detail(car_select[i].Detail);
-                                }
+                                            //estimate time
+                                // for (var i = 0; i <= car_select.length-1; i++) {
+                                //     content += "<br> เวราโดยประมาณ "+car_select[i].LaGoogle+"-"+convert_car_detail(car_select[i].Detail);
+                                // }
 
 
 
@@ -242,8 +266,8 @@ function drawPolyLine(route) {
                 flightPath = new google.maps.Polyline({
                     path: myTrip,
                     strokeColor: route_color,
-                    strokeOpacity: 1.0,
-                    strokeWeight: 2.0
+                    strokeOpacity: 0.9,
+                    strokeWeight: 4
                 });
                 flightAllPath = [];
                 flightAllPath.push(flightPath);
@@ -292,8 +316,8 @@ function drawPolyLine(route) {
                 flightPath = new google.maps.Polyline({
                     path: myTrip,
                     strokeColor: route_color,
-                    strokeOpacity: 1.0,
-                    strokeWeight: 2.0
+                    strokeOpacity: 0.9,
+                    strokeWeight: 4
                 });
 
 
@@ -485,7 +509,8 @@ function moveMarker(){
         array_marker[i].setPosition(latlng);
         array_marker[i].setIcon(check_direction(array_result[i].direction,array_result[i].type));
 
-        $('#rating'+i).html("1ssss"+array_result[i].busstop);
+        // console.log(array_result[0]);
+        $('#rating'+i).html(array_result[i].car_content);
         //set Content Marker
         // $('#rating'+i).html("1ssss"+lat+", Lng"+lng);
     }
