@@ -37,12 +37,84 @@
 
     <script src="car.js"></script>
 
-<!--    <style>-->
-<!--        #mapCanvas{-->
-<!--            width: 100%;-->
-<!--            height: 400px;-->
-<!--        }-->
-<!--    </style>-->
+    <style>
+        /*#mapCanvas{*/
+            /*width: 100%;*/
+            /*height: 400px;*/
+        /*}*/
+
+        #wrapper { position: relative; }
+        #over_map { position: absolute; top: 88%; left: 45%; z-index: 99; }
+
+        .btn{
+            font-size: 30px;
+        }
+        .btn.btn-r1g{
+            background-color: white;
+            color:#339999;
+            font-size: 20px;
+            border: 1px solid #339999 ;
+            padding-left: 15px;
+            padding-right: 15px;
+        }
+        .btn.btn-r1g:hover:focus{
+            background-color: #339999;
+            color:white;
+        }
+
+        .btn.btn-r1p{
+            background-color: white;
+            color:#771a7f;
+            border: 1px solid #771a7f ;
+            font-size: 20px;
+            padding-left: 15px;
+            padding-right: 15px;
+        }
+        .btn.btn-r1p:hover:focus{
+            background-color: #771a7f;
+            color:white;
+        }
+
+        .btn.btn-r2{
+            background-color: white;
+            color:#f268cc;
+            border: 1px solid #f268cc ;
+            font-size: 20px;
+            padding-left: 15px;
+            padding-right: 15px;
+        }
+        .btn.btn-r2:hover:focus{
+            background-color: #f268cc;
+            color:white;
+        }
+
+        .btn.btn-r3r{
+            background-color: white;
+            color:#ff0026;
+            border: 1px solid #ff0026 ;
+            font-size: 20px;
+            padding-left: 15px;
+            padding-right: 15px;
+        }
+        .btn.btn-r3r:hover:focus{
+            background-color: #ff0026;
+            color:white;
+        }
+
+        .btn.btn-r3y{
+            background-color: white;
+            color:#face48;
+            border: 1px solid #face48 ;
+            font-size: 20px;
+            padding-left: 15px;
+            padding-right: 15px;
+        }
+        .btn.btn-r3y:hover:focus{
+            background-color: #face48;
+            color:white;
+        }
+
+    </style>
 </head>
 
 <body>
@@ -61,10 +133,25 @@
 
 
 
-            <div class="embed-responsive embed-responsive-16by9">
-                <div id="mapCanvas" class="embed-responsive-item" style="overflow: hidden;">
+            <div id="wrapper">
+                <div class="embed-responsive embed-responsive-16by9">
+                    <div id="mapCanvas" class="embed-responsive-item" style="overflow: hidden;">
+                    </div>
+                </div>
+
+                <div id="over_map">
+                    <div class="row" style="justify-content: center">
+                        <button class="btn btn-r1g">R1G</button>
+                        <button class="btn btn-r1p">R1P</button>
+                        <button class="btn btn-r2">R2</button>
+                        <button class="btn btn-r3r">R3R</button>
+                        <button class="btn btn-r3y">R3L</button>
+                    </div>
+
                 </div>
             </div>
+
+
         </div>
 
 
