@@ -108,7 +108,7 @@
                             ?>
                             <tr>
                                 <td><?=$value->Registerid?></td>
-                                <td><?=$value->Detail?></td>
+                                <td><?=convert_car_detail($value->Detail)?></td>
                                 <?php
                                 if($value->StatusLogInOut=="I"){
                                     $status = "<button class=\"btn btn-success btn-circle\"></button>";
@@ -148,3 +148,40 @@
 </body>
 
 </html>
+<?php
+function convert_car_detail($detail) {
+    if($detail=="R1"){
+        $car_type = "R1G";
+    }
+    if($detail=="R2"||$detail=="สำรอง"){
+        $car_type = "R2P";
+    }
+    if($detail=="R3-Y"){
+        $car_type = "R3Y";
+    }
+    if($detail=="R3-R"){
+        $car_type = "R3R";
+    }
+
+    if($detail=="B1,2"||$detail=="B1,6"||$detail=="B1,3" ||$detail=="B1,1"
+        ||$detail=="B1,5"||$detail=="B1,4")
+    {
+        $car_type = "B1G";
+    }
+    if($detail=="B2,5"||$detail=="B2,1"|| $detail=="B2,4"
+        ||$detail=="B2,6"||$detail=="B2,2"||$detail=="B2,3")
+    {
+        $car_type = "B2G";
+    }
+    if($detail=="B3,30"||$detail=="B3,33"||$detail=="B3,34"||$detail=="B3,37")
+    {
+        $car_type = "B3G";
+    }
+    if($detail=="")
+    {
+        $car_type = "KWG";
+    }
+
+    return $car_type;
+}
+?>
