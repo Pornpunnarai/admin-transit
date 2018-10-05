@@ -128,7 +128,7 @@
         <div class="container-fluid">
             <ol class="breadcrumb" style="margin-top: 1rem;">
                 <li class="breadcrumb-item active" style="height: 35px">Map</li>
-                <button style="float: right" class="btn btn-primary" onclick="icon_off()">Icon</button>
+                <button id="busstop" style="float: right" class="btn btn-success" onclick="icon_off()">Enable Bus Stop</button>
             </ol>
 
 
@@ -141,11 +141,11 @@
 
                 <div id="over_map">
                     <div class="row" style="justify-content: center">
-                        <button class="btn btn-r1g">R1G</button>
-                        <button class="btn btn-r1p">R1P</button>
-                        <button class="btn btn-r2">R2</button>
-                        <button class="btn btn-r3r">R3R</button>
-                        <button class="btn btn-r3y">R3L</button>
+                        <button onclick="route('R1G')" class="btn btn-r1g">R1G</button>
+                        <button onclick="route('R1P')" class="btn btn-r1p">R1P</button>
+                        <button onclick="route('R2B')" class="btn btn-r2">R2</button>
+                        <button onclick="route('R3R')" class="btn btn-r3r">R3R</button>
+                        <button onclick="route('R3Y')" class="btn btn-r3y">R3L</button>
                     </div>
 
                 </div>

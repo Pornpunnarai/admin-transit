@@ -41,7 +41,8 @@ var interval = null;
 var interval_car = null;
 var flightAllPath = [];
 var flightPath;
-var BS_special = '/admin-transit/image/icon_station/R3R_busstop.png';
+//First ICON
+var BS_special = '/admin-transit/image/icon_station/point4.png';
 var array_station = [];
 var icon_current = "all";
 var car_realtime = null;
@@ -58,7 +59,7 @@ function initialize() {
     info = new google.maps.InfoWindow();
 
 
-     interval_car = setInterval(function() {
+    interval_car = setInterval(function() {
             var car = (function () {
                 var car = null;
                 $.ajax({
@@ -92,7 +93,7 @@ function setMapOnCar(map) {
 
 function route(route) {
     icon_current = route;
-console.log(route);
+    console.log(route);
     clearInterval(interval);
     removeLine();
     setMapOnCar(null);
@@ -104,10 +105,10 @@ console.log(route);
                 $.each(jsonBus1, function(i, carB1) {
 
 
-//for cm transit only
-                    if(carB1.Type=="minibus"||carB1.Type=="bus"||carB1.Type=="kwvan") {
+                    //for cm transit only
+                    if (carB1.Type == "minibus" || carB1.Type == "bus" || carB1.Type == "kwvan") {
+                        if (convert_car_detail(carB1.Detail) == route || route == "all") {
 
-                        if (convert_car_detail(carB1.Detail) == route||route=="all") {
                             array_result[xi] = {
                                 lat: parseFloat(carB1.LaGoogle),
                                 lng: parseFloat(carB1.LongGoogle),
@@ -118,68 +119,139 @@ console.log(route);
                                     '<div id="content">' +
                                     '<h2 style="color: blue">' + carB1.Registerid + '</h2>' +
                                     '</div> <hr> ' +
-                                    'สาย: '+ carB1.Detail + '<br>'+
-                                    'ข้อมูลล่าสุด:' + carB1.Date +':' + carB1.Time +'<br>' +
-                                    'ข้อมูลผู้ขับ: '+ carB1.DriverName + ' สถานะ: '+ carB1.StatusLogInOut + '<hr>'+
-                                    'เครื่องยนต์: '+ carB1.CM_Engine + '<br>'+
-                                    'แบตเตอร์รี่: '+ carB1.CM_Battery + '<br>'+
-                                    'น้ำมัน: '+ carB1.Fuel + '<br>'+
-                                    'อุณหภูมิ: '+ '' + '<br>'+
-                                    'เซ็นเซอร์ฝุ่นละออง: '+ carB1.SensorPM + '<hr>'+
-                                    'GSM: '+ '' + '<br>'+
-                                    'GPS: '+ '' + '<br>'+
-                                    'สถานะ: '+ carB1.SignalFall + '<hr>'+
-                                    'ตำแหน่ง: '+ '' + '<br>'+
-                                    'พิกัด: ('+ carB1.LaGoogle +','+ carB1.LongGoogle +') <hr>'+
-                                    'ประเภทรถ: '+ carB1.Type +'<br>'+
-                                    'สถาณีต่อไป: '+ carB1.busstop +'<br>'+
-                                    'ระยะเวลา: '+ carB1.datetime_busstop +' นาที <br>'
+                                    'สาย: ' + carB1.Detail + '<br>' +
+                                    'ข้อมูลล่าสุด:' + carB1.Date + ':' + carB1.Time + '<br>' +
+                                    'ข้อมูลผู้ขับ: ' + carB1.DriverName + ' สถานะ: ' + carB1.StatusLogInOut + '<hr>' +
+                                    'เครื่องยนต์: ' + carB1.CM_Engine + '<br>' +
+                                    'แบตเตอร์รี่: ' + carB1.CM_Battery + '<br>' +
+                                    'น้ำมัน: ' + carB1.Fuel + '<br>' +
+                                    'อุณหภูมิ: ' + '' + '<br>' +
+                                    'เซ็นเซอร์ฝุ่นละออง: ' + carB1.SensorPM + '<hr>' +
+                                    'GSM: ' + '' + '<br>' +
+                                    'GPS: ' + '' + '<br>' +
+                                    'สถานะ: ' + carB1.SignalFall + '<hr>' +
+                                    'ตำแหน่ง: ' + '' + '<br>' +
+                                    'พิกัด: (' + carB1.LaGoogle + ',' + carB1.LongGoogle + ') <hr>' +
+                                    'ประเภทรถ: ' + carB1.Type + '<br>' +
+                                    'สถาณีต่อไป: ' + carB1.busstop + '<br>' +
+                                    'ระยะเวลา: ' + carB1.datetime_busstop + ' นาที <br>'
                             };
                             xi++;
 
-                            if(carB1.busstop!=null){
+                            if (carB1.busstop != null) {
 
 
                                 var car_select = [];
-                                for (var i = 0; i <= car_realtime.length-1; i++) {
+                                for (var i = 0; i <= car_realtime.length - 1; i++) {
 
 
                                     //fix bus_stop_name
-                                if(car_realtime[i].Type==carB1.Type){
-                                    car_select.push(car_realtime[i]);
-                                }
+                                    if (car_realtime[i].Type == carB1.Type) {
+                                        car_select.push(car_realtime[i]);
+                                    }
 
 
                                 }
 
 
-                                        var str = estimate_time('ท่าอากาศยานเชียงใหม่ ');
-                                        var content = '';
+                                var str = estimate_time('ท่าอากาศยานเชียงใหม่ ');
+                                var content = '';
 
-                                            for (var i = 0; i <= str.length-1; i++) {
-                                                    content += "<br> สาย "+str[i].type;
-                                            }
+                                for (var i = 0; i <= str.length - 1; i++) {
+                                    content += "<br> สาย " + str[i].type;
+                                }
 
-                                            //estimate time
+                                //estimate time
                                 // for (var i = 0; i <= car_select.length-1; i++) {
                                 //     content += "<br> เวราโดยประมาณ "+car_select[i].LaGoogle+"-"+convert_car_detail(car_select[i].Detail);
                                 // }
 
 
-
-                                for (var i = 0; i <= str.length-1; i++) {
-                                    $('#station-'+str[i].station_id+'-'+str[i].type).html(str[i].station_name+content);
+                                for (var i = 0; i <= str.length - 1; i++) {
+                                    $('#station-' + str[i].station_id + '-' + str[i].type).html(str[i].station_name + content);
                                 }
 
 
-                                    }
-                                }
                             }
+                        }
+                        // FOR FIX R1P ONLY
+                        else if(route=="R1P"){
+
+if(carB1.Type=="R1"){
+                            array_result[xi] = {
+                                lat: parseFloat(carB1.LaGoogle),
+                                lng: parseFloat(carB1.LongGoogle),
+                                direction: parseFloat(carB1.Direction),
+                                type: carB1.Detail,
+                                busstop: carB1.busstop,
+                                car_content: '' +
+                                    '<div id="content">' +
+                                    '<h2 style="color: blue">' + carB1.Registerid + '</h2>' +
+                                    '</div> <hr> ' +
+                                    'สาย: ' + carB1.Detail + '<br>' +
+                                    'ข้อมูลล่าสุด:' + carB1.Date + ':' + carB1.Time + '<br>' +
+                                    'ข้อมูลผู้ขับ: ' + carB1.DriverName + ' สถานะ: ' + carB1.StatusLogInOut + '<hr>' +
+                                    'เครื่องยนต์: ' + carB1.CM_Engine + '<br>' +
+                                    'แบตเตอร์รี่: ' + carB1.CM_Battery + '<br>' +
+                                    'น้ำมัน: ' + carB1.Fuel + '<br>' +
+                                    'อุณหภูมิ: ' + '' + '<br>' +
+                                    'เซ็นเซอร์ฝุ่นละออง: ' + carB1.SensorPM + '<hr>' +
+                                    'GSM: ' + '' + '<br>' +
+                                    'GPS: ' + '' + '<br>' +
+                                    'สถานะ: ' + carB1.SignalFall + '<hr>' +
+                                    'ตำแหน่ง: ' + '' + '<br>' +
+                                    'พิกัด: (' + carB1.LaGoogle + ',' + carB1.LongGoogle + ') <hr>' +
+                                    'ประเภทรถ: ' + carB1.Type + '<br>' +
+                                    'สถาณีต่อไป: ' + carB1.busstop + '<br>' +
+                                    'ระยะเวลา: ' + carB1.datetime_busstop + ' นาที <br>'
+                            };
+                            xi++;
+
+                            if (carB1.busstop != null) {
+
+
+                                var car_select = [];
+                                for (var i = 0; i <= car_realtime.length - 1; i++) {
+
+
+                                    //fix bus_stop_name
+                                    if (car_realtime[i].Type == carB1.Type) {
+                                        car_select.push(car_realtime[i]);
+                                    }
+
+
+                                }
+
+
+                                var str = estimate_time('ท่าอากาศยานเชียงใหม่ ');
+                                var content = '';
+
+                                for (var i = 0; i <= str.length - 1; i++) {
+                                    content += "<br> สาย " + str[i].type;
+                                }
+
+                                //estimate time
+                                // for (var i = 0; i <= car_select.length-1; i++) {
+                                //     content += "<br> เวราโดยประมาณ "+car_select[i].LaGoogle+"-"+convert_car_detail(car_select[i].Detail);
+                                // }
+
+
+                                for (var i = 0; i <= str.length - 1; i++) {
+                                    $('#station-' + str[i].station_id + '-' + str[i].type).html(str[i].station_name + content);
+                                }
+
+
+                            }
+}
+
+                        }
+
+                    }
 
 
                 });
             });
-
+console.log(array_result.length-1);
             transition(array_result);
 
         },
@@ -199,7 +271,8 @@ console.log(route);
                     position: latlng,
                     map: map,
                     title: "Latitude:" + position.lat + " | Longitude:" + position.lng,
-                    icon: check_direction(car[i].Direction, car[i].Detail)
+                    // icon: check_direction(car[i].Direction, car[i].Detail)
+                    icon: '/admin-transit/image/icon_car/'+convert_car_detail(car[i].Detail)+'.png'
                 });
                 var content = '<span id="rating' + x + '">Data Loading<span>';
                 marker['infowindow'] = new google.maps.InfoWindow({
@@ -219,8 +292,41 @@ console.log(route);
                 array_marker.push(marker);
 
             }
+           // FOR FIX R1P ONLY
+            else if(route=="R1P"){
+                if(car[i].Detail=="R1"){
+                    var positions = {lat: parseFloat(car[i].LaGoogle), lng: parseFloat(car[i].LongGoogle)};
+                    array_postion.push(positions);
 
+                    latlng = new google.maps.LatLng(parseFloat(car[i].LaGoogle), parseFloat(car[i].LongGoogle));
+                    marker = new google.maps.Marker({
+                        position: latlng,
+                        map: map,
+                        title: "Latitude:" + position.lat + " | Longitude:" + position.lng,
+                        // icon: check_direction(car[i].Direction, car[i].Detail)
+                        icon: '/admin-transit/image/icon_car/R1P.png'
+                    });
+                    var content = '<span id="rating' + x + '">Data Loading<span>';
+                    marker['infowindow'] = new google.maps.InfoWindow({
+                        content: content
+                    });
+
+                    x++;
+                    google.maps.event.addListener(marker, 'click', function (e) {
+                        if (old_open != null) {
+                            old_open.close()
+                        }
+                        this['infowindow'].open(map, this);
+                        old_open = this['infowindow'];
+
+                    });
+
+                    array_marker.push(marker);
+                }
+
+            }
         }
+
     }
 
 
@@ -359,8 +465,15 @@ function station(route) {
                 //     icon: icon
                 // });
 
+                if(point_active=="on"){
+                    var position = new google.maps.LatLng(station1.point_lat, station1.point_lng);
+                }
+                else{
+                    var position = new google.maps.LatLng(station1.station_lat, station1.station_lng);
+                }
+
                 marker = new google.maps.Marker({
-                    position: new google.maps.LatLng(station1.station_lat, station1.station_lng),
+                    position: position,
                     map: map,
                     title: station1.station_name,
                     icon: icon
@@ -390,8 +503,8 @@ function station(route) {
                 //     }
                 // })(marker1, i));
 
-                 content = '<span id="station-' + station1.station_id +'-'+station1.type+'">'+station1.station_name +content+'<span>';
-                 // console.log(content);
+                content = '<span id="station-' + station1.station_id +'-'+station1.type+'">'+station1.station_name +content+'<span>';
+                // console.log(content);
                 marker['infowindow'] = new google.maps.InfoWindow({
                     content: content
                 });
@@ -507,7 +620,8 @@ function moveMarker(){
         var latlng = new google.maps.LatLng(array_postion[i].lat, array_postion[i].lng);
         array_marker[i].setTitle("Latitude:" + array_postion[i].lat + " | Longitude:" + array_postion[i].lng);
         array_marker[i].setPosition(latlng);
-        array_marker[i].setIcon(check_direction(array_result[i].direction,array_result[i].type));
+        // array_marker[i].setIcon(check_direction(array_result[i].direction,array_result[i].type));
+        array_marker[i].setIcon('/admin-transit/image/icon_car/'+convert_car_detail(array_result[i].type)+'.png');
 
         // console.log(array_result[0]);
         $('#rating'+i).html(array_result[i].car_content);
@@ -527,10 +641,10 @@ function check_direction(direction,type) {
     if(type=="R1"){
         icon_type = "R1G";
     }
-    if(type=="R2"||type=="สำรอง"){
+    if(type=="R2"){
         icon_type = "R2P";
     }
-    if(type=="R3-Y"){
+    if(type=="R3-Y"||type=="สำรอง"){
         icon_type = "R3Y";
     }
     if(type=="R3-R"){
@@ -682,10 +796,10 @@ function convert_car_detail(Detail) {
     if(Detail=="R1"){
         car_type = "R1G";
     }
-    if(Detail=="R2"||Detail=="สำรอง"){
-        car_type = "R2P";
+    if(Detail=="R2"){
+        car_type = "R2B";
     }
-    if(Detail=="R3-Y"){
+    if(Detail=="R3-Y"||Detail=="สำรอง"){
         car_type = "R3Y";
     }
     if(Detail=="R3-R"){
@@ -715,15 +829,28 @@ function convert_car_detail(Detail) {
 }
 
 
+var point_active = "on";
 function icon_off(){
+    if(document.getElementById("busstop").innerHTML=="Enable Bus Stop"){
+    document.getElementById("busstop").className = "btn btn-danger";
+    document.getElementById("busstop").innerHTML = "Disable Bus Stop";
+    }else{
+        document.getElementById("busstop").className = "btn btn-success";
+        document.getElementById("busstop").innerHTML = "Enable Bus Stop";
+    }
+    setMapOnCar(null);
     if(BS_special == '/admin-transit/image/icon_station/R3R_busstop.png'){
-        BS_special = '/admin-transit/image/icon_station/point.png';
+        BS_special = '/admin-transit/image/icon_station/point4.png';
+        point_active = "on";
     }else{
         BS_special = '/admin-transit/image/icon_station/R3R_busstop.png'
+        point_active = "off";
     }
     check_station();
     array_marker = [];
-    station(icon_current);
+    // station(icon_current);
+    route(icon_current);
+
 }
 
 function stationClear(){
@@ -735,4 +862,3 @@ function stationClear(){
     array_marker = [];
     clearInterval(interval);
 }
-
