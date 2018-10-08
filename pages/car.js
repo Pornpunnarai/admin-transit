@@ -42,7 +42,7 @@ var interval_car = null;
 var flightAllPath = [];
 var flightPath;
 //First ICON
-var BS_special = '/admin-transit/image/icon_station/point4.png';
+var BS_special = '/admin-transit/image/icon_station/point.png';
 var array_station = [];
 var icon_current = "all";
 var car_realtime = null;
@@ -588,7 +588,7 @@ function clearStation() {
 google.maps.event.addDomListener(window, 'load', initialize);
 
 
-var numDeltas = 100;
+var numDeltas = 5000;
 var delay = 10; //milliseconds
 var x = 0;
 var deltaLat;
@@ -840,7 +840,7 @@ function icon_off(){
     }
     setMapOnCar(null);
     if(BS_special == '/admin-transit/image/icon_station/R3R_busstop.png'){
-        BS_special = '/admin-transit/image/icon_station/point4.png';
+        BS_special = '/admin-transit/image/icon_station/point.png';
         point_active = "on";
     }else{
         BS_special = '/admin-transit/image/icon_station/R3R_busstop.png'
