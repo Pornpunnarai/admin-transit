@@ -177,7 +177,8 @@ function route(route) {
                         // FOR FIX R1P ONLY
                         else if(route=="R1P"){
 
-if(carB1.Type=="R1"){
+if(carB1.Detail=="R1"){
+
                             array_result[xi] = {
                                 lat: parseFloat(carB1.LaGoogle),
                                 lng: parseFloat(carB1.LongGoogle),
@@ -251,7 +252,7 @@ if(carB1.Type=="R1"){
 
                 });
             });
-console.log(array_result.length-1);
+
             transition(array_result);
 
         },
