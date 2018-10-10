@@ -33,7 +33,7 @@
 
         var xi = 0;
         for(var i = 0;i<=json_station.length-1;i++) {
-            if (json_station[i].type == "KWG") {
+            if (json_station[i].type == "B1G") {
 
                 // console.log(json_station[i]);
                 array_selected[xi] = json_station[i];
@@ -102,17 +102,83 @@
 
             if(count!=0){
 //i start 1
-                if(count==1) {
-                    //For first time
-
-                    var station ={
-                        station_id:array_selected[count-1].station_id,
-                        type:array_selected[count-1].type,
-                        point_lat: new_mytrip[0].lat,
-                        point_lng: new_mytrip[0].lng
-                    };
-
-                    station_table.push(station);
+//                 if(count==1) {
+//                     //For first time
+//
+//                     var station ={
+//                         station_id:array_selected[count-1].station_id,
+//                         type:array_selected[count-1].type,
+//                         point_lat: new_mytrip[0].lat,
+//                         point_lng: new_mytrip[0].lng
+//                     };
+//
+//                     station_table.push(station);
+//
+//                     station ={
+//                         station_id:array_selected[count].station_id,
+//                         type:array_selected[count].type,
+//                         point_lat: new_mytrip[new_mytrip.length - 1].lat,
+//                         point_lng: new_mytrip[new_mytrip.length - 1].lng
+//                     };
+//
+//                     station_table.push(station);
+//                     var x = 1;
+//                     for (var i = 0; i <= new_mytrip.length - 1; i++) {
+//
+//                         old_mytrip.push({lat: new_mytrip[i].lat, lng: new_mytrip[i].lng});
+//
+//                         route_table.push({
+//                             lat: new_mytrip[i].lat, lng: new_mytrip[i].lng,
+//                             station_start: array_selected[count-1].station_id,
+//                             station_end: array_selected[count].station_id,
+//                             type: array_selected[count].type
+//                         });
+//
+//                         if(new_mytrip[i+1]!=null){
+//
+//                             if(new_mytrip[i+1]!=null){
+//                                 var p1 = {x: new_mytrip[i].lat, y: new_mytrip[i].lng};
+//                                 var p2 = {x: new_mytrip[i+1].lat, y: new_mytrip[i+1].lng};
+//                                 // angle in radians
+//                                 var angleRadians = Math.atan2(p2.y - p1.y, p2.x - p1.x);
+//                                 // angle in degrees
+//                                 var angleDeg = Math.atan2(p2.y - p1.y, p2.x - p1.x) * 180 / Math.PI;
+//                                 if(angleDeg < 0){
+//                                     angleDeg = 360 + angleDeg;
+//                                 }
+//                             }
+//
+//
+//
+//
+//                             var pos1 = new google.maps.LatLng(new_mytrip[i].lat,new_mytrip[i].lng);
+//                             var pos2 = new google.maps.LatLng(new_mytrip[i+1].lat,new_mytrip[i+1].lng);
+//                             var total = google.maps.geometry.spherical.computeDistanceBetween(pos1, pos2);
+//                             console.log(i+",Degrees",angleDeg,"Distance",total);
+//
+//
+//                             route_cal.push({
+//                                 route_id: 1,route_type:array_selected[count].type,
+//                                 station_id_start:array_selected[count-1].station_id,
+//                                 station_name_start:	array_selected[count-1].station_name,
+//                                 station_id_dest:array_selected[count].station_id,
+//                                 station_name_dest:array_selected[count].station_name,
+//                                 section_start:x,
+//                                 section_end:x+1,
+//                                 section_all:new_mytrip.length - 1,
+//                                 lat_start:new_mytrip[i].lat,
+//                                 lng_start:new_mytrip[i].lng,
+//                                 lat_dest:new_mytrip[i+1].lat,
+//                                 lng_dest:new_mytrip[i+1].lng,
+//                                 direction: angleDeg,distance: total
+//                             });
+//                             x++;
+//                         }
+//
+//                     }
+//
+//                 }
+//                 else {
 
                     station ={
                         station_id:array_selected[count].station_id,
@@ -124,72 +190,6 @@
                     station_table.push(station);
                     var x = 1;
                     for (var i = 0; i <= new_mytrip.length - 1; i++) {
-
-                        old_mytrip.push({lat: new_mytrip[i].lat, lng: new_mytrip[i].lng});
-
-                        route_table.push({
-                            lat: new_mytrip[i].lat, lng: new_mytrip[i].lng,
-                            station_start: array_selected[count-1].station_id,
-                            station_end: array_selected[count].station_id,
-                            type: array_selected[count].type
-                        });
-
-                        if(new_mytrip[i+1]!=null){
-
-                            if(new_mytrip[i+1]!=null){
-                                var p1 = {x: new_mytrip[i].lat, y: new_mytrip[i].lng};
-                                var p2 = {x: new_mytrip[i+1].lat, y: new_mytrip[i+1].lng};
-                                // angle in radians
-                                var angleRadians = Math.atan2(p2.y - p1.y, p2.x - p1.x);
-                                // angle in degrees
-                                var angleDeg = Math.atan2(p2.y - p1.y, p2.x - p1.x) * 180 / Math.PI;
-                                if(angleDeg < 0){
-                                    angleDeg = 360 + angleDeg;
-                                }
-                            }
-
-
-
-
-                            var pos1 = new google.maps.LatLng(new_mytrip[i].lat,new_mytrip[i].lng);
-                            var pos2 = new google.maps.LatLng(new_mytrip[i+1].lat,new_mytrip[i+1].lng);
-                            var total = google.maps.geometry.spherical.computeDistanceBetween(pos1, pos2);
-                            console.log(i+",Degrees",angleDeg,"Distance",total);
-
-
-                            route_cal.push({
-                                route_id: 1,route_type:array_selected[count].type,
-                                station_id_start:array_selected[count-1].station_id,
-                                station_name_start:	array_selected[count-1].station_name,
-                                station_id_dest:array_selected[count].station_id,
-                                station_name_dest:array_selected[count].station_name,
-                                section_start:x,
-                                section_end:x+1,
-                                section_all:new_mytrip.length - 1,
-                                lat_start:new_mytrip[i].lat,
-                                lng_start:new_mytrip[i].lng,
-                                lat_dest:new_mytrip[i+1].lat,
-                                lng_dest:new_mytrip[i+1].lng,
-                                direction: angleDeg,distance: total
-                            });
-                            x++;
-                        }
-
-                    }
-
-                }
-                else {
-
-                    station ={
-                        station_id:array_selected[count].station_id,
-                        type:array_selected[count].type,
-                        point_lat: new_mytrip[new_mytrip.length - 1].lat,
-                        point_lng: new_mytrip[new_mytrip.length - 1].lng
-                    };
-
-                    station_table.push(station);
-                    var x = 1;
-                    for (var i = 1; i <= new_mytrip.length - 1; i++) {
 
                         old_mytrip.push({lat: new_mytrip[i].lat, lng: new_mytrip[i].lng});
 
@@ -247,7 +247,7 @@
                         }
 
                     }
-                }
+                // }
 
 
                 new_mytrip = [];
