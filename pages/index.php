@@ -94,6 +94,29 @@
 </script>
 
 <script>
+
+
+    var json_car = (function () {
+        var json_car = null;
+        $.ajax({
+            'async': false,
+            'global': false,
+            'url': "/admin-transit/API/test.php",
+            'dataType': "json",
+            'success': function (data) {
+                // console.log(data);
+                json_car = data;
+            },
+            'error': function (data) {
+                console.log(data);
+            }
+        });
+        return json_car;
+    })();
+
+console.log(json_car);
+
+
     var map;
     var flightAllPath = [];
     var flightPath;
